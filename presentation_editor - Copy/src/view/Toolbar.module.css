@@ -1,0 +1,73 @@
+.toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  background-color: #fff;
+  border-bottom: 1px solid #c0c0c8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border-right: 1px solid #c0c0c8;
+  padding: 8px 12px;
+  min-height: 70px;
+  flex-wrap: nowrap;
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.section:last-child {
+  border-right: none;
+}
+
+.section > * {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.buttonColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.buttonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(90px, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .section {
+    padding: 8px 12px;
+    gap: 6px;
+    min-height: 72px;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .section {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+}

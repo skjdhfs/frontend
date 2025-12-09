@@ -1,0 +1,8 @@
+.thumbnail {
+  height: 170px;
+  width: 260px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 7px;
+  border: 2px solid #fff;
+}

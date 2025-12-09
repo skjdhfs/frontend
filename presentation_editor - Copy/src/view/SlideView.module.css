@@ -1,0 +1,9 @@
+.slide {
+  height: 550px;
+  width: 850px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 7px;
+  max-width: 100%;
+  max-height: 100%;
+}
