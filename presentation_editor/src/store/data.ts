@@ -5,6 +5,7 @@ import type {
   Selected,
   TextObj,
   ImageObj,
+  Background,
 } from "./types.ts";
 
 const textObj1: TextObj = {
@@ -132,9 +133,23 @@ const selected1: Selected = {
   selectedObjId: "textObj1",
 };
 
-const editor: Editor = {
+const testEditor: Editor = {
   presentation: presentation1,
   selected: selected1,
 };
 
-export { editor };
+const defaultBackground: Background = {
+  type: "color",
+  color: "#ffffff",
+}
+
+const defaultSlide: Slide = { //!!!
+  id: "slide",
+  slideObj: [],
+  background: defaultBackground,
+}
+
+export { 
+  testEditor, 
+  defaultSlide, 
+};

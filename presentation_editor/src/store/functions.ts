@@ -18,7 +18,9 @@ function changePresentationTitle(editor: Editor, newTitle: string): Editor {
   };
 }
 
-function addSlide(editor: Editor, newSlide: Slide): Editor {
+function addSlide(editor: Editor, payload: {newSlide: Slide}): Editor {
+const newSlide = payload.newSlide;
+
   const selectedSlidesIds = editor.selected.selectedSlidesIds;
   const lastSelectedSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
 
