@@ -1,0 +1,17 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #c0c0c8;
+  background-color: #e9e9f0;
+  width: 320px;
+  flex: 0 0 320px;
+  height: 100%;
+  gap: 30px;
+  padding: 30px;
+  font-family: "Helvetica", "sans-serif";
+  font-weight: 600;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
