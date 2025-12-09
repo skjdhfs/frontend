@@ -19,6 +19,7 @@ function SlideView(props: SlideViewProps) {
               key={object.id}
               textObj={object}
               onClick={() => console.log(object.id)}
+              scale={1}
             ></TextObject>
           );
         }
@@ -27,6 +28,7 @@ function SlideView(props: SlideViewProps) {
             key={object.id}
             imageObj={object}
             onClick={() => console.log(object.id)}
+            scale={1}
           ></ImageObject>
         );
       })}

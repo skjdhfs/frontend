@@ -20,11 +20,11 @@ function App(props: AppProps) {
   }
   return (
     <div className={styles.page}>
-      <Toolbar />
+      <Toolbar></Toolbar>
       <div className={styles.main}>
-        <Sidebar slides={props.editor.presentation.slides} />
+        <Sidebar slides={props.editor.presentation.slides} ></Sidebar>
         <div className={styles.workspace}>
-          <SlideView slide={firstSelectedSlide} />
+          <SlideView slide={firstSelectedSlide} ></SlideView>
         </div>
       </div>
     </div>

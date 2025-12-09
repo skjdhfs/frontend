@@ -2,8 +2,8 @@ import styles from "./SlideThumbnail.module.css";
 
 import type { Slide } from "../store/types";
 
-import { ImageObjectThumbnail } from "./ImageObjectThumbnail";
-import { TextObjectThumbnail } from "./TextObjectThumbnail";
+import { ImageObject } from "./ImageObject";
+import { TextObject } from "./TextObject";
 
 type SlideViewProps = {
   slide: Slide;
@@ -16,17 +16,19 @@ function SlideThumbnail(props: SlideViewProps) {
       {props.slide.slideObj.map((object) => {
         if (object.type == "text") {
           return (
-            <TextObjectThumbnail
+            <TextObject
               key={object.id}
               textObj={object}
-            ></TextObjectThumbnail>
+              scale={0.3}
+            ></TextObject>
           );
         }
         return (
-          <ImageObjectThumbnail
+          <ImageObject
             key={object.id}
             imageObj={object}
-          ></ImageObjectThumbnail>
+            scale={0.3}
+          ></ImageObject>
         );
       })}
     </div>

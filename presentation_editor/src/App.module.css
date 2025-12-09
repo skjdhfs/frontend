@@ -1,5 +1,5 @@
 .page {
-  --toolbar-offset: 120px;
+  --toolbar-offset: 126px;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,6 @@
   display: flex;
   margin-top: var(--toolbar-offset);
   height: calc(100vh - var(--toolbar-offset));
-  overflow: hidden;
 }
 
 .workspace {
@@ -23,16 +22,4 @@
   padding: 30px 24px 60px;
   overflow: hidden;
   box-sizing: border-box;
-}
-
-@media (max-width: 1200px) {
-  .page {
-    --toolbar-offset: 140px;
-  }
-}
-
-@media (max-width: 768px) {
-  .page {
-    --toolbar-offset: 160px;
-  }
 }
