@@ -4,20 +4,27 @@ import { SlideThumbnail } from "../SlideThumbnail/SlideThumbnail";
 
 type SidebarProps = {
   slides: SlideList;
+  selectedSlidesIds: string[];
 };
 
 function Sidebar(props: SidebarProps) {
   return (
     <div className={styles.sidebar}>
-      {props.slides.map((slide, index) => (
-        <div key={slide.id}>
+
+      {props.slides.map((slide, index) => {
+
+        const isSelected = props.selectedSlidesIds.includes(slide.id); 
+        return(
+          <div key={slide.id}>
           <div>{index + 1}</div>
           <SlideThumbnail
             slide={slide}
-            onClick={() => console.log(slide.id, ", ", index + 1)}
+            isSelected={isSelected}
           ></SlideThumbnail>
         </div>
-      ))}
+        )
+      })}
+
     </div>
   );
 }

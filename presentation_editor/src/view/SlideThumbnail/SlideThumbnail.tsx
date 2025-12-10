@@ -7,12 +7,13 @@ import { TextObject } from "../TextObject/TextObject";
 
 type SlideViewProps = {
   slide: Slide;
-  onClick: () => void;
+  isSelected: boolean;
 };
 
 function SlideThumbnail(props: SlideViewProps) {
+  const thumbnailClasses = `${styles.thumbnail} ${props.isSelected ? styles.selected : ''}`
   return (
-    <div className={styles.thumbnail} onClick={props.onClick}>
+    <div className={thumbnailClasses}>
       {props.slide.slideObj.map((object) => {
         if (object.type == "text") {
           return (
