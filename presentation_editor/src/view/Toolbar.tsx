@@ -8,13 +8,11 @@ import { dispatch } from "../editor";
 import { addSlide } from "../store/functions";
 import { generateNewSlide } from "../store/functions";
 
-import { useCallback } from 'react';
-
 function Toolbar() {
 
-  const handleAddSlideClick = useCallback(() => {
+  const handleAddSlideClick = () => {
     dispatch(addSlide, {newSlide: generateNewSlide()})
-  }, []);
+  };
 
   return (
     <div className={styles.toolbar}>
