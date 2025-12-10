@@ -1,4 +1,4 @@
-import type { TextObj } from "../store/types";
+import type { TextObj } from "../../store/types";
 import styles from "./TextObject.module.css";
 
 type TextObjProps = {

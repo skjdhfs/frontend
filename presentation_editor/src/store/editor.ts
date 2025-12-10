@@ -1,5 +1,5 @@
-import type { Editor } from "./store/types";
-import { testEditor } from "./store/data.ts";
+import type { Editor } from "./types.ts";
+import { testEditor } from "./data.ts";
 
 let editor: Editor = testEditor;
 

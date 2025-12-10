@@ -1,9 +1,9 @@
 import styles from "./SlideThumbnail.module.css";
 
-import type { Slide } from "../store/types";
+import type { Slide } from "../../store/types";
 
-import { ImageObject } from "./ImageObject";
-import { TextObject } from "./TextObject";
+import { ImageObject } from "../ImageObject/ImageObject";
+import { TextObject } from "../TextObject/TextObject";
 
 type SlideViewProps = {
   slide: Slide;

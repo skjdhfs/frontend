@@ -1,4 +1,4 @@
-import type { ImageObj } from "../store/types";
+import type { ImageObj } from "../../store/types";
 import styles from "./ImageObject.module.css";
 
 type ImageObjProps = {

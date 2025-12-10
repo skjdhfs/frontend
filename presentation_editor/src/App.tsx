@@ -1,8 +1,8 @@
 import styles from "./App.module.css";
 
-import { Toolbar } from "./view/Toolbar";
-import { Sidebar } from "./view/Sidebar";
-import { SlideView } from "./view/SlideView";
+import { Toolbar } from "./view/Toolbar/Toolbar";
+import { Sidebar } from "./view/Sidebar/Sidebar";
+import { SlideView } from "./view/SlideView/SlideView";
 
 import type { Editor } from "./store/types";
 

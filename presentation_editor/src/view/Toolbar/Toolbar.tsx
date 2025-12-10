@@ -1,12 +1,12 @@
 import styles from "./Toolbar.module.css";
-import { ButtonLarge } from "../common/ButtonLarge";
-import { ButtonSmall } from "../common/ButtonSmall";
-import { InputField } from "../common/InputField";
-import { Select } from "../common/Select";
+import { ButtonLarge } from "../../common/ButtonLarge/ButtonLarge";
+import { ButtonSmall } from "../../common/ButtonSmall/ButtonSmall";
+import { InputField } from "../../common/InputField/InputField";
+import { Select } from "../../common/Select/Select";
 
-import { dispatch } from "../editor";
-import { addSlide, deleteSlides } from "../store/functions";
-import { generateNewSlide } from "../store/functions";
+import { dispatch } from "../../store/editor";
+import { addSlide, deleteSlides } from "../../store/functions";
+import { generateNewSlide } from "../../store/functions";
 
 function Toolbar() {
 
