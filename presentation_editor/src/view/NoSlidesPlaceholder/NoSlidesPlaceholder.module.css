@@ -1,11 +1,13 @@
 .noSlidesPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 550px;
   width: 850px;
   position: relative;
   background-color: #e9e9f0;
   border-radius: 7px;
   border: 2px solid #000;
-  text-align: center;
   font-family: "Helvetica", "sans-serif";
   font-size: 30px;
 }
