@@ -31,58 +31,67 @@ function Toolbar() {
             )
           }
         ></InputField>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={"src/assets/save.png"}
+            text={"Сохранить PDF"}
+            onClick={() => console.log("Сохранение презентации в PDF")}
+          ></ButtonSmall>
 
-        <ButtonSmall
-          image={"src/assets/save.png"}
-          text={"Сохранить PDF"}
-          onClick={() => console.log("Сохранение презентации в PDF")}
-        ></ButtonSmall>
-
-        <ButtonSmall
-          image={"src/assets/play.png"}
-          text={"Проигрывать"}
-          onClick={() => console.log("Просмотр презентации")}
-        ></ButtonSmall>
+          <ButtonSmall
+            image={"src/assets/play.png"}
+            text={"Проигрывать"}
+            onClick={() => console.log("Просмотр презентации")}
+          ></ButtonSmall>
+        </div>
+        
       </div>
 
       <div className={styles.section}>
-        <ButtonLarge
-          image={"src/assets/add-slide.png"}
-          text={"Добавить слайд"}
-          onClick={handleAddSlideClick}
-        ></ButtonLarge>
+        <div className={styles.buttonContainer}>
+          <ButtonLarge
+            image={"src/assets/add-slide.png"}
+            text={"Добавить слайд"}
+            onClick={handleAddSlideClick}
+          ></ButtonLarge>
 
-        <ButtonLarge
-          image={"src/assets/delete.png"}
-          text={"Удалить слайд"}
-          onClick={handleDeleteSlidesClick}
-        ></ButtonLarge>
+          <ButtonLarge
+            image={"src/assets/delete.png"}
+            text={"Удалить слайд"}
+            onClick={handleDeleteSlidesClick}
+          ></ButtonLarge>
+        </div>
+        
       </div>
 
       <div className={styles.section}>
-        <ButtonSmall
-          image={"src/assets/text.png"}
-          text={"Добавить текст"}
-          onClick={() => console.log("Добавление текста")}
-        ></ButtonSmall>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={"src/assets/text.png"}
+            text={"Добавить текст"}
+            onClick={() => console.log("Добавление текста")}
+          ></ButtonSmall>
 
-        <ButtonSmall
-          image={"src/assets/image.png"}
-          text={"Добавить изображение"}
-          onClick={() => console.log("Добавление изображения")}
-        ></ButtonSmall>
+          <ButtonSmall
+            image={"src/assets/image.png"}
+            text={"Добавить изображение"}
+            onClick={() => console.log("Добавление изображения")}
+          ></ButtonSmall>
+        </div>
 
-        <ButtonSmall
-          image={"src/assets/delete.png"}
-          text={"Удалить элемент"}
-          onClick={() => console.log("Удаление элемента")}
-        ></ButtonSmall>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={"src/assets/delete.png"}
+            text={"Удалить элемент"}
+            onClick={() => console.log("Удаление элемента")}
+          ></ButtonSmall>
 
-        <ButtonSmall
-          image={"src/assets/fill.png"}
-          text={"Цвет фона"}
-          onClick={() => console.log("Изменение цвета фона")}
-        ></ButtonSmall>
+          <ButtonSmall
+            image={"src/assets/fill.png"}
+            text={"Цвет фона"}
+            onClick={() => console.log("Изменение цвета фона")}
+          ></ButtonSmall>
+        </div>
       </div>
 
       <div className={styles.section}>
@@ -97,29 +106,33 @@ function Toolbar() {
       </div>
 
       <div className={styles.section}>
-        <ButtonSmall
-          image={"src/assets/bold.png"}
-          text={"Жирный текст"}
-          onClick={() => console.log("Жирный текст")}
-        ></ButtonSmall>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={"src/assets/bold.png"}
+            text={"Жирный текст"}
+            onClick={() => console.log("Жирный текст")}
+          ></ButtonSmall>
 
-        <ButtonSmall
-          image={"src/assets/italic.png"}
-          text={"Курсив"}
-          onClick={() => console.log("Курсив")}
-        ></ButtonSmall>
+          <ButtonSmall
+            image={"src/assets/italic.png"}
+            text={"Курсив"}
+            onClick={() => console.log("Курсив")}
+          ></ButtonSmall>
+        </div>
 
-        <ButtonSmall
-          image={"src/assets/underline.png"}
-          text={"Подчеркивание"}
-          onClick={() => console.log("Подчеркивание")}
-        ></ButtonSmall>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={"src/assets/underline.png"}
+            text={"Подчеркивание"}
+            onClick={() => console.log("Подчеркивание")}
+          ></ButtonSmall>
 
-        <ButtonSmall
-          image={"src/assets/palette.png"}
-          text={"Цвет текста"}
-          onClick={() => console.log("Изменить цвет текста")}
-        ></ButtonSmall>
+          <ButtonSmall
+            image={"src/assets/palette.png"}
+            text={"Цвет текста"}
+            onClick={() => console.log("Изменить цвет текста")}
+          ></ButtonSmall>
+        </div>       
       </div>
     </div>
   );
