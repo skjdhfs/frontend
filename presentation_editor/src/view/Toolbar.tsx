@@ -5,7 +5,7 @@ import { InputField } from "../common/InputField";
 import { Select } from "../common/Select";
 
 import { dispatch } from "../editor";
-import { addSlide } from "../store/functions";
+import { addSlide, deleteSlides } from "../store/functions";
 import { generateNewSlide } from "../store/functions";
 
 function Toolbar() {
@@ -13,6 +13,10 @@ function Toolbar() {
   const handleAddSlideClick = () => {
     dispatch(addSlide, {newSlide: generateNewSlide()})
   };
+
+  const handleDeleteSlidesClick = () => {
+    dispatch<void>(deleteSlides, undefined)
+  }
 
   return (
     <div className={styles.toolbar}>
@@ -54,7 +58,7 @@ function Toolbar() {
         <ButtonLarge
           image={"src/assets/delete.png"}
           text={"Удалить слайд"}
-          onClick={() => console.log("Удаление слайда")}
+          onClick={handleDeleteSlidesClick}
         ></ButtonLarge>
       </div>
 

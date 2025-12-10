@@ -71,18 +71,36 @@ const newSlide = payload.newSlide;
 }
 
 function deleteSlides(editor: Editor): Editor {
-  if (editor.presentation.slides.length == 0) {
-    return editor;
-  }
-
+  const slides = editor.presentation.slides;
   const selectedSlidesIds = editor.selected.selectedSlidesIds;
 
-  const newSlides = editor.presentation.slides.filter(
+  if (slides.length == 0 || selectedSlidesIds.length == 0) {
+    return editor;
+  };
+
+  const newSlides = slides.filter(
     (slide) => !selectedSlidesIds.includes(slide.id),
   );
 
+  let newSelectedSlidesIds: string[] = [];
+
+  if (newSlides.length == 0)
+  {
+    newSelectedSlidesIds = []
+  } else {
+    const lastSelectedId = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const lastSelectedIndexInOriginal = slides.findIndex(s => s.id === lastSelectedId);
+    const targetIndex = lastSelectedIndexInOriginal - selectedSlidesIds.length + 1;
+
+    if (targetIndex < newSlides.length) {
+      newSelectedSlidesIds = [newSlides[targetIndex].id];
+    } else {
+      newSelectedSlidesIds = [newSlides[newSlides.length - 1].id];
+    }
+  }
+
   const newSelected: Selected = {
-    selectedSlidesIds: [],
+    selectedSlidesIds: newSelectedSlidesIds,
     selectedObjId: null,
   };
   return {

@@ -12,7 +12,9 @@ type AppProps = {
 
 function App(props: AppProps) {
   const selectedSlideIds = props.editor.selected.selectedSlidesIds;
-  const firstSelectedSlide = props.editor.presentation.slides.find(
+
+  const slides = props.editor.presentation.slides;
+  const firstSelectedSlide = slides.find(
     (slide) => slide.id == selectedSlideIds[0],
   );
   if (!firstSelectedSlide) {
