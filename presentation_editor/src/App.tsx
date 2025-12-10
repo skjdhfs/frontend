@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import { Toolbar } from "./view/Toolbar/Toolbar";
 import { Sidebar } from "./view/Sidebar/Sidebar";
 import { SlideView } from "./view/SlideView/SlideView";
+import { NoSlidesPlaceholder } from "./view/NoSlidesPlaceholder/NoSlidesPlaceholder";
 
 import type { Editor } from "./store/types";
 
@@ -17,16 +18,22 @@ function App(props: AppProps) {
   const firstSelectedSlide = slides.find(
     (slide) => slide.id == selectedSlideIds[0],
   );
-  if (!firstSelectedSlide) {
-    return <></>;
+
+  let WorkspaceContent;
+
+  if (slides.length == 0 || !firstSelectedSlide) {
+    WorkspaceContent = <NoSlidesPlaceholder></NoSlidesPlaceholder>
+  } else {
+    WorkspaceContent = <SlideView slide={firstSelectedSlide} ></SlideView>
   }
+
   return (
     <div className={styles.page}>
       <Toolbar></Toolbar>
       <div className={styles.main}>
         <Sidebar slides={props.editor.presentation.slides} ></Sidebar>
         <div className={styles.workspace}>
-          <SlideView slide={firstSelectedSlide} ></SlideView>
+          {WorkspaceContent}
         </div>
       </div>
     </div>
