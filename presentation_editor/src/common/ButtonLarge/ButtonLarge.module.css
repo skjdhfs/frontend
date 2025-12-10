@@ -1,13 +1,12 @@
 .button {
   border-radius: 4px;
-  width: clamp(72px, 12vw, 110px);
-  flex: 1 1 0;
-  height: clamp(70px, 11vw, 88px);
+  width: 100px;
+  height: 100px;
   text-align: center;
-  font-family: "Helvetica", "sans-serif";
+  font-family: 'Helvetica', 'sans-serif';
   border: none;
   background-color: #fff;
-  font-size: clamp(11px, 1.3vw, 13px);
+  font-size: 13px;
 }
 
 .button:hover {
@@ -16,15 +15,9 @@
 }
 
 .image {
-  height: clamp(32px, 5vw, 48px);
-  width: clamp(32px, 5vw, 48px);
+  height: 50px;
+  width: 50px;
   margin: 0 auto;
   display: block;
   padding: 5px 0px 5px 0px;
-}
-
-@media (max-width: 768px) {
-  .button {
-    height: clamp(66px, 10vw, 80px);
-  }
 }
