@@ -34,7 +34,7 @@ const newSlide = payload.newSlide;
   const newSlides = [
     ...slides.slice(0, targetSlideIndex),
     newSlide,
-    ...slides.slice(targetSlideIndex + 1),
+    ...slides.slice(targetSlideIndex),
   ];
 
   const newSelectedSlidesIds = [newSlide.id];
