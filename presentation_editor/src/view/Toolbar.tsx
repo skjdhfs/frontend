@@ -6,14 +6,14 @@ import { Select } from "../common/Select";
 
 import { dispatch } from "../editor";
 import { addSlide } from "../store/functions";
-import { defaultSlide } from "../store/data";
+import { generateNewSlide } from "../store/functions";
 
 import { useCallback } from 'react';
 
 function Toolbar() {
 
   const handleAddSlideClick = useCallback(() => {
-    dispatch(addSlide, {newSlide: defaultSlide})
+    dispatch(addSlide, {newSlide: generateNewSlide()})
   }, []);
 
   return (

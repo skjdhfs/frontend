@@ -143,8 +143,8 @@ const defaultBackground: Background = {
   color: "#ffffff",
 }
 
-const defaultSlide: Slide = { //!!!
-  id: "slide",
+const defaultSlide: Slide = { 
+  id: `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`,
   slideObj: [],
   background: defaultBackground,
 }

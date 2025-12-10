@@ -8,6 +8,23 @@ import type {
   Size,
 } from "./types.ts";
 
+function generateNewSlide(): Slide {
+  const newId = `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+
+  const defaultBackground: Background = {
+    type: "color",
+    color: "#ffffff",
+  }
+
+  const newSlide: Slide = {
+    id: newId,
+    slideObj: [],
+    background: defaultBackground,
+  }
+
+  return newSlide
+}
+
 function changePresentationTitle(editor: Editor, newTitle: string): Editor {
   return {
     ...editor,
@@ -345,6 +362,7 @@ function changeBackground(editor: Editor, newBackground: Background): Editor {
 }
 
 export {
+  generateNewSlide,
   changePresentationTitle,
   addSlide,
   deleteSlides,
