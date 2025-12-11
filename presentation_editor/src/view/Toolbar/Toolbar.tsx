@@ -5,17 +5,21 @@ import { InputField } from "../../common/InputField/InputField";
 import { Select } from "../../common/Select/Select";
 
 import { dispatch } from "../../store/editor";
-import { addSlide, deleteSlides } from "../../store/functions";
-import { generateNewSlide } from "../../store/functions";
+import { addSlide, addSlideObj, createNewTextObject, deleteSlides } from "../../store/functions";
+import { createNewSlide } from "../../store/functions";
 
 function Toolbar() {
 
   const handleAddSlideClick = () => {
-    dispatch(addSlide, {newSlide: generateNewSlide()})
+    dispatch(addSlide, {newSlide: createNewSlide()})
   };
 
   const handleDeleteSlidesClick = () => {
     dispatch<void>(deleteSlides, undefined)
+  }
+
+  const handleAddTextObject = () => {
+    dispatch(addSlideObj, {newSlideObj: createNewTextObject()})
   }
 
   return (
@@ -69,7 +73,7 @@ function Toolbar() {
           <ButtonSmall
             image={"src/assets/text.png"}
             text={"Добавить текст"}
-            onClick={() => console.log("Добавление текста")}
+            onClick={handleAddTextObject}
           ></ButtonSmall>
 
           <ButtonSmall

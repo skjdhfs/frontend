@@ -6,9 +6,10 @@ import type {
   Background,
   Position,
   Size,
+  TextObj,
 } from "./types.ts";
 
-function generateNewSlide(): Slide {
+function createNewSlide(): Slide {
   const newId = `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 
   const defaultBackground: Background = {
@@ -23,6 +24,44 @@ function generateNewSlide(): Slide {
   }
 
   return newSlide
+}
+
+function createNewTextObject(): TextObj {
+  const newId = `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+
+  const defaultPosition: Position = {
+    x: 0,
+    y: 0
+  }
+
+  const defaultSize: Size = {
+    height: 100,
+    width: 100
+  }
+
+  const defaultContent: string = "Enter Your Text"
+
+  const defaultFontFamily: string = "Arial"
+
+  const defaultFontSize: number = 14
+
+  const defaultFontColor: string = "#000"
+
+  const newTextObj: TextObj = {
+    type: "text",
+    id: newId,
+    position: defaultPosition,
+    size: defaultSize,
+    content: defaultContent,
+    fontFamily: defaultFontFamily,
+    fontSize: defaultFontSize,
+    fontColor: defaultFontColor,
+    bold: false,
+    italic: false,
+    underline: false
+  }
+
+  return newTextObj
 }
 
 function changePresentationTitle(editor: Editor, newTitle: string): Editor {
@@ -200,14 +239,14 @@ function selectObject(editor: Editor, selectedObjId: string): Editor {
   };
 }
 
-function addSlideObj(editor: Editor, newSlideObj: SlideObj): Editor {
+function addSlideObj(editor: Editor, payload: {newSlideObj: SlideObj}): Editor {
   if (editor.selected.selectedSlidesIds.length != 1) {
     return editor;
   }
 
   const newSlides = editor.presentation.slides.map((slide) =>
     slide.id == editor.selected.selectedSlidesIds[0]
-      ? { ...slide, slideObj: [...slide.slideObj, newSlideObj] }
+      ? { ...slide, slideObj: [...slide.slideObj, payload.newSlideObj] }
       : slide,
   );
   return {
@@ -218,7 +257,7 @@ function addSlideObj(editor: Editor, newSlideObj: SlideObj): Editor {
     },
     selected: {
       ...editor.selected,
-      selectedObjId: newSlideObj.id,
+      selectedObjId: payload.newSlideObj.id,
     },
   };
 }
@@ -405,7 +444,8 @@ function changeBackground(editor: Editor, newBackground: Background): Editor {
 }
 
 export {
-  generateNewSlide,
+  createNewSlide,
+  createNewTextObject,
   changePresentationTitle,
   addSlide,
   deleteSlides,
