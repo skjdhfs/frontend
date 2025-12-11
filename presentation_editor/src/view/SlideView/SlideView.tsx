@@ -6,7 +6,7 @@ import { ImageObject } from "../ImageObject/ImageObject";
 import { TextObject } from "../TextObject/TextObject";
 
 import { dispatch } from "../../store/editor";
-import { changeTextContent, selectObject } from "../../store/functions";
+import { changeTextContent, selectObject, unselectObject } from "../../store/functions";
 
 type SlideViewProps = {
   slide: Slide;
@@ -14,21 +14,27 @@ type SlideViewProps = {
 };
 
 function SlideView(props: SlideViewProps) {
+
+  const handleUnselectObject = () => {
+    dispatch<void>(unselectObject, undefined)
+  }
   
   return (
-    <div className={styles.slide}>
+    <div className={styles.slide} onClick={handleUnselectObject}>
       {props.slide.slideObj.map((object) => {
 
-        const handleSlideObjClick = () => {
+        const handleSlideObjClick = (event: React.MouseEvent<HTMLDivElement>) => {
+          event.stopPropagation(); 
           dispatch(selectObject, {selectedObjId: object.id})
         }
 
         const isSelected = object.id === props.selectedObjId;
+
         if (object.type == "text") {
 
-        const handleTextContentChange = (content: string) => {
-          dispatch(changeTextContent, {newContent: content})
-        }
+          const handleTextContentChange = (content: string) => {
+            dispatch(changeTextContent, {newContent: content})
+          }
 
           return (
             <TextObject

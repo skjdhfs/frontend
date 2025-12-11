@@ -255,6 +255,16 @@ function selectObject(editor: Editor, payload: {selectedObjId: string}): Editor 
   };
 }
 
+function unselectObject(editor: Editor): Editor {
+  return {
+    ...editor,
+    selected: {
+      ...editor.selected,
+      selectedObjId: null,
+    }
+  }
+}
+
 function addSlideObj(editor: Editor, payload: {newSlideObj: SlideObj}): Editor {
   if (editor.selected.selectedSlidesIds.length != 1) {
     return editor;
@@ -469,6 +479,7 @@ export {
   selectOneSlide,
   selectMultipleSlides,
   selectObject,
+  unselectObject,
   addSlideObj,
   deleteSlideObj,
   moveSlideObj,

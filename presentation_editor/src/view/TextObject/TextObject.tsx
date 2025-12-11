@@ -1,17 +1,20 @@
 import type { TextObj } from "../../store/types";
+
 import styles from "./TextObject.module.css";
-import { useState, useRef } from "react";
+
+import { useRef } from "react";
 
 type TextObjProps = {
   textObj: TextObj;
   scale: number
   isSelected?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   onContentChange?: (newContent: string) => void;
 };
 
 function TextObject(props: TextObjProps) {
   const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ''}`
+
   const textObj = props.textObj;
   const style = {
     top: `${textObj.position.y * props.scale}px`,
@@ -23,15 +26,9 @@ function TextObject(props: TextObjProps) {
     width: `${textObj.size.width * props.scale}px`,
   };
 
-  const [isEditing, setIsEditing] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
 
-  const handleDoubleClick = () => {
-    setIsEditing(true); 
-  };
-
   const handleExit = () => {
-    setIsEditing(false)
     if (textRef.current && props.onContentChange) {
       props.onContentChange(textRef.current.innerText);
     }
@@ -42,9 +39,8 @@ function TextObject(props: TextObjProps) {
       className={slideObjClasses} 
       style={style} 
       onClick={props.onClick}
-      onDoubleClick={handleDoubleClick}
       onBlur={handleExit}
-      contentEditable={isEditing}
+      contentEditable={props.isSelected}
       suppressContentEditableWarning={true}
       ref={textRef}
     >

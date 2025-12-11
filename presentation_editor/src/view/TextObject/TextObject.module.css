@@ -1,5 +1,8 @@
 .text {
   position: absolute;
+  overflow-wrap: break-word;
+  border: 2px solid transparent;
+  outline: none;
 }
 
 .selected {
