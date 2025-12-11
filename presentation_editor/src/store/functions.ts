@@ -142,19 +142,19 @@ function moveSlide(editor: Editor, targetSlideIndex: number): Editor {
   };
 }
 
-function selectOneSlide(editor: Editor, selectedSlideId: string): Editor {
+function selectOneSlide(editor: Editor, payload: {selectedSlideId: string}): Editor {
   return {
     ...editor,
     selected: {
       ...editor.selected,
-      selectedSlidesIds: [selectedSlideId],
+      selectedSlidesIds: [payload.selectedSlideId],
     },
   };
 }
 
-function selectMultipleSlides(editor: Editor, selectedSlideId: string): Editor {
+function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}): Editor {
   const newSelectedSlidesIds = editor.selected.selectedSlidesIds;
-  newSelectedSlidesIds.push(selectedSlideId);
+  newSelectedSlidesIds.push(payload.selectedSlideId);
 
   return {
     ...editor,

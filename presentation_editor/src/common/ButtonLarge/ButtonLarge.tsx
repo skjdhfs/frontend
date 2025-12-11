@@ -3,7 +3,7 @@ import styles from "./ButtonLarge.module.css";
 type ButtonProps = {
   image: string;
   text: string;
-  onClick: ()=> void;
+  onClick: () => void;
 };
 
 function ButtonLarge(props: ButtonProps) {
