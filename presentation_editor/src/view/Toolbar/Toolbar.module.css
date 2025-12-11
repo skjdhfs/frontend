@@ -11,6 +11,7 @@
 .section {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   border-right: 1px solid #c0c0c8;
   padding: 10px;
@@ -25,4 +26,5 @@
 
 .buttonContainer {
   display: flex;
+  gap: 5px;
 }

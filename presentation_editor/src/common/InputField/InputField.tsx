@@ -13,7 +13,7 @@ function InputField(props: InputFieldProps) {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={styles.form}>
       <input
         type="text"
         required
