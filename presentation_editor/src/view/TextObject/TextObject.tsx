@@ -1,6 +1,6 @@
 import type { TextObj } from "../../store/types";
 import styles from "./TextObject.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 type TextObjProps = {
   textObj: TextObj;
@@ -36,12 +36,6 @@ function TextObject(props: TextObjProps) {
       props.onContentChange(textRef.current.innerText);
     }
   }
-
-  useEffect(() => {
-    if (isEditing && textRef.current) {
-      textRef.current.focus();
-    }
-  }, [isEditing]);
 
   return (
     <div 
