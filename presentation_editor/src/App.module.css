@@ -1,5 +1,5 @@
 .page {
-  --toolbar-offset: 140px;
+  --toolbar-offset: 120px;
   margin: 0;
   display: flex;
   flex-direction: column;

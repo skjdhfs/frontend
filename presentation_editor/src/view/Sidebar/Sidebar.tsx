@@ -21,11 +21,12 @@ function Sidebar(props: SidebarProps) {
         const isSelected = props.selectedSlidesIds.includes(slide.id); 
 
         const handleSelectOneSlide = () => {
-        dispatch(selectOneSlide, {selectedSlideId: slide.id})
+          dispatch(selectOneSlide, {selectedSlideId: slide.id})
         }
 
         const handleSelectMultipleSlides = () => {
           dispatch(selectMultipleSlides, {selectedSlideId: slide.id})
+          console.log(props.selectedSlidesIds)
         }
 
         //const handleSlideThumbnailClick = handleSelectOneSlide;

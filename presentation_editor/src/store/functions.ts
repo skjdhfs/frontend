@@ -89,8 +89,19 @@ function deleteSlides(editor: Editor): Editor {
     newSelectedSlidesIds = []
   } else {
     const lastSelectedId = selectedSlidesIds[selectedSlidesIds.length - 1];
+    console.log(lastSelectedId)
+
     const lastSelectedIndexInOriginal = slides.findIndex(s => s.id === lastSelectedId);
-    const targetIndex = lastSelectedIndexInOriginal - selectedSlidesIds.length + 1;
+    console.log(lastSelectedIndexInOriginal)
+
+    let targetIndex: number;
+
+    if (lastSelectedIndexInOriginal >= selectedSlidesIds.length + 1) {
+      targetIndex = lastSelectedIndexInOriginal - selectedSlidesIds.length + 1;
+    } else {
+      targetIndex = lastSelectedIndexInOriginal
+    }
+    console.log(targetIndex)
 
     if (targetIndex < newSlides.length) {
       newSelectedSlidesIds = [newSlides[targetIndex].id];
@@ -165,7 +176,7 @@ function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}
       ...currentSelectedIds.slice(0, slideIndex),
       ...currentSelectedIds.slice(slideIndex + 1)
     ]
-    
+
   } else {
     newSelectedSlidesIds = currentSelectedIds
   }
