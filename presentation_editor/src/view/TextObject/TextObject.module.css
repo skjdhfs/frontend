@@ -1,3 +1,7 @@
 .text {
   position: absolute;
 }
+
+.selected {
+  border: 2px solid #007bff;
+}

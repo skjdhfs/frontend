@@ -35,8 +35,8 @@ function createNewTextObject(): TextObj {
   }
 
   const defaultSize: Size = {
-    height: 100,
-    width: 100
+    height: 30,
+    width: 110
   }
 
   const defaultContent: string = "Enter Your Text"
@@ -198,6 +198,7 @@ function selectOneSlide(editor: Editor, payload: {selectedSlideId: string}): Edi
     selected: {
       ...editor.selected,
       selectedSlidesIds: [payload.selectedSlideId],
+      selectedObjId: null,
     },
   };
 }
@@ -225,16 +226,31 @@ function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}
     selected: {
       ...editor.selected,
       selectedSlidesIds: newSelectedSlidesIds,
+      selectedObjId: null,
     },
   };
 }
 
-function selectObject(editor: Editor, selectedObjId: string): Editor {
+function selectObject(editor: Editor, payload: {selectedObjId: string}): Editor {
+  const newSelectedObjId = payload.selectedObjId
+  let newSelectedSlidesIds = [...editor.selected.selectedSlidesIds]
+
+  if (editor.selected.selectedSlidesIds.length > 1) {
+    for (const slide of editor.presentation.slides) {
+      const foundSlide = slide.slideObj.find(obj => obj.id === newSelectedObjId)
+
+      if (foundSlide) {
+        newSelectedSlidesIds = [slide.id];
+        break
+      }
+    }
+  }
   return {
     ...editor,
     selected: {
       ...editor.selected,
-      selectedObjId,
+      selectedObjId: newSelectedObjId,
+      selectedSlidesIds: newSelectedSlidesIds,
     },
   };
 }
@@ -343,7 +359,7 @@ function changeSlideObjSize(editor: Editor, newSize: Size): Editor {
   };
 }
 
-function changeTextContent(editor: Editor, newContent: string): Editor {
+function changeTextContent(editor: Editor, payload: {newContent: string}): Editor {
   const selected = editor.selected;
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
@@ -355,7 +371,7 @@ function changeTextContent(editor: Editor, newContent: string): Editor {
           ...slide,
           slideObj: slide.slideObj.map((obj) =>
             obj.id == selected.selectedObjId && obj.type == "text"
-              ? { ...obj, content: newContent }
+              ? { ...obj, content: payload.newContent }
               : obj,
           ),
         }

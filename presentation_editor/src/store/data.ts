@@ -129,7 +129,7 @@ const presentation1: Presentation = {
 
 const selected1: Selected = {
   selectedSlidesIds: ["slide1", "slide2"],
-  selectedObjId: "textObj1",
+  selectedObjId: null,
 };
 
 const testEditor: Editor = {

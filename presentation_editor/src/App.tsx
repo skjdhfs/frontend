@@ -24,7 +24,7 @@ function App(props: AppProps) {
   if (slides.length == 0 || !firstSelectedSlide) {
     WorkspaceContent = <NoSlidesPlaceholder></NoSlidesPlaceholder>
   } else {
-    WorkspaceContent = <SlideView slide={firstSelectedSlide} ></SlideView>
+    WorkspaceContent = <SlideView slide={firstSelectedSlide} selectedObjId={props.editor.selected.selectedObjId}></SlideView>
   }
 
   return (
