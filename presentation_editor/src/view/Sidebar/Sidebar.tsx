@@ -12,24 +12,22 @@ type SidebarProps = {
 
 function Sidebar(props: SidebarProps) {
 
-
   return (
     <div className={styles.sidebar}>
 
       {props.slides.map((slide, index) => {
 
-        const isSelected = props.selectedSlidesIds.includes(slide.id); 
+        const isSelected = props.selectedSlidesIds.includes(slide.id);
 
-        const handleSelectOneSlide = () => {
-          dispatch(selectOneSlide, {selectedSlideId: slide.id})
+        const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
+          const isModifierPressed = event.ctrlKey || event.metaKey;
+
+          if (isModifierPressed) {
+            dispatch(selectMultipleSlides, {selectedSlideId: slide.id})
+          } else {
+            dispatch(selectOneSlide, {selectedSlideId: slide.id})
+          }
         }
-
-        const handleSelectMultipleSlides = () => {
-          dispatch(selectMultipleSlides, {selectedSlideId: slide.id})
-          console.log(props.selectedSlidesIds)
-        }
-
-        //const handleSlideThumbnailClick = handleSelectOneSlide;
 
         return(
           <div key={slide.id}>
@@ -37,7 +35,7 @@ function Sidebar(props: SidebarProps) {
           <SlideThumbnail
             slide={slide}
             isSelected={isSelected}
-            onClick={handleSelectMultipleSlides}
+            onClick={handleSlideThumbnailClick}
           ></SlideThumbnail>
         </div>
         )

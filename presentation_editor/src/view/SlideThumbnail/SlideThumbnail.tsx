@@ -8,7 +8,7 @@ import { TextObject } from "../TextObject/TextObject";
 type SlideViewProps = {
   slide: Slide;
   isSelected: boolean;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 function SlideThumbnail(props: SlideViewProps) {
