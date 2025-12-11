@@ -153,8 +153,22 @@ function selectOneSlide(editor: Editor, payload: {selectedSlideId: string}): Edi
 }
 
 function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}): Editor {
-  const newSelectedSlidesIds = editor.selected.selectedSlidesIds;
-  newSelectedSlidesIds.push(payload.selectedSlideId);
+  const currentSelectedIds = editor.selected.selectedSlidesIds;
+  const slideIndex = currentSelectedIds.indexOf(payload.selectedSlideId);
+  let newSelectedSlidesIds: string[];
+
+  if (slideIndex === -1) {
+    newSelectedSlidesIds = [...currentSelectedIds, payload.selectedSlideId]
+
+  } else if (slideIndex > -1 && currentSelectedIds.length > 1) {
+    newSelectedSlidesIds = [
+      ...currentSelectedIds.slice(0, slideIndex),
+      ...currentSelectedIds.slice(slideIndex + 1)
+    ]
+    
+  } else {
+    newSelectedSlidesIds = currentSelectedIds
+  }
 
   return {
     ...editor,
