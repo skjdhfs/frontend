@@ -51,8 +51,9 @@ function SlideView(props: SlideViewProps) {
           <ImageObject
             key={object.id}
             imageObj={object}
-            onClick={() => console.log(object.id)}
+            onClick={handleSlideObjClick}
             scale={1}
+            isSelected={isSelected}
           ></ImageObject>
         );
       })}

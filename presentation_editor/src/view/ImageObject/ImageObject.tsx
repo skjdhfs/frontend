@@ -3,11 +3,13 @@ import styles from "./ImageObject.module.css";
 
 type ImageObjProps = {
   imageObj: ImageObj;
-  onClick?: () => void;
+  isSelected: boolean;
   scale: number;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 function ImageObject(props: ImageObjProps) {
+  const slideObjClasses = `${styles.image} ${props.isSelected ? styles.selected : ''}`
   
   const imageObj = props.imageObj;
   const style = {
@@ -18,7 +20,7 @@ function ImageObject(props: ImageObjProps) {
   };
   return (
     <img
-      className={styles.image}
+      className={slideObjClasses}
       src={imageObj.src}
       style={style}
       onClick={props.onClick}

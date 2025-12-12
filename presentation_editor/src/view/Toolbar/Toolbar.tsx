@@ -5,7 +5,7 @@ import { InputField } from "../../common/InputField/InputField";
 import { Select } from "../../common/Select/Select";
 
 import { dispatch } from "../../store/editor";
-import { addSlide, addSlideObj, createNewTextObject, deleteSlides } from "../../store/functions";
+import { addSlide, addSlideObj, createNewTextObject, deleteSlideObj, deleteSlides } from "../../store/functions";
 import { createNewSlide } from "../../store/functions";
 
 function Toolbar() {
@@ -20,6 +20,10 @@ function Toolbar() {
 
   const handleAddTextObject = () => {
     dispatch(addSlideObj, {newSlideObj: createNewTextObject()})
+  }
+
+  const handleDeleteSlideObject = () => {
+    dispatch<void>(deleteSlideObj, undefined)
   }
 
   return (
@@ -87,12 +91,12 @@ function Toolbar() {
           <ButtonSmall
             image={"src/assets/delete.png"}
             text={"Удалить элемент"}
-            onClick={() => console.log("Удаление элемента")}
+            onClick={handleDeleteSlideObject}
           ></ButtonSmall>
 
           <ButtonSmall
             image={"src/assets/fill.png"}
-            text={"Цвет фона"}
+            text={"Изменить фон"}
             onClick={() => console.log("Изменение цвета фона")}
           ></ButtonSmall>
         </div>
