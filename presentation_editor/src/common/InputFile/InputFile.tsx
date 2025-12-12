@@ -40,6 +40,10 @@ function InputFile() {
             } else {
                 alert("Выберите файл изображения")
             }
+
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""; 
+            }
         }
     }
 

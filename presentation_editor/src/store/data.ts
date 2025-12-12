@@ -128,7 +128,7 @@ const presentation1: Presentation = {
 };
 
 const selected1: Selected = {
-  selectedSlidesIds: ["slide1", "slide2"],
+  selectedSlidesIds: ["slide1"],
   selectedObjId: null,
 };
 

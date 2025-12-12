@@ -5,6 +5,7 @@
   background-color: #fff;
   border-radius: 7px;
   border: 2px solid transparent;
+  overflow: hidden;
 }
 
 .selected {
