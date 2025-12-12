@@ -1,0 +1,16 @@
+.menuContainer {
+    position: relative;
+}
+
+.dropdownMenu {
+    position: absolute;
+    border-radius: 4px;
+    border: 2px solid #000;
+    padding: 10px;
+    top: 130%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+}

@@ -8,6 +8,7 @@ import { Select } from "../../common/Select/Select";
 import { dispatch } from "../../store/editor";
 import { addSlide, addSlideObj, createNewTextObject, deleteSlideObj, deleteSlides } from "../../store/functions";
 import { createNewSlide } from "../../store/functions";
+import { DropdownMenu } from "../../common/DropdownMenu/DropdowMenu";
 
 function Toolbar() {
 
@@ -91,11 +92,7 @@ function Toolbar() {
             onClick={handleDeleteSlideObject}
           ></ButtonSmall>
 
-          <ButtonSmall
-            image={"src/assets/fill.png"}
-            text={"Изменить фон"}
-            onClick={() => console.log("Изменение цвета фона")}
-          ></ButtonSmall>
+          <DropdownMenu></DropdownMenu>
         </div>
       </div>
 
