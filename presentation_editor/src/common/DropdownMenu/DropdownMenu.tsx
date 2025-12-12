@@ -2,6 +2,7 @@ import styles from "./DropdownMenu.module.css"
 import { useState } from "react"
 import { ButtonSmall } from "../ButtonSmall/ButtonSmall";
 import { InputFile } from "../InputFile/InputFile";
+import { InputColor } from "../InputColor/InputColor";
 import { dispatch } from "../../store/editor";
 import { changeBackground, createNewBackgroundPicture } from "../../store/functions";
 
@@ -35,11 +36,10 @@ function DropdownMenu() {
                         text={"Установить фоновое изображение"}
                         onImageLoadSuccess={handleAddBackgroundImg}
                     ></InputFile>
-                    <ButtonSmall
+                    <InputColor
                         image={"src/assets/fill.png"}
                         text={"Изменить цвет фона"}
-                        onClick={toggleMenu}
-                    ></ButtonSmall>
+                    ></InputColor>
                 </div>   
             )}
         </div>

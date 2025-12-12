@@ -12,6 +12,7 @@ type InputFileProps = {
 }
 
 function InputFile(props: InputFileProps) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const readImageFile = (file: File) => {
         const reader = new FileReader();
@@ -51,8 +52,6 @@ function InputFile(props: InputFileProps) {
             }
         }
     }
-
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleClick = () => {
         fileInputRef.current?.click();

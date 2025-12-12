@@ -16,8 +16,7 @@ import {
   deleteSlides, 
   createNewSlide, 
   createNewImageObject, 
-  createNewBackgroundPicture, 
-  changeBackground } from "../../store/functions";
+  } from "../../store/functions";
 
 
 function Toolbar() {

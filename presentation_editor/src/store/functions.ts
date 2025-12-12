@@ -92,6 +92,14 @@ function createNewBackgroundPicture(newSrc: string): Background {
   return newBackground
 }
 
+function createNewBackgroundColor(newColor: string): Background {
+  const newBackground: Background = {
+    type: "color", 
+    color: newColor
+  }
+  return newBackground
+}
+
 function changePresentationTitle(editor: Editor, newTitle: string): Editor {
   return {
     ...editor,
@@ -502,6 +510,7 @@ export {
   createNewTextObject,
   createNewImageObject,
   createNewBackgroundPicture,
+  createNewBackgroundColor,
   changePresentationTitle,
   addSlide,
   deleteSlides,
