@@ -2,9 +2,9 @@ import type { ImageObj } from "../../store/types";
 import styles from "./ImageObject.module.css";
 
 type ImageObjProps = {
-  imageObj: ImageObj;
-  isSelected: boolean;
+  imageObj: ImageObj; 
   scale: number;
+  isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 

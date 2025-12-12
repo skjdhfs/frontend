@@ -1,14 +1,23 @@
 import styles from "./DropdownMenu.module.css"
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { ButtonSmall } from "../ButtonSmall/ButtonSmall";
+import { InputFile } from "../InputFile/InputFile";
+import { dispatch } from "../../store/editor";
+import { changeBackground, createNewBackgroundPicture } from "../../store/functions";
 
 function DropdownMenu() {
+    const handleAddBackgroundImg = (src: string) => {
+      dispatch(changeBackground, {newBackground: createNewBackgroundPicture(src)})
+    }
+
     const [isOpen, setIsOpen] = useState(false)
-    const colorInputRef = useRef<HTMLInputElement>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
+    }
+
+    const closeMenu = () => {
+        setIsOpen(false)
     }
 
     return(
@@ -21,11 +30,11 @@ function DropdownMenu() {
 
             {isOpen && (
                 <div className={styles.dropdownMenu}>
-                    <ButtonSmall
+                    <InputFile
                         image={"src/assets/image.png"}
                         text={"Установить фоновое изображение"}
-                        onClick={toggleMenu}
-                    ></ButtonSmall>
+                        onImageLoadSuccess={handleAddBackgroundImg}
+                    ></InputFile>
                     <ButtonSmall
                         image={"src/assets/fill.png"}
                         text={"Изменить цвет фона"}

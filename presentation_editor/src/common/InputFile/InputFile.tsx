@@ -1,13 +1,17 @@
 import styles from "./InputFile.module.css"
 
 import { ButtonSmall } from "../ButtonSmall/ButtonSmall"
-import { addSlideObj, createNewImageObject } from "../../store/functions";
-import { dispatch } from "../../store/editor";
 import type { Size } from "../../store/types";
 
 import { useRef } from "react";
 
-function InputFile() {
+type InputFileProps = {
+    image: string;
+    text: string;
+    onImageLoadSuccess: (src: string, size: Size) => void;
+}
+
+function InputFile(props: InputFileProps) {
 
     const readImageFile = (file: File) => {
         const reader = new FileReader();
@@ -18,12 +22,13 @@ function InputFile() {
             const image = new Image();
             image.src = fileSrc;
             image.onload = () => {
+
                 const imageSize: Size = {
                     height: image.naturalWidth,
                     width: image.naturalWidth,
                 }
 
-                dispatch(addSlideObj, {newSlideObj: createNewImageObject(fileSrc, imageSize)});
+                props.onImageLoadSuccess(fileSrc, imageSize);
             }
         }
         reader.readAsDataURL(file);
@@ -63,8 +68,8 @@ function InputFile() {
                 onChange={handleFileUpload}
             />
             <ButtonSmall
-                image={"src/assets/image.png"}
-                text={"Добавить изображение"}
+                image={props.image}
+                text={props.text}
                 onClick={handleClick}>
             </ButtonSmall>
         </div>

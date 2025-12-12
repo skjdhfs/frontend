@@ -4,11 +4,21 @@ import { ButtonSmall } from "../../common/ButtonSmall/ButtonSmall";
 import { InputField } from "../../common/InputField/InputField";
 import { InputFile } from "../../common/InputFile/InputFile";
 import { Select } from "../../common/Select/Select";
+import { DropdownMenu } from "../../common/DropdownMenu/DropdownMenu";
 
+import type { Size } from "../../store/types";
 import { dispatch } from "../../store/editor";
-import { addSlide, addSlideObj, createNewTextObject, deleteSlideObj, deleteSlides } from "../../store/functions";
-import { createNewSlide } from "../../store/functions";
-import { DropdownMenu } from "../../common/DropdownMenu/DropdowMenu";
+import { 
+  addSlide, 
+  addSlideObj, 
+  createNewTextObject, 
+  deleteSlideObj, 
+  deleteSlides, 
+  createNewSlide, 
+  createNewImageObject, 
+  createNewBackgroundPicture, 
+  changeBackground } from "../../store/functions";
+
 
 function Toolbar() {
 
@@ -26,6 +36,10 @@ function Toolbar() {
 
   const handleDeleteSlideObject = () => {
     dispatch<void>(deleteSlideObj, undefined)
+  }
+
+  const handleAddSlideImgObj = (src: string, size: Size) => {
+    dispatch(addSlideObj, {newSlideObj: createNewImageObject(src, size)})
   }
 
   return (
@@ -82,7 +96,11 @@ function Toolbar() {
             onClick={handleAddTextObject}
           ></ButtonSmall>
 
-          <InputFile></InputFile>
+          <InputFile
+            image={"src/assets/image.png"}
+            text={"Добавить изображение"}
+            onImageLoadSuccess={handleAddSlideImgObj}>  
+          </InputFile>
         </div>
 
         <div className={styles.buttonContainer}>

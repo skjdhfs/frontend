@@ -14,13 +14,27 @@ type SlideViewProps = {
 };
 
 function SlideView(props: SlideViewProps) {
+  const background = props.slide.background;
+
+  let style;
+
+  if (background.type === "color" ) {
+    style = {
+      backgroundColor: `${background.color}`
+    }
+  } else {
+    style = {
+      backgroundImage: `url(${background.src})`,
+      backgroundSize: "cover",
+    }
+  }
 
   const handleUnselectObject = () => {
     dispatch<void>(unselectObject, undefined)
   }
   
   return (
-    <div className={styles.slide} onClick={handleUnselectObject}>
+    <div className={styles.slide} onClick={handleUnselectObject} style={style}>
       {props.slide.slideObj.map((object) => {
 
         const handleSlideObjClick = (event: React.MouseEvent<HTMLDivElement>) => {

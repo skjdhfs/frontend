@@ -100,7 +100,7 @@ const slide1: Slide = {
   slideObj: [textObj1, imageObj1],
   background: {
     type: "color",
-    color: "#ffffff",
+    color: "#fff",
   },
 };
 

@@ -84,6 +84,14 @@ function createNewImageObject(newSrc: string, newSize: Size): ImageObj {
   return newImageObj
 }
 
+function createNewBackgroundPicture(newSrc: string): Background {
+  const newBackground: Background = {
+    type: "picture",
+    src: newSrc
+  }
+  return newBackground
+}
+
 function changePresentationTitle(editor: Editor, newTitle: string): Editor {
   return {
     ...editor,
@@ -470,14 +478,14 @@ function changeFontFamily(editor: Editor, newFontFamily: string): Editor {
   };
 }
 
-function changeBackground(editor: Editor, newBackground: Background): Editor {
+function changeBackground(editor: Editor, payload: {newBackground: Background}): Editor {
   if (editor.selected.selectedSlidesIds.length != 1) {
     return editor;
   }
 
   const newSlides = editor.presentation.slides.map((slide) =>
     slide.id == editor.selected.selectedSlidesIds[0]
-      ? { ...slide, background: newBackground }
+      ? { ...slide, background: payload.newBackground }
       : slide,
   );
   return {
@@ -493,6 +501,7 @@ export {
   createNewSlide,
   createNewTextObject,
   createNewImageObject,
+  createNewBackgroundPicture,
   changePresentationTitle,
   addSlide,
   deleteSlides,
