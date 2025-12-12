@@ -2,6 +2,7 @@ import styles from "./Toolbar.module.css";
 import { ButtonLarge } from "../../common/ButtonLarge/ButtonLarge";
 import { ButtonSmall } from "../../common/ButtonSmall/ButtonSmall";
 import { InputField } from "../../common/InputField/InputField";
+import { InputFile } from "../../common/InputFile/InputFile";
 import { Select } from "../../common/Select/Select";
 
 import { dispatch } from "../../store/editor";
@@ -80,11 +81,7 @@ function Toolbar() {
             onClick={handleAddTextObject}
           ></ButtonSmall>
 
-          <ButtonSmall
-            image={"src/assets/image.png"}
-            text={"Добавить изображение"}
-            onClick={() => console.log("Добавление изображения")}
-          ></ButtonSmall>
+          <InputFile></InputFile>
         </div>
 
         <div className={styles.buttonContainer}>

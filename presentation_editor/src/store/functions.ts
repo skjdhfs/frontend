@@ -7,6 +7,7 @@ import type {
   Position,
   Size,
   TextObj,
+  ImageObj,
 } from "./types.ts";
 
 function createNewSlide(): Slide {
@@ -62,6 +63,25 @@ function createNewTextObject(): TextObj {
   }
 
   return newTextObj
+}
+
+function createNewImageObject(newSrc: string, newSize: Size): ImageObj {
+  const newId = `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+
+  const defaultPosition: Position = {
+    x: 0,
+    y: 0
+  }
+
+  const newImageObj: ImageObj = {
+    type: "image",
+    id: newId,
+    position: defaultPosition,
+    size: newSize,
+    src: newSrc
+  }
+
+  return newImageObj
 }
 
 function changePresentationTitle(editor: Editor, newTitle: string): Editor {
@@ -472,6 +492,7 @@ function changeBackground(editor: Editor, newBackground: Background): Editor {
 export {
   createNewSlide,
   createNewTextObject,
+  createNewImageObject,
   changePresentationTitle,
   addSlide,
   deleteSlides,
