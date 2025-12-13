@@ -17,10 +17,6 @@ function DropdownMenu() {
         setIsOpen(!isOpen)
     }
 
-    const closeMenu = () => {
-        setIsOpen(false)
-    }
-
     return(
         <div className={styles.menuContainer}>
             <ButtonSmall
