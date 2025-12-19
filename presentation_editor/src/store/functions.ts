@@ -100,12 +100,15 @@ function createNewBackgroundColor(newColor: string): Background {
   return newBackground
 }
 
-function changePresentationTitle(editor: Editor, newTitle: string): Editor {
+function changePresentationTitle(editor: Editor, payload: {newTitle: string}): Editor {
+  if (payload.newTitle.trim() === "") {
+    return editor;
+  }
   return {
     ...editor,
     presentation: {
       ...editor.presentation,
-      title: newTitle,
+      title: payload.newTitle,
     },
   };
 }

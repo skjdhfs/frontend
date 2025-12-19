@@ -29,7 +29,9 @@ function App(props: AppProps) {
 
   return (
     <div className={styles.page}>
-      <Toolbar></Toolbar>
+      <Toolbar
+      title={props.editor.presentation.title}
+      ></Toolbar>
 
       <div className={styles.main}>
 

@@ -15,15 +15,19 @@ import {
   deleteSlideObj, 
   deleteSlides, 
   createNewSlide, 
-  createNewImageObject, 
+  createNewImageObject,
+  changePresentationTitle, 
   } from "../../store/functions";
 
+  type ToolbarProps = {
+    title: string;
+  }
 
-function Toolbar() {
+function Toolbar(props: ToolbarProps) {
 
   const handleAddSlideClick = () => {
     dispatch(addSlide, {newSlide: createNewSlide()})
-  };
+  }
 
   const handleDeleteSlidesClick = () => {
     dispatch<void>(deleteSlides, undefined)
@@ -41,18 +45,17 @@ function Toolbar() {
     dispatch(addSlideObj, {newSlideObj: createNewImageObject(src, size)})
   }
 
+  const handleTitleChange = (title: string) => {
+    dispatch(changePresentationTitle, {newTitle: title})
+  }
+
   return (
     <div className={styles.toolbar}>
       <div className={styles.section}>
         <InputField
-          text={"New Presentation"}
-          id={"title"}
-          onInput={(event) =>
-            console.log(
-              "Новое название презентации: ",
-              event.currentTarget.value,
-            )
-          }
+          placeholder={"Presentation Title"}
+          value={props.title}
+          onBlur={handleTitleChange}
         ></InputField>
         <div className={styles.buttonContainer}>
           <ButtonSmall
@@ -116,11 +119,9 @@ function Toolbar() {
       <div className={styles.section}>
         <Select ></Select>
         <InputField
-          text={"Font Size"}
-          id={"font-size"}
-          onInput={(event) =>
-            console.log("Размер шрифта изменен на: ", event.currentTarget.value)
-          }
+          placeholder={"Font Size"}
+          value={"14"}
+          onBlur={handleTitleChange}
         ></InputField>
       </div>
 
