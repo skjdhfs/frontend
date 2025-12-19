@@ -1,5 +1,5 @@
 import styles from "./InputField.module.css";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 type InputFieldProps = {
   placeholder: string;
@@ -8,44 +8,42 @@ type InputFieldProps = {
 };
 
 function InputField(props: InputFieldProps) {
-
-  const [localValue, setValue] = useState(props.value)
+  const [localValue, setValue] = useState(props.value);
 
   useEffect(() => {
-    setValue(props.value)
-  }, [props.value])
+    setValue(props.value);
+  }, [props.value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.currentTarget.blur();
     }
-  }
+  };
 
   const handleBlur = () => {
     if (localValue.trim() === "") {
-      setValue(props.value)
+      setValue(props.value);
     } else {
-      props.onBlur(localValue)
+      props.onBlur(localValue);
     }
-    
-  }
+  };
 
   return (
-      <input
-        type="text"
-        required
-        className={styles.field}
-        placeholder={props.placeholder}
-        value={localValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        name={props.value}
-      />
+    <input
+      type="text"
+      required
+      className={styles.field}
+      placeholder={props.placeholder}
+      value={localValue}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
+      name={props.value}
+    />
   );
 }
 

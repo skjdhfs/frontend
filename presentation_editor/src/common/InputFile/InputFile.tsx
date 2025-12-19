@@ -1,77 +1,76 @@
-import styles from "./InputFile.module.css"
+import styles from "./InputFile.module.css";
 
-import { ButtonSmall } from "../ButtonSmall/ButtonSmall"
+import { ButtonSmall } from "../ButtonSmall/ButtonSmall";
 import type { Size } from "../../store/types";
 
 import { useRef } from "react";
 
 type InputFileProps = {
-    image: string;
-    text: string;
-    onImageLoadSuccess: (src: string, size: Size) => void;
-}
+  image: string;
+  text: string;
+  onImageLoadSuccess: (src: string, size: Size) => void;
+};
 
 function InputFile(props: InputFileProps) {
-    const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const readImageFile = (file: File) => {
-        const reader = new FileReader();
+  const readImageFile = (file: File) => {
+    const reader = new FileReader();
 
-        reader.onload = (event) => {
-            const fileSrc: string = event.target?.result as string;
+    reader.onload = (event) => {
+      const fileSrc: string = event.target?.result as string;
 
-            const image = new Image();
-            image.src = fileSrc;
-            image.onload = () => {
+      const image = new Image();
+      image.src = fileSrc;
+      image.onload = () => {
+        const imageSize: Size = {
+          height: image.naturalWidth,
+          width: image.naturalWidth,
+        };
 
-                const imageSize: Size = {
-                    height: image.naturalWidth,
-                    width: image.naturalWidth,
-                }
+        props.onImageLoadSuccess(fileSrc, imageSize);
+      };
+    };
+    reader.readAsDataURL(file);
+  };
 
-                props.onImageLoadSuccess(fileSrc, imageSize);
-            }
-        }
-        reader.readAsDataURL(file);
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      if (file.type.startsWith("image/")) {
+        readImageFile(file);
+      } else {
+        alert("Выберите файл изображения");
+      }
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
+  };
 
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
 
-        if (files && files.length > 0) {
-            const file = files[0]
-
-            if (file.type.startsWith("image/")) {
-                readImageFile(file)
-            } else {
-                alert("Выберите файл изображения")
-            }
-
-            if (fileInputRef.current) {
-                fileInputRef.current.value = ""; 
-            }
-        }
-    }
-
-    const handleClick = () => {
-        fileInputRef.current?.click();
-    }
-
-    return(
-        <div>
-            <input
-                type="file"
-                ref={fileInputRef}
-                className={styles.input}
-                accept="image/*"
-                onChange={handleFileUpload}
-            />
-            <ButtonSmall
-                image={props.image}
-                text={props.text}
-                onClick={handleClick}>
-            </ButtonSmall>
-        </div>
-    )
+  return (
+    <div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        className={styles.input}
+        accept="image/*"
+        onChange={handleFileUpload}
+      />
+      <ButtonSmall
+        image={props.image}
+        text={props.text}
+        onClick={handleClick}
+      ></ButtonSmall>
+    </div>
+  );
 }
-export {InputFile}
+export { InputFile };

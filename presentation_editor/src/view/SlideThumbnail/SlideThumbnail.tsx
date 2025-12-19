@@ -15,17 +15,17 @@ function SlideThumbnail(props: SlideViewProps) {
   const background = props.slide.background;
   let style;
 
-  if (background.type === "color" ) {
+  if (background.type === "color") {
     style = {
-      backgroundColor: `${background.color}`
-    }
+      backgroundColor: `${background.color}`,
+    };
   } else {
     style = {
       backgroundImage: `url(${background.src})`,
       backgroundSize: "cover",
-    }
+    };
   }
-  const thumbnailClasses = `${styles.thumbnail} ${props.isSelected ? styles.selected : ''}`
+  const thumbnailClasses = `${styles.thumbnail} ${props.isSelected ? styles.selected : ""}`;
 
   return (
     <div className={thumbnailClasses} onClick={props.onClick} style={style}>

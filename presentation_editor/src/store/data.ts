@@ -137,6 +137,4 @@ const testEditor: Editor = {
   selected: selected1,
 };
 
-export { 
-  testEditor, 
-};
+export { testEditor };

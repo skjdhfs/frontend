@@ -5,7 +5,6 @@ import pluginReact from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
-
   js.configs.recommended,
 
   ...tseslint.configs.recommended,
@@ -17,21 +16,21 @@ export default [
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
 
     plugins: {
-        "@eslint/js": js, 
-        react: pluginReact,
-        "react-hooks": reactHooks
+      "@eslint/js": js,
+      react: pluginReact,
+      "react-hooks": reactHooks,
     },
 
     settings: {
       react: {
-        version: "detect", 
-      }
+        version: "detect",
+      },
     },
-    
+
     languageOptions: {
       globals: {
-        ...globals.browser, 
-       // ...globals.node
+        ...globals.browser,
+        // ...globals.node
       },
       parserOptions: {
         ecmaFeatures: {
@@ -46,7 +45,7 @@ export default [
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
 
-      ...reactHooks.configs.recommended.rules 
+      ...reactHooks.configs.recommended.rules,
     },
   },
 ];

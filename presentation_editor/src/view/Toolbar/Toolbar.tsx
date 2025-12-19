@@ -8,46 +8,45 @@ import { DropdownMenu } from "../../common/DropdownMenu/DropdownMenu";
 
 import type { Size } from "../../store/types";
 import { dispatch } from "../../store/editor";
-import { 
-  addSlide, 
-  addSlideObj, 
-  createNewTextObject, 
-  deleteSlideObj, 
-  deleteSlides, 
-  createNewSlide, 
+import {
+  addSlide,
+  addSlideObj,
+  createNewTextObject,
+  deleteSlideObj,
+  deleteSlides,
+  createNewSlide,
   createNewImageObject,
-  changePresentationTitle, 
-  } from "../../store/functions";
+  changePresentationTitle,
+} from "../../store/functions";
 
-  type ToolbarProps = {
-    title: string;
-  }
+type ToolbarProps = {
+  title: string;
+};
 
 function Toolbar(props: ToolbarProps) {
-
   const handleAddSlideClick = () => {
-    dispatch(addSlide, {newSlide: createNewSlide()})
-  }
+    dispatch(addSlide, { newSlide: createNewSlide() });
+  };
 
   const handleDeleteSlidesClick = () => {
-    dispatch<void>(deleteSlides, undefined)
-  }
+    dispatch<void>(deleteSlides, undefined);
+  };
 
   const handleAddTextObject = () => {
-    dispatch(addSlideObj, {newSlideObj: createNewTextObject()})
-  }
+    dispatch(addSlideObj, { newSlideObj: createNewTextObject() });
+  };
 
   const handleDeleteSlideObject = () => {
-    dispatch<void>(deleteSlideObj, undefined)
-  }
+    dispatch<void>(deleteSlideObj, undefined);
+  };
 
   const handleAddSlideImgObj = (src: string, size: Size) => {
-    dispatch(addSlideObj, {newSlideObj: createNewImageObject(src, size)})
-  }
+    dispatch(addSlideObj, { newSlideObj: createNewImageObject(src, size) });
+  };
 
   const handleTitleChange = (title: string) => {
-    dispatch(changePresentationTitle, {newTitle: title})
-  }
+    dispatch(changePresentationTitle, { newTitle: title });
+  };
 
   return (
     <div className={styles.toolbar}>
@@ -70,7 +69,6 @@ function Toolbar(props: ToolbarProps) {
             onClick={() => console.log("Просмотр презентации")}
           ></ButtonSmall>
         </div>
-        
       </div>
 
       <div className={styles.section}>
@@ -87,7 +85,6 @@ function Toolbar(props: ToolbarProps) {
             onClick={handleDeleteSlidesClick}
           ></ButtonLarge>
         </div>
-        
       </div>
 
       <div className={styles.section}>
@@ -101,8 +98,8 @@ function Toolbar(props: ToolbarProps) {
           <InputFile
             image={"src/assets/image.png"}
             text={"Добавить изображение"}
-            onImageLoadSuccess={handleAddSlideImgObj}>  
-          </InputFile>
+            onImageLoadSuccess={handleAddSlideImgObj}
+          ></InputFile>
         </div>
 
         <div className={styles.buttonContainer}>
@@ -117,7 +114,7 @@ function Toolbar(props: ToolbarProps) {
       </div>
 
       <div className={styles.section}>
-        <Select ></Select>
+        <Select></Select>
         <InputField
           placeholder={"Font Size"}
           value={"14"}
@@ -152,7 +149,7 @@ function Toolbar(props: ToolbarProps) {
             text={"Цвет текста"}
             onClick={() => console.log("Изменить цвет текста")}
           ></ButtonSmall>
-        </div>       
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ type ButtonProps = {
 };
 
 function ButtonLarge(props: ButtonProps) {
-  
   return (
     <button className={styles.button} onClick={props.onClick}>
       <img src={props.image} className={styles.image} />

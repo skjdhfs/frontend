@@ -22,27 +22,27 @@ function App(props: AppProps) {
   let WorkspaceContent;
 
   if (slides.length == 0 || !firstSelectedSlide) {
-    WorkspaceContent = <NoSlidesPlaceholder></NoSlidesPlaceholder>
+    WorkspaceContent = <NoSlidesPlaceholder></NoSlidesPlaceholder>;
   } else {
-    WorkspaceContent = <SlideView slide={firstSelectedSlide} selectedObjId={props.editor.selected.selectedObjId}></SlideView>
+    WorkspaceContent = (
+      <SlideView
+        slide={firstSelectedSlide}
+        selectedObjId={props.editor.selected.selectedObjId}
+      ></SlideView>
+    );
   }
 
   return (
     <div className={styles.page}>
-      <Toolbar
-      title={props.editor.presentation.title}
-      ></Toolbar>
+      <Toolbar title={props.editor.presentation.title}></Toolbar>
 
       <div className={styles.main}>
+        <Sidebar
+          slides={props.editor.presentation.slides}
+          selectedSlidesIds={props.editor.selected.selectedSlidesIds}
+        ></Sidebar>
 
-        <Sidebar slides={props.editor.presentation.slides} 
-        selectedSlidesIds={props.editor.selected.selectedSlidesIds}>
-        </Sidebar>
-
-        <div className={styles.workspace}>
-          {WorkspaceContent}
-        </div>
-        
+        <div className={styles.workspace}>{WorkspaceContent}</div>
       </div>
     </div>
   );

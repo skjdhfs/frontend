@@ -6,14 +6,14 @@ import { useRef } from "react";
 
 type TextObjProps = {
   textObj: TextObj;
-  scale: number
+  scale: number;
   isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   onContentChange?: (newContent: string) => void;
 };
 
 function TextObject(props: TextObjProps) {
-  const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ''}`
+  const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ""}`;
 
   const textObj = props.textObj;
   const style = {
@@ -32,12 +32,12 @@ function TextObject(props: TextObjProps) {
     if (textRef.current && props.onContentChange) {
       props.onContentChange(textRef.current.innerText);
     }
-  }
+  };
 
   return (
-    <div 
-      className={slideObjClasses} 
-      style={style} 
+    <div
+      className={slideObjClasses}
+      style={style}
       onClick={props.onClick}
       onBlur={handleExit}
       contentEditable={props.isSelected}

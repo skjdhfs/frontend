@@ -6,7 +6,11 @@ import { ImageObject } from "../ImageObject/ImageObject";
 import { TextObject } from "../TextObject/TextObject";
 
 import { dispatch } from "../../store/editor";
-import { changeTextContent, selectObject, unselectObject } from "../../store/functions";
+import {
+  changeTextContent,
+  selectObject,
+  unselectObject,
+} from "../../store/functions";
 
 type SlideViewProps = {
   slide: Slide;
@@ -18,37 +22,37 @@ function SlideView(props: SlideViewProps) {
 
   let style;
 
-  if (background.type === "color" ) {
+  if (background.type === "color") {
     style = {
-      backgroundColor: `${background.color}`
-    }
+      backgroundColor: `${background.color}`,
+    };
   } else {
     style = {
       backgroundImage: `url(${background.src})`,
       backgroundSize: "cover",
-    }
+    };
   }
 
   const handleUnselectObject = () => {
-    dispatch<void>(unselectObject, undefined)
-  }
-  
+    dispatch<void>(unselectObject, undefined);
+  };
+
   return (
     <div className={styles.slide} onClick={handleUnselectObject} style={style}>
       {props.slide.slideObj.map((object) => {
-
-        const handleSlideObjClick = (event: React.MouseEvent<HTMLDivElement>) => {
-          event.stopPropagation(); 
-          dispatch(selectObject, {selectedObjId: object.id})
-        }
+        const handleSlideObjClick = (
+          event: React.MouseEvent<HTMLDivElement>,
+        ) => {
+          event.stopPropagation();
+          dispatch(selectObject, { selectedObjId: object.id });
+        };
 
         const isSelected = object.id === props.selectedObjId;
 
         if (object.type == "text") {
-
           const handleTextContentChange = (content: string) => {
-            dispatch(changeTextContent, {newContent: content})
-          }
+            dispatch(changeTextContent, { newContent: content });
+          };
 
           return (
             <TextObject

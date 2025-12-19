@@ -16,15 +16,15 @@ function createNewSlide(): Slide {
   const defaultBackground: Background = {
     type: "color",
     color: "#ffffff",
-  }
+  };
 
   const newSlide: Slide = {
     id: newId,
     slideObj: [],
     background: defaultBackground,
-  }
+  };
 
-  return newSlide
+  return newSlide;
 }
 
 function createNewTextObject(): TextObj {
@@ -32,21 +32,21 @@ function createNewTextObject(): TextObj {
 
   const defaultPosition: Position = {
     x: 0,
-    y: 0
-  }
+    y: 0,
+  };
 
   const defaultSize: Size = {
     height: 30,
-    width: 110
-  }
+    width: 110,
+  };
 
-  const defaultContent: string = "Enter Your Text"
+  const defaultContent: string = "Enter Your Text";
 
-  const defaultFontFamily: string = "Arial"
+  const defaultFontFamily: string = "Arial";
 
-  const defaultFontSize: number = 14
+  const defaultFontSize: number = 14;
 
-  const defaultFontColor: string = "#000"
+  const defaultFontColor: string = "#000";
 
   const newTextObj: TextObj = {
     type: "text",
@@ -59,10 +59,10 @@ function createNewTextObject(): TextObj {
     fontColor: defaultFontColor,
     bold: false,
     italic: false,
-    underline: false
-  }
+    underline: false,
+  };
 
-  return newTextObj
+  return newTextObj;
 }
 
 function createNewImageObject(newSrc: string, newSize: Size): ImageObj {
@@ -70,37 +70,40 @@ function createNewImageObject(newSrc: string, newSize: Size): ImageObj {
 
   const defaultPosition: Position = {
     x: 0,
-    y: 0
-  }
+    y: 0,
+  };
 
   const newImageObj: ImageObj = {
     type: "image",
     id: newId,
     position: defaultPosition,
     size: newSize,
-    src: newSrc
-  }
+    src: newSrc,
+  };
 
-  return newImageObj
+  return newImageObj;
 }
 
 function createNewBackgroundPicture(newSrc: string): Background {
   const newBackground: Background = {
     type: "picture",
-    src: newSrc
-  }
-  return newBackground
+    src: newSrc,
+  };
+  return newBackground;
 }
 
 function createNewBackgroundColor(newColor: string): Background {
   const newBackground: Background = {
-    type: "color", 
-    color: newColor
-  }
-  return newBackground
+    type: "color",
+    color: newColor,
+  };
+  return newBackground;
 }
 
-function changePresentationTitle(editor: Editor, payload: {newTitle: string}): Editor {
+function changePresentationTitle(
+  editor: Editor,
+  payload: { newTitle: string },
+): Editor {
   if (payload.newTitle.trim() === "") {
     return editor;
   }
@@ -113,8 +116,8 @@ function changePresentationTitle(editor: Editor, payload: {newTitle: string}): E
   };
 }
 
-function addSlide(editor: Editor, payload: {newSlide: Slide}): Editor {
-const newSlide = payload.newSlide;
+function addSlide(editor: Editor, payload: { newSlide: Slide }): Editor {
+  const newSlide = payload.newSlide;
 
   const selectedSlidesIds = editor.selected.selectedSlidesIds;
   const lastSelectedSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
@@ -154,7 +157,7 @@ function deleteSlides(editor: Editor): Editor {
 
   if (slides.length == 0 || selectedSlidesIds.length == 0) {
     return editor;
-  };
+  }
 
   const newSlides = slides.filter(
     (slide) => !selectedSlidesIds.includes(slide.id),
@@ -162,24 +165,25 @@ function deleteSlides(editor: Editor): Editor {
 
   let newSelectedSlidesIds: string[] = [];
 
-  if (newSlides.length == 0)
-  {
-    newSelectedSlidesIds = []
+  if (newSlides.length == 0) {
+    newSelectedSlidesIds = [];
   } else {
     const lastSelectedId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    console.log(lastSelectedId)
+    console.log(lastSelectedId);
 
-    const lastSelectedIndexInOriginal = slides.findIndex(s => s.id === lastSelectedId);
-    console.log(lastSelectedIndexInOriginal)
+    const lastSelectedIndexInOriginal = slides.findIndex(
+      (s) => s.id === lastSelectedId,
+    );
+    console.log(lastSelectedIndexInOriginal);
 
     let targetIndex: number;
 
     if (lastSelectedIndexInOriginal >= selectedSlidesIds.length + 1) {
       targetIndex = lastSelectedIndexInOriginal - selectedSlidesIds.length + 1;
     } else {
-      targetIndex = lastSelectedIndexInOriginal
+      targetIndex = lastSelectedIndexInOriginal;
     }
-    console.log(targetIndex)
+    console.log(targetIndex);
 
     if (targetIndex < newSlides.length) {
       newSelectedSlidesIds = [newSlides[targetIndex].id];
@@ -231,7 +235,10 @@ function moveSlide(editor: Editor, targetSlideIndex: number): Editor {
   };
 }
 
-function selectOneSlide(editor: Editor, payload: {selectedSlideId: string}): Editor {
+function selectOneSlide(
+  editor: Editor,
+  payload: { selectedSlideId: string },
+): Editor {
   return {
     ...editor,
     selected: {
@@ -242,22 +249,23 @@ function selectOneSlide(editor: Editor, payload: {selectedSlideId: string}): Edi
   };
 }
 
-function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}): Editor {
+function selectMultipleSlides(
+  editor: Editor,
+  payload: { selectedSlideId: string },
+): Editor {
   const currentSelectedIds = editor.selected.selectedSlidesIds;
   const slideIndex = currentSelectedIds.indexOf(payload.selectedSlideId);
   let newSelectedSlidesIds: string[];
 
   if (slideIndex === -1) {
-    newSelectedSlidesIds = [...currentSelectedIds, payload.selectedSlideId]
-
+    newSelectedSlidesIds = [...currentSelectedIds, payload.selectedSlideId];
   } else if (slideIndex > -1 && currentSelectedIds.length > 1) {
     newSelectedSlidesIds = [
       ...currentSelectedIds.slice(0, slideIndex),
-      ...currentSelectedIds.slice(slideIndex + 1)
-    ]
-
+      ...currentSelectedIds.slice(slideIndex + 1),
+    ];
   } else {
-    newSelectedSlidesIds = currentSelectedIds
+    newSelectedSlidesIds = currentSelectedIds;
   }
 
   return {
@@ -270,17 +278,22 @@ function selectMultipleSlides(editor: Editor, payload: {selectedSlideId: string}
   };
 }
 
-function selectObject(editor: Editor, payload: {selectedObjId: string}): Editor {
-  const newSelectedObjId = payload.selectedObjId
-  let newSelectedSlidesIds = [...editor.selected.selectedSlidesIds]
+function selectObject(
+  editor: Editor,
+  payload: { selectedObjId: string },
+): Editor {
+  const newSelectedObjId = payload.selectedObjId;
+  let newSelectedSlidesIds = [...editor.selected.selectedSlidesIds];
 
   if (editor.selected.selectedSlidesIds.length > 1) {
     for (const slide of editor.presentation.slides) {
-      const foundSlide = slide.slideObj.find(obj => obj.id === newSelectedObjId)
+      const foundSlide = slide.slideObj.find(
+        (obj) => obj.id === newSelectedObjId,
+      );
 
       if (foundSlide) {
         newSelectedSlidesIds = [slide.id];
-        break
+        break;
       }
     }
   }
@@ -300,11 +313,14 @@ function unselectObject(editor: Editor): Editor {
     selected: {
       ...editor.selected,
       selectedObjId: null,
-    }
-  }
+    },
+  };
 }
 
-function addSlideObj(editor: Editor, payload: {newSlideObj: SlideObj}): Editor {
+function addSlideObj(
+  editor: Editor,
+  payload: { newSlideObj: SlideObj },
+): Editor {
   if (editor.selected.selectedSlidesIds.length != 1) {
     return editor;
   }
@@ -408,7 +424,10 @@ function changeSlideObjSize(editor: Editor, newSize: Size): Editor {
   };
 }
 
-function changeTextContent(editor: Editor, payload: {newContent: string}): Editor {
+function changeTextContent(
+  editor: Editor,
+  payload: { newContent: string },
+): Editor {
   const selected = editor.selected;
 
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
@@ -429,13 +448,12 @@ function changeTextContent(editor: Editor, payload: {newContent: string}): Edito
       slideObj: isContentEmpty
         ? slide.slideObj.filter((obj) => obj.id !== targetObjId)
         : slide.slideObj.map((obj) =>
-          obj.id === targetObjId && obj.type === "text"
-            ? {...obj, content: payload.newContent}
-            : obj
-        )
-    }
-  }
-  );
+            obj.id === targetObjId && obj.type === "text"
+              ? { ...obj, content: payload.newContent }
+              : obj,
+          ),
+    };
+  });
   return {
     ...editor,
     presentation: {
@@ -445,7 +463,7 @@ function changeTextContent(editor: Editor, payload: {newContent: string}): Edito
     selected: {
       ...editor.selected,
       selectedObjId: isContentEmpty ? null : editor.selected.selectedObjId,
-    }
+    },
   };
 }
 
@@ -503,7 +521,10 @@ function changeFontFamily(editor: Editor, newFontFamily: string): Editor {
   };
 }
 
-function changeBackground(editor: Editor, payload: {newBackground: Background}): Editor {
+function changeBackground(
+  editor: Editor,
+  payload: { newBackground: Background },
+): Editor {
   if (editor.selected.selectedSlidesIds.length != 1) {
     return editor;
   }

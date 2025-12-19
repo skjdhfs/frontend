@@ -3,32 +3,30 @@ import { testEditor } from "./data.ts";
 
 let editor: Editor = testEditor;
 
-let editorChangeHandler: null| (() => void) = null;
+let editorChangeHandler: null | (() => void) = null;
 
 function getEditor() {
-    return editor;
+  return editor;
 }
 
 function setEditor(newEditor: Editor) {
-    editor = newEditor;
+  editor = newEditor;
 }
 
-function dispatch<P>(modifyFn: (currentEditor: Editor, payload: P) => Editor, payload: P) {
+function dispatch<P>(
+  modifyFn: (currentEditor: Editor, payload: P) => Editor,
+  payload: P,
+) {
+  const newEditor: Editor = modifyFn(editor, payload);
+  setEditor(newEditor);
 
-    const newEditor: Editor = modifyFn(editor, payload);
-    setEditor(newEditor);
-
-    if (editorChangeHandler) {
-        editorChangeHandler()
-    }
+  if (editorChangeHandler) {
+    editorChangeHandler();
+  }
 }
 
 function addEditorChangeHandler(handler: () => void) {
-    editorChangeHandler = handler;
+  editorChangeHandler = handler;
 }
 
-export {
-    getEditor,
-    dispatch,
-    addEditorChangeHandler
-}
+export { getEditor, dispatch, addEditorChangeHandler };
