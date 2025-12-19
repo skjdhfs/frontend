@@ -1,8 +1,8 @@
-import styles from "./NoSlidesPlaceholder.module.css";
+import styles from './NoSlidesPlaceholder.module.css';
 
-import { dispatch } from "../../store/editor";
-import { createNewSlide } from "../../store/functions";
-import { addSlide } from "../../store/functions";
+import { dispatch } from '../../store/editor';
+import { createNewSlide } from '../../store/functions';
+import { addSlide } from '../../store/functions';
 
 function NoSlidesPlaceholder() {
   const handleAddSlideClick = () => {

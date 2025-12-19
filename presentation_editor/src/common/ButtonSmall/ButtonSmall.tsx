@@ -1,4 +1,4 @@
-import styles from "./ButtonSmall.module.css";
+import styles from './ButtonSmall.module.css';
 
 type ButtonProps = {
   image: string;

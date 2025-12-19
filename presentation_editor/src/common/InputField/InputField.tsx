@@ -1,5 +1,5 @@
-import styles from "./InputField.module.css";
-import { useState, useEffect } from "react";
+import styles from './InputField.module.css';
+import { useState, useEffect } from 'react';
 
 type InputFieldProps = {
   placeholder: string;
@@ -19,13 +19,13 @@ function InputField(props: InputFieldProps) {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.currentTarget.blur();
     }
   };
 
   const handleBlur = () => {
-    if (localValue.trim() === "") {
+    if (localValue.trim() === '') {
       setValue(props.value);
     } else {
       props.onBlur(localValue);

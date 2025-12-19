@@ -1,8 +1,8 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
   js.configs.recommended,
@@ -10,20 +10,20 @@ export default [
   ...tseslint.configs.recommended,
 
   pluginReact.configs.flat.recommended,
-  pluginReact.configs.flat["jsx-runtime"],
+  pluginReact.configs.flat['jsx-runtime'],
 
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 
     plugins: {
-      "@eslint/js": js,
+      '@eslint/js': js,
       react: pluginReact,
-      "react-hooks": reactHooks,
+      'react-hooks': reactHooks,
     },
 
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
 
@@ -40,10 +40,10 @@ export default [
     },
 
     rules: {
-      "react/jsx-uses-vars": "error",
+      'react/jsx-uses-vars': 'error',
 
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
 
       ...reactHooks.configs.recommended.rules,
     },

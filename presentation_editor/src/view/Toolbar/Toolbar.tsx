@@ -1,13 +1,13 @@
-import styles from "./Toolbar.module.css";
-import { ButtonLarge } from "../../common/ButtonLarge/ButtonLarge";
-import { ButtonSmall } from "../../common/ButtonSmall/ButtonSmall";
-import { InputField } from "../../common/InputField/InputField";
-import { InputFile } from "../../common/InputFile/InputFile";
-import { Select } from "../../common/Select/Select";
-import { DropdownMenu } from "../../common/DropdownMenu/DropdownMenu";
+import styles from './Toolbar.module.css';
+import { ButtonLarge } from '../../common/ButtonLarge/ButtonLarge';
+import { ButtonSmall } from '../../common/ButtonSmall/ButtonSmall';
+import { InputField } from '../../common/InputField/InputField';
+import { InputFile } from '../../common/InputFile/InputFile';
+import { Select } from '../../common/Select/Select';
+import { DropdownMenu } from '../../common/DropdownMenu/DropdownMenu';
 
-import type { Size } from "../../store/types";
-import { dispatch } from "../../store/editor";
+import type { Size } from '../../store/types';
+import { dispatch } from '../../store/editor';
 import {
   addSlide,
   addSlideObj,
@@ -17,7 +17,7 @@ import {
   createNewSlide,
   createNewImageObject,
   changePresentationTitle,
-} from "../../store/functions";
+} from '../../store/functions';
 
 type ToolbarProps = {
   title: string;
@@ -52,21 +52,21 @@ function Toolbar(props: ToolbarProps) {
     <div className={styles.toolbar}>
       <div className={styles.section}>
         <InputField
-          placeholder={"Presentation Title"}
+          placeholder={'Presentation Title'}
           value={props.title}
           onBlur={handleTitleChange}
         ></InputField>
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={"src/assets/save.png"}
-            text={"Сохранить PDF"}
-            onClick={() => console.log("Сохранение презентации в PDF")}
+            image={'src/assets/save.png'}
+            text={'Сохранить PDF'}
+            onClick={() => console.log('Сохранение презентации в PDF')}
           ></ButtonSmall>
 
           <ButtonSmall
-            image={"src/assets/play.png"}
-            text={"Проигрывать"}
-            onClick={() => console.log("Просмотр презентации")}
+            image={'src/assets/play.png'}
+            text={'Проигрывать'}
+            onClick={() => console.log('Просмотр презентации')}
           ></ButtonSmall>
         </div>
       </div>
@@ -74,14 +74,14 @@ function Toolbar(props: ToolbarProps) {
       <div className={styles.section}>
         <div className={styles.buttonContainer}>
           <ButtonLarge
-            image={"src/assets/add-slide.png"}
-            text={"Добавить слайд"}
+            image={'src/assets/add-slide.png'}
+            text={'Добавить слайд'}
             onClick={handleAddSlideClick}
           ></ButtonLarge>
 
           <ButtonLarge
-            image={"src/assets/delete.png"}
-            text={"Удалить слайд"}
+            image={'src/assets/delete.png'}
+            text={'Удалить слайд'}
             onClick={handleDeleteSlidesClick}
           ></ButtonLarge>
         </div>
@@ -90,22 +90,22 @@ function Toolbar(props: ToolbarProps) {
       <div className={styles.section}>
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={"src/assets/text.png"}
-            text={"Добавить текст"}
+            image={'src/assets/text.png'}
+            text={'Добавить текст'}
             onClick={handleAddTextObject}
           ></ButtonSmall>
 
           <InputFile
-            image={"src/assets/image.png"}
-            text={"Добавить изображение"}
+            image={'src/assets/image.png'}
+            text={'Добавить изображение'}
             onImageLoadSuccess={handleAddSlideImgObj}
           ></InputFile>
         </div>
 
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={"src/assets/delete.png"}
-            text={"Удалить элемент"}
+            image={'src/assets/delete.png'}
+            text={'Удалить элемент'}
             onClick={handleDeleteSlideObject}
           ></ButtonSmall>
 
@@ -115,39 +115,35 @@ function Toolbar(props: ToolbarProps) {
 
       <div className={styles.section}>
         <Select></Select>
-        <InputField
-          placeholder={"Font Size"}
-          value={"14"}
-          onBlur={handleTitleChange}
-        ></InputField>
+        <InputField placeholder={'Font Size'} value={'14'} onBlur={handleTitleChange}></InputField>
       </div>
 
       <div className={styles.section}>
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={"src/assets/bold.png"}
-            text={"Жирный текст"}
-            onClick={() => console.log("Жирный текст")}
+            image={'src/assets/bold.png'}
+            text={'Жирный текст'}
+            onClick={() => console.log('Жирный текст')}
           ></ButtonSmall>
 
           <ButtonSmall
-            image={"src/assets/italic.png"}
-            text={"Курсив"}
-            onClick={() => console.log("Курсив")}
+            image={'src/assets/italic.png'}
+            text={'Курсив'}
+            onClick={() => console.log('Курсив')}
           ></ButtonSmall>
         </div>
 
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={"src/assets/underline.png"}
-            text={"Подчеркивание"}
-            onClick={() => console.log("Подчеркивание")}
+            image={'src/assets/underline.png'}
+            text={'Подчеркивание'}
+            onClick={() => console.log('Подчеркивание')}
           ></ButtonSmall>
 
           <ButtonSmall
-            image={"src/assets/palette.png"}
-            text={"Цвет текста"}
-            onClick={() => console.log("Изменить цвет текста")}
+            image={'src/assets/palette.png'}
+            text={'Цвет текста'}
+            onClick={() => console.log('Изменить цвет текста')}
           ></ButtonSmall>
         </div>
       </div>

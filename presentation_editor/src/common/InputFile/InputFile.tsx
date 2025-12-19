@@ -1,9 +1,9 @@
-import styles from "./InputFile.module.css";
+import styles from './InputFile.module.css';
 
-import { ButtonSmall } from "../ButtonSmall/ButtonSmall";
-import type { Size } from "../../store/types";
+import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
+import type { Size } from '../../store/types';
 
-import { useRef } from "react";
+import { useRef } from 'react';
 
 type InputFileProps = {
   image: string;
@@ -40,14 +40,14 @@ function InputFile(props: InputFileProps) {
     if (files && files.length > 0) {
       const file = files[0];
 
-      if (file.type.startsWith("image/")) {
+      if (file.type.startsWith('image/')) {
         readImageFile(file);
       } else {
-        alert("Выберите файл изображения");
+        alert('Выберите файл изображения');
       }
 
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current.value = '';
       }
     }
   };
@@ -65,11 +65,7 @@ function InputFile(props: InputFileProps) {
         accept="image/*"
         onChange={handleFileUpload}
       />
-      <ButtonSmall
-        image={props.image}
-        text={props.text}
-        onClick={handleClick}
-      ></ButtonSmall>
+      <ButtonSmall image={props.image} text={props.text} onClick={handleClick}></ButtonSmall>
     </div>
   );
 }

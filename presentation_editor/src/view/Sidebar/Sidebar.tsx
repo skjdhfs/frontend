@@ -1,9 +1,9 @@
-import styles from "./Sidebar.module.css";
-import type { SlideList } from "../../store/types";
-import { SlideThumbnail } from "../SlideThumbnail/SlideThumbnail";
+import styles from './Sidebar.module.css';
+import type { SlideList } from '../../store/types';
+import { SlideThumbnail } from '../SlideThumbnail/SlideThumbnail';
 
-import { dispatch } from "../../store/editor";
-import { selectMultipleSlides, selectOneSlide } from "../../store/functions";
+import { dispatch } from '../../store/editor';
+import { selectMultipleSlides, selectOneSlide } from '../../store/functions';
 
 type SidebarProps = {
   slides: SlideList;
@@ -16,9 +16,7 @@ function Sidebar(props: SidebarProps) {
       {props.slides.map((slide, index) => {
         const isSelected = props.selectedSlidesIds.includes(slide.id);
 
-        const handleSlideThumbnailClick = (
-          event: React.MouseEvent<HTMLDivElement>,
-        ) => {
+        const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
           const isModifierPressed = event.ctrlKey || event.metaKey;
 
           if (isModifierPressed) {

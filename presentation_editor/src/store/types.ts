@@ -35,7 +35,7 @@ type Size = {
 };
 
 type TextObj = DefaultObj & {
-  type: "text";
+  type: 'text';
   content: string;
   fontFamily: string;
   fontSize: number;
@@ -46,19 +46,19 @@ type TextObj = DefaultObj & {
 };
 
 type ImageObj = DefaultObj & {
-  type: "image";
+  type: 'image';
   src: string;
 };
 
 type Background = Color | Picture;
 
 type Color = {
-  type: "color";
+  type: 'color';
   color: string;
 };
 
 type Picture = {
-  type: "picture";
+  type: 'picture';
   src: string;
 };
 

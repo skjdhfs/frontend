@@ -1,4 +1,4 @@
-import styles from "./Select.module.css";
+import styles from './Select.module.css';
 
 function Select() {
   return (

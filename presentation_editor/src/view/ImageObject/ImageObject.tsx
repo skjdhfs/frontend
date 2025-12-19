@@ -1,5 +1,5 @@
-import type { ImageObj } from "../../store/types";
-import styles from "./ImageObject.module.css";
+import type { ImageObj } from '../../store/types';
+import styles from './ImageObject.module.css';
 
 type ImageObjProps = {
   imageObj: ImageObj;
@@ -9,7 +9,7 @@ type ImageObjProps = {
 };
 
 function ImageObject(props: ImageObjProps) {
-  const slideObjClasses = `${styles.image} ${props.isSelected ? styles.selected : ""}`;
+  const slideObjClasses = `${styles.image} ${props.isSelected ? styles.selected : ''}`;
 
   const imageObj = props.imageObj;
   const style = {
@@ -19,12 +19,7 @@ function ImageObject(props: ImageObjProps) {
     width: `${imageObj.size.width * props.scale}px`,
   };
   return (
-    <img
-      className={slideObjClasses}
-      src={imageObj.src}
-      style={style}
-      onClick={props.onClick}
-    />
+    <img className={slideObjClasses} src={imageObj.src} style={style} onClick={props.onClick} />
   );
 }
 

@@ -1,11 +1,8 @@
-import {
-  changeBackground,
-  createNewBackgroundColor,
-} from "../../store/functions";
-import { dispatch } from "../../store/editor";
-import styles from "./InputColor.module.css";
-import { useRef } from "react";
-import { ButtonSmall } from "../ButtonSmall/ButtonSmall";
+import { changeBackground, createNewBackgroundColor } from '../../store/functions';
+import { dispatch } from '../../store/editor';
+import styles from './InputColor.module.css';
+import { useRef } from 'react';
+import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
 
 type InputColorProps = {
   image: string;
@@ -32,11 +29,7 @@ function InputColor(props: InputColorProps) {
         className={styles.input}
         onChange={handleColorChange}
       />
-      <ButtonSmall
-        image={props.image}
-        text={props.text}
-        onClick={handleClick}
-      ></ButtonSmall>
+      <ButtonSmall image={props.image} text={props.text} onClick={handleClick}></ButtonSmall>
     </div>
   );
 }

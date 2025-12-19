@@ -1,11 +1,11 @@
-import styles from "./App.module.css";
+import styles from './App.module.css';
 
-import { Toolbar } from "./view/Toolbar/Toolbar";
-import { Sidebar } from "./view/Sidebar/Sidebar";
-import { SlideView } from "./view/SlideView/SlideView";
-import { NoSlidesPlaceholder } from "./view/NoSlidesPlaceholder/NoSlidesPlaceholder";
+import { Toolbar } from './view/Toolbar/Toolbar';
+import { Sidebar } from './view/Sidebar/Sidebar';
+import { SlideView } from './view/SlideView/SlideView';
+import { NoSlidesPlaceholder } from './view/NoSlidesPlaceholder/NoSlidesPlaceholder';
 
-import type { Editor } from "./store/types";
+import type { Editor } from './store/types';
 
 type AppProps = {
   editor: Editor;
@@ -15,9 +15,7 @@ function App(props: AppProps) {
   const selectedSlideIds = props.editor.selected.selectedSlidesIds;
 
   const slides = props.editor.presentation.slides;
-  const firstSelectedSlide = slides.find(
-    (slide) => slide.id == selectedSlideIds[0],
-  );
+  const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlideIds[0]);
 
   let WorkspaceContent;
 

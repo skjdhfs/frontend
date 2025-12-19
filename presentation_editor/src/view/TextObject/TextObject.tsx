@@ -1,8 +1,8 @@
-import type { TextObj } from "../../store/types";
+import type { TextObj } from '../../store/types';
 
-import styles from "./TextObject.module.css";
+import styles from './TextObject.module.css';
 
-import { useRef } from "react";
+import { useRef } from 'react';
 
 type TextObjProps = {
   textObj: TextObj;
@@ -13,7 +13,7 @@ type TextObjProps = {
 };
 
 function TextObject(props: TextObjProps) {
-  const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ""}`;
+  const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ''}`;
 
   const textObj = props.textObj;
   const style = {

@@ -1,5 +1,5 @@
-import type { Editor } from "./types.ts";
-import { testEditor } from "./data.ts";
+import type { Editor } from './types.ts';
+import { testEditor } from './data.ts';
 
 let editor: Editor = testEditor;
 
@@ -13,10 +13,7 @@ function setEditor(newEditor: Editor) {
   editor = newEditor;
 }
 
-function dispatch<P>(
-  modifyFn: (currentEditor: Editor, payload: P) => Editor,
-  payload: P,
-) {
+function dispatch<P>(modifyFn: (currentEditor: Editor, payload: P) => Editor, payload: P) {
   const newEditor: Editor = modifyFn(editor, payload);
   setEditor(newEditor);
 
