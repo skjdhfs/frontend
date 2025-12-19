@@ -3,7 +3,7 @@
   width: 100px;
   height: 100px;
   text-align: center;
-  font-family: 'Helvetica', 'sans-serif';
+  font-family: Helvetica, sans-serif;
   border: none;
   background-color: #fff;
   font-size: 13px;
@@ -20,5 +20,5 @@
   width: 50px;
   margin: 0 auto;
   display: block;
-  padding: 5px 0px 5px 0px;
+  padding: 5px 0;
 }

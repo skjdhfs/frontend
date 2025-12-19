@@ -2,13 +2,14 @@
   border-radius: 4px;
   height: 40px;
   width: 100%;
-  font-family: 'Helvetica', 'sans-serif';
+  font-family: Helvetica, sans-serif;
   font-size: 14px;
   background-color: #f4f4fa;
   border: 2px solid #ccccd8;
   box-sizing: border-box;
   padding: 5px;
 }
+
 .field:hover {
   background-color: #e9e9f0;
   transition: background-color 0.3s ease;

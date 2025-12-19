@@ -2,7 +2,7 @@
   border-radius: 4px;
   width: 130px;
   height: 40px;
-  font-family: 'Helvetica', 'sans-serif';
+  font-family: Helvetica, sans-serif;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -23,4 +23,3 @@
   display: block;
   padding: 0;
 }
-

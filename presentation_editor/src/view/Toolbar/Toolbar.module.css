@@ -13,12 +13,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-flow: column wrap;
   gap: 8px;
   border-right: 1px solid #c0c0c8;
   padding: 0 10px;
   height: 100px;
-  flex-wrap: wrap;
   margin: 10px 0;
 }
 

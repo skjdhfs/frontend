@@ -9,9 +9,8 @@
   height: 100%;
   gap: 30px;
   padding: 30px;
-  font-family: "Helvetica", "sans-serif";
+  font-family: Helvetica, sans-serif;
   font-weight: 600;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   box-sizing: border-box;
 }
