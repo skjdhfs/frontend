@@ -410,21 +410,31 @@ function changeSlideObjSize(editor: Editor, newSize: Size): Editor {
 
 function changeTextContent(editor: Editor, payload: {newContent: string}): Editor {
   const selected = editor.selected;
+
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
   }
 
-  const newSlides = editor.presentation.slides.map((slide) =>
-    slide.id == selected.selectedSlidesIds[0]
-      ? {
-          ...slide,
-          slideObj: slide.slideObj.map((obj) =>
-            obj.id == selected.selectedObjId && obj.type == "text"
-              ? { ...obj, content: payload.newContent }
-              : obj,
-          ),
-        }
-      : slide,
+  const activeSlideId = selected.selectedSlidesIds[0];
+  const targetObjId = selected.selectedObjId;
+  const isContentEmpty = payload.newContent.trim() === "";
+
+  const newSlides = editor.presentation.slides.map((slide) => {
+    if (slide.id !== activeSlideId) {
+      return slide;
+    }
+
+    return {
+      ...slide,
+      slideObj: isContentEmpty
+        ? slide.slideObj.filter((obj) => obj.id !== targetObjId)
+        : slide.slideObj.map((obj) =>
+          obj.id === targetObjId && obj.type === "text"
+            ? {...obj, content: payload.newContent}
+            : obj
+        )
+    }
+  }
   );
   return {
     ...editor,
@@ -432,6 +442,10 @@ function changeTextContent(editor: Editor, payload: {newContent: string}): Edito
       ...editor.presentation,
       slides: newSlides,
     },
+    selected: {
+      ...editor.selected,
+      selectedObjId: isContentEmpty ? null : editor.selected.selectedObjId,
+    }
   };
 }
 
