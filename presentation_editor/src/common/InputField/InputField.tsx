@@ -25,8 +25,13 @@ function InputField(props: InputFieldProps) {
     }
   }
 
-  const save = () => {
-    props.onBlur(localValue)
+  const handleBlur = () => {
+    if (localValue.trim() === "") {
+      setValue(props.value)
+    } else {
+      props.onBlur(localValue)
+    }
+    
   }
 
   return (
@@ -37,7 +42,7 @@ function InputField(props: InputFieldProps) {
         placeholder={props.placeholder}
         value={localValue}
         onChange={handleChange}
-        onBlur={save}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         name={props.value}
       />
