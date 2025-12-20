@@ -40,7 +40,7 @@ function TextObject(props: TextObjProps) {
       style={style}
       onClick={props.onClick}
       onBlur={handleExit}
-      contentEditable={props.isSelected}
+      contentEditable={props.isSelected ? 'plaintext-only' : false}
       suppressContentEditableWarning={true}
       ref={textRef}
     >

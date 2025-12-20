@@ -1,6 +1,7 @@
 .text {
   position: absolute;
   overflow-wrap: break-word;
+  white-space: pre-wrap;
   border: 2px solid transparent;
   outline: none;
 }
