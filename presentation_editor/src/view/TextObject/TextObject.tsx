@@ -1,8 +1,6 @@
-import type { TextObj } from '../../store/types';
-
-import styles from './TextObject.module.css';
-
 import { useRef } from 'react';
+import type { TextObj } from '../../store/types';
+import styles from './TextObject.module.css';
 
 type TextObjProps = {
   textObj: TextObj;
@@ -10,12 +8,15 @@ type TextObjProps = {
   isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   onContentChange?: (newContent: string) => void;
+  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void
 };
 
 function TextObject(props: TextObjProps) {
   const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ''}`;
 
   const textObj = props.textObj;
+
+  
   const style = {
     top: `${textObj.position.y * props.scale}px`,
     left: `${textObj.position.x * props.scale}px`,
@@ -43,6 +44,7 @@ function TextObject(props: TextObjProps) {
       contentEditable={props.isSelected ? 'plaintext-only' : false}
       suppressContentEditableWarning={true}
       ref={textRef}
+      onMouseDown={props.onMouseDown}
     >
       {textObj.content}
     </div>

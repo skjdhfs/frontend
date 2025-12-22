@@ -344,7 +344,7 @@ function deleteSlideObj(editor: Editor): Editor {
   };
 }
 
-function moveSlideObj(editor: Editor, newPosition: Position): Editor {
+function moveSlideObj(editor: Editor, payload: {newPosition: Position}): Editor {
   const selected = editor.selected;
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
@@ -355,7 +355,7 @@ function moveSlideObj(editor: Editor, newPosition: Position): Editor {
       ? {
           ...slide,
           slideObj: slide.slideObj.map((obj) =>
-            obj.id == selected.selectedObjId ? { ...obj, position: newPosition } : obj
+            obj.id == selected.selectedObjId ? { ...obj, position: payload.newPosition } : obj
           ),
         }
       : slide

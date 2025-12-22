@@ -1,12 +1,11 @@
 import styles from './SlideView.module.css';
-
 import type { Slide } from '../../store/types';
-
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-
 import { dispatch } from '../../store/editor';
 import { changeTextContent, selectObject, unselectObject } from '../../store/functions';
+import { useDnd } from '../../store/hooks/useDnd';
+import { moveSlideObj } from '../../store/functions';
 
 type SlideViewProps = {
   slide: Slide;
@@ -33,6 +32,8 @@ function SlideView(props: SlideViewProps) {
     dispatch<void>(unselectObject, undefined);
   };
 
+  
+
   return (
     <div className={styles.slide} onClick={handleUnselectObject} style={style}>
       {props.slide.slideObj.map((object) => {
@@ -42,6 +43,12 @@ function SlideView(props: SlideViewProps) {
         };
 
         const isSelected = object.id === props.selectedObjId;
+
+        const {onMouseDown} = useDnd({
+          startX: object.position.x,
+          startY: object.position.y,
+          onDrag: (newX, newY) => dispatch(moveSlideObj, {newPosition: {x: newX, y: newY}})
+        })
 
         if (object.type == 'text') {
           const handleTextContentChange = (content: string) => {
@@ -56,6 +63,7 @@ function SlideView(props: SlideViewProps) {
               onClick={handleSlideObjClick}
               onContentChange={handleTextContentChange}
               isSelected={isSelected}
+              onMouseDown={onMouseDown}
             ></TextObject>
           );
         }
@@ -66,6 +74,7 @@ function SlideView(props: SlideViewProps) {
             onClick={handleSlideObjClick}
             scale={1}
             isSelected={isSelected}
+            onMouseDown={onMouseDown}
           ></ImageObject>
         );
       })}

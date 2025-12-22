@@ -6,20 +6,29 @@ type ImageObjProps = {
   scale: number;
   isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void
 };
 
 function ImageObject(props: ImageObjProps) {
   const slideObjClasses = `${styles.image} ${props.isSelected ? styles.selected : ''}`;
 
   const imageObj = props.imageObj;
+
   const style = {
     top: `${imageObj.position.y * props.scale}px`,
     left: `${imageObj.position.x * props.scale}px`,
     height: `${imageObj.size.height * props.scale}px`,
     width: `${imageObj.size.width * props.scale}px`,
   };
+
   return (
-    <img className={slideObjClasses} src={imageObj.src} style={style} onClick={props.onClick} />
+    <img 
+    className={slideObjClasses} 
+    src={imageObj.src} 
+    style={style} 
+    onClick={props.onClick} 
+    onMouseDown={props.onMouseDown}
+    />
   );
 }
 
