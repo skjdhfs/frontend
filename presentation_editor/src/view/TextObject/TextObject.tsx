@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { TextObj } from '../../store/types';
 import styles from './TextObject.module.css';
+import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
 
 type TextObjProps = {
   textObj: TextObj;
@@ -12,11 +13,9 @@ type TextObjProps = {
 };
 
 function TextObject(props: TextObjProps) {
-  const slideObjClasses = `${styles.text} ${props.isSelected ? styles.selected : ''}`;
 
   const textObj = props.textObj;
 
-  
   const style = {
     top: `${textObj.position.y * props.scale}px`,
     left: `${textObj.position.x * props.scale}px`,
@@ -37,16 +36,23 @@ function TextObject(props: TextObjProps) {
 
   return (
     <div
-      className={slideObjClasses}
+      className={styles.text}
       style={style}
       onClick={props.onClick}
       onBlur={handleExit}
       contentEditable={props.isSelected ? 'plaintext-only' : false}
       suppressContentEditableWarning={true}
       ref={textRef}
-      onMouseDown={props.onMouseDown}
     >
-      {textObj.content}
+      <div>
+        {textObj.content}
+      </div>
+      
+      {props.isSelected && (
+        <SelectionFrame
+          object={props.textObj}>
+        </SelectionFrame>
+      )}
     </div>
   );
 }

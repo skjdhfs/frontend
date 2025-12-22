@@ -1,5 +1,6 @@
 import type { ImageObj } from '../../store/types';
 import styles from './ImageObject.module.css';
+import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
 
 type ImageObjProps = {
   imageObj: ImageObj;
@@ -10,11 +11,10 @@ type ImageObjProps = {
 };
 
 function ImageObject(props: ImageObjProps) {
-  const slideObjClasses = `${styles.image} ${props.isSelected ? styles.selected : ''}`;
 
   const imageObj = props.imageObj;
 
-  const style = {
+  const styleContainer = {
     top: `${imageObj.position.y * props.scale}px`,
     left: `${imageObj.position.x * props.scale}px`,
     height: `${imageObj.size.height * props.scale}px`,
@@ -22,13 +22,22 @@ function ImageObject(props: ImageObjProps) {
   };
 
   return (
-    <img 
-    className={slideObjClasses} 
-    src={imageObj.src} 
-    style={style} 
-    onClick={props.onClick} 
-    onMouseDown={props.onMouseDown}
-    />
+    <div
+      style={styleContainer} 
+      className={styles.imageContainer} 
+    >
+      <img 
+        src={imageObj.src} 
+        className={styles.image}
+        onClick={props.onClick} 
+      />
+      {props.isSelected && (
+        <SelectionFrame
+          object={imageObj}>
+        </SelectionFrame>
+      )}
+    </div>
+    
   );
 }
 

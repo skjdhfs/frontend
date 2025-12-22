@@ -13,6 +13,7 @@ type DndResult = {
 function useDnd(args: DndArgs): DndResult {
 
     const handleMouseDown = (event: React.MouseEvent) => {
+        
         event.preventDefault()
 
         const startMouseX = event.pageX
@@ -32,12 +33,13 @@ function useDnd(args: DndArgs): DndResult {
         }
 
         const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove)
-            document.removeEventListener('mouseup', handleMouseUp)
+            event.stopPropagation()
+            window.removeEventListener('mousemove', handleMouseMove)
+            window.removeEventListener('mouseup', handleMouseUp)
         }
 
-        document.addEventListener('mousemove', handleMouseMove)
-        document.addEventListener('mouseup', handleMouseUp)
+        window.addEventListener('mousemove', handleMouseMove)
+        window.addEventListener('mouseup', handleMouseUp)
     }
 
     return {onMouseDown: handleMouseDown}

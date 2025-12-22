@@ -1,0 +1,41 @@
+.frame {
+    position: absolute;
+    border: 2px solid #007bff;
+    background-color: transparent;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.border {
+    position: absolute;
+    pointer-events: all;
+    cursor: move;
+}
+
+.borderTop {
+    top: -5px;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+.borderBottom {
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+.borderLeft {
+    left: -5px;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+}
+
+.borderRight {
+    right: -5px;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+}
