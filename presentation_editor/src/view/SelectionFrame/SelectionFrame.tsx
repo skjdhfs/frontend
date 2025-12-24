@@ -83,11 +83,6 @@ function SelectionFrame(props: SelectionFrameProps) {
         startY: object.position.y,
         onDrag: (newX, newY) => {
 
-            // const offsetY = object.position.y - newY
-            // let height = object.size.height + offsetY
-            // let width = height * aspectRatio
-            // const offsetX = width - object.size.width
-
             const offsetX = object.position.x - newX
             const offsetY = object.position.y - newY
 
@@ -101,13 +96,67 @@ function SelectionFrame(props: SelectionFrameProps) {
             if (height > minSize) {
                 dispatch(changeSlideObjSize, {
                     newSize: {width, height},
-                    // newPosition: {x: object.position.x - offsetX, y: newY}
                     newPosition: {
                         x: object.position.x + object.size.width - width,
                         y: object.position.y + object.size.height - height
                     }
                 })
             }
+        }
+    })
+
+    const {onMouseDown: onMidRight} = useDnd({
+        startX: object.size.width,
+        startY: 0,
+        onDrag: (newW) => {
+            dispatch(changeSlideObjSize, {
+                newSize: {width: Math.max(newW, minSize), height: object.size.height}
+            })
+        }
+    })
+
+    const {onMouseDown: onMidLeft} = useDnd({
+        startX: object.position.x,
+        startY: 0,
+        onDrag: (newX) => {
+            const offsetX = object.position.x - newX
+            const width = Math.max(object.size.width + offsetX, minSize)
+            dispatch(changeSlideObjSize, {
+                newSize: {width, height: object.size.height},
+                newPosition: {
+                    x: object.position.x + object.size.width - width,
+                    y: object.position.y
+                }
+            })
+        }
+    })
+
+    const {onMouseDown: onMidBottom} = useDnd({
+        startX: 0,
+        startY: object.size.height,
+        onDrag: (_, newH) => {
+            dispatch(changeSlideObjSize, {
+                newSize: {
+                    width: object.size.width,
+                    height: Math.max(newH, minSize)
+                }
+            })
+        }
+    })
+
+    const {onMouseDown: onMidTop} = useDnd({
+        startX: 0,
+        startY: object.position.y,
+        onDrag: (_, newY) => {
+            const offsetY = object.position.y - newY
+            const height = Math.max(object.size.height + offsetY, minSize)
+            dispatch(changeSlideObjSize, {
+                newSize: {width: object.size.width, height},
+                newPosition: {
+                    x: object.position.x,
+                    y: object.position.y + object.size.height - height
+                }
+            })
         }
     })
 
@@ -129,10 +178,15 @@ function SelectionFrame(props: SelectionFrameProps) {
             <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderLeft}`}></div>
             <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderRight}`}></div>
 
-            <div onMouseDown={onTopLeft} className={`${styles.dot} ${styles.dotTopLeft}`}></div>
-            <div onMouseDown={onTopRight} className={`${styles.dot} ${styles.dotTopRight}`}></div>
-            <div onMouseDown={onBottomLeft} className={`${styles.dot} ${styles.dotBottomLeft}`}></div>
-            <div onMouseDown={onBottomRight} className={`${styles.dot} ${styles.dotBottomRight}`}></div>
+            <div onMouseDown={onTopLeft} className={`${styles.dot} ${styles.dotTopLeft} ${styles.dotCorner}`}></div>
+            <div onMouseDown={onTopRight} className={`${styles.dot} ${styles.dotTopRight} ${styles.dotCorner}`}></div>
+            <div onMouseDown={onBottomLeft} className={`${styles.dot} ${styles.dotBottomLeft} ${styles.dotCorner}`}></div>
+            <div onMouseDown={onBottomRight} className={`${styles.dot} ${styles.dotBottomRight} ${styles.dotCorner}`}></div>
+
+            <div onMouseDown={onMidTop} className={`${styles.dot} ${styles.dotMidTop}`}></div>
+            <div onMouseDown={onMidBottom} className={`${styles.dot} ${styles.dotMidBottom}`}></div>
+            <div onMouseDown={onMidLeft} className={`${styles.dot} ${styles.dotMidLeft}`}></div>
+            <div onMouseDown={onMidRight} className={`${styles.dot} ${styles.dotMidRight}`}></div>
         </div>
     )
 }

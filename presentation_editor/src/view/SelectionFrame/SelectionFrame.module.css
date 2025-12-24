@@ -46,9 +46,12 @@
     height: 8px;
     background-color: #fff;
     border: 3px solid #007bff;
-    border-radius: 100%;
     z-index: 1000;
     pointer-events: all;
+}
+
+.dotCorner {
+    border-radius: 100%;
 }
 
 .dotTopLeft {
@@ -73,4 +76,28 @@
     bottom: -5px;
     right: -5px;
     cursor: nwse-resize;
+}
+
+.dotMidTop {
+    top: -7px;
+    left: calc(50% - 5px);
+    cursor: n-resize;
+}
+
+.dotMidBottom {
+    bottom: -7px;
+    left: calc(50% - 5px);
+    cursor: s-resize;
+}
+
+.dotMidLeft {
+    top: calc(50% - 5px);
+    left: -7px;
+    cursor: w-resize;
+}
+
+.dotMidRight {
+    top: calc(50% - 5px);
+    right: -7px;
+    cursor: e-resize;
 }

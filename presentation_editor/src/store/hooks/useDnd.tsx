@@ -15,6 +15,7 @@ function useDnd(args: DndArgs): DndResult {
     const handleMouseDown = (event: React.MouseEvent) => {
         
         event.preventDefault()
+        event.stopPropagation()
 
         const startMouseX = event.pageX
         const startMouseY = event.pageY
