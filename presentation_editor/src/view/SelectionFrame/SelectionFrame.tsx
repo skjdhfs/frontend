@@ -20,15 +20,18 @@ function SelectionFrame(props: SelectionFrameProps) {
     })
 
     const minSize = 10;
-
+    const isImage = object.type === 'image'
     const aspectRatio = object.size.width / object.size.height
 
     const {onMouseDown: onBottomRight} = useDnd({
         startX: object.size.width,
         startY: object.size.height,
-        onDrag: (newW) => {
+        onDrag: (newW, newH) => {
             const width = Math.max(newW, minSize)
-            const height = width / aspectRatio
+            let height = Math.max(newH, minSize)
+            if (isImage) {
+                height = width / aspectRatio
+            }
             dispatch(changeSlideObjSize, {
                 newSize: {width, height}
             })
@@ -38,10 +41,14 @@ function SelectionFrame(props: SelectionFrameProps) {
     const {onMouseDown: onBottomLeft} = useDnd({
         startX: object.position.x,
         startY: object.size.height,
-        onDrag: (newX) => {
+        onDrag: (newX, newH) => {
             const offsetX = object.position.x - newX;
             const width = Math.max(object.size.width + offsetX, minSize)
-            const height = width / aspectRatio
+            let height = Math.max(newH, minSize)
+
+            if (isImage) {
+                height = width / aspectRatio
+            }
 
             dispatch(changeSlideObjSize, {
                 newSize: {width, height},
@@ -53,10 +60,15 @@ function SelectionFrame(props: SelectionFrameProps) {
     const {onMouseDown: onTopRight} = useDnd({
         startX: object.size.width,
         startY: object.position.y,
-        onDrag: (_, newY) => {
+        onDrag: (newW, newY) => {
             const offsetY = object.position.y - newY
             const height = Math.max(object.size.height + offsetY, minSize)
-            const width = height * aspectRatio
+            let width = Math.max(newW, minSize)
+
+            if (isImage) {
+                width = height * aspectRatio
+            }
+
             if (height > minSize) {
                 dispatch(changeSlideObjSize, {
                     newSize: {width, height},
@@ -69,17 +81,31 @@ function SelectionFrame(props: SelectionFrameProps) {
     const {onMouseDown: onTopLeft} = useDnd({
         startX: object.position.x,
         startY: object.position.y,
-        onDrag: (_, newY) => {
+        onDrag: (newX, newY) => {
 
+            // const offsetY = object.position.y - newY
+            // let height = object.size.height + offsetY
+            // let width = height * aspectRatio
+            // const offsetX = width - object.size.width
+
+            const offsetX = object.position.x - newX
             const offsetY = object.position.y - newY
-            const height = object.size.height + offsetY
-            const width = height * aspectRatio
-            const offsetX = width - object.size.width
+
+            let width = Math.max(object.size.width + offsetX, minSize)
+            let height = Math.max(object.size.height + offsetY, minSize)
+
+            if (isImage) {
+                width = height * aspectRatio
+            }
 
             if (height > minSize) {
                 dispatch(changeSlideObjSize, {
                     newSize: {width, height},
-                    newPosition: {x: object.position.x - offsetX, y: newY}
+                    // newPosition: {x: object.position.x - offsetX, y: newY}
+                    newPosition: {
+                        x: object.position.x + object.size.width - width,
+                        y: object.position.y + object.size.height - height
+                    }
                 })
             }
         }
