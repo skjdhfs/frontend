@@ -369,21 +369,23 @@ function moveSlideObj(editor: Editor, payload: {newPosition: Position}): Editor 
   };
 }
 
-function changeSlideObjSize(editor: Editor, newSize: Size): Editor {
+function changeSlideObjSize(editor: Editor, payload: {newSize: Size, newPosition?: Position}): Editor {
   const selected = editor.selected;
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
   }
 
   const newSlides = editor.presentation.slides.map((slide) =>
-    slide.id == selected.selectedSlidesIds[0]
-      ? {
-          ...slide,
-          slideObj: slide.slideObj.map((obj) =>
-            obj.id == selected.selectedObjId ? { ...obj, size: newSize } : obj
-          ),
-        }
-      : slide
+    slide.id == selected.selectedSlidesIds[0] ? {
+      ...slide,
+      slideObj: slide.slideObj.map((obj) =>
+        obj.id == selected.selectedObjId ? { 
+          ...obj, 
+          size: payload.newSize,
+          position: payload.newPosition || obj.position 
+        } : obj
+      ),
+    } : slide
   );
   return {
     ...editor,

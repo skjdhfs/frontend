@@ -1,4 +1,4 @@
-.frame {
+.container {
     position: absolute;
     border: 3px solid #007bff;
     background-color: transparent;
@@ -38,4 +38,38 @@
     top: 0;
     bottom: 0;
     width: 10px;
+}
+
+.dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border: 2px solid #007bff;
+    z-index: 1000;
+    pointer-events: all;
+}
+
+.dotTopLeft {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize;
+}
+
+.dotTopRight {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize;
+}
+
+.dotBottomLeft {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize;
+}
+
+.dotBottomRight {
+    bottom: -5px;
+    right: -5px;
+    cursor: nwse-resize;
 }
