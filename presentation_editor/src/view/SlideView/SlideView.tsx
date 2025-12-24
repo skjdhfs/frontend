@@ -3,7 +3,8 @@ import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
 import { dispatch } from '../../store/editor';
-import { changeTextContent, selectObject, unselectObject } from '../../store/functions';
+import { changeTextContent, selectObject, unselectObject, moveSlideObj } from '../../store/functions';
+import { useDnd } from '../../store/hooks/useDnd';
 
 type SlideViewProps = {
   slide: Slide;

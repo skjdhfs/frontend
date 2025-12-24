@@ -20,10 +20,10 @@ function SelectionFrame(props: SelectionFrameProps) {
     })
 
     const style = {
-        top: 0,
-        left: 0,
-        width: object.size.width,
-        height: object.size.height,
+        top: -2,
+        left: -2,
+        width: object.size.width + 4,
+        height: object.size.height + 4,
     }
 
     return (

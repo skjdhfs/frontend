@@ -24,7 +24,7 @@ function InputFile(props: InputFileProps) {
       image.src = fileSrc;
       image.onload = () => {
         const imageSize: Size = {
-          height: image.naturalWidth,
+          height: image.naturalHeight,
           width: image.naturalWidth,
         };
 
