@@ -9,11 +9,10 @@ type TextObjProps = {
   isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   onContentChange?: (newContent: string) => void;
-  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void
+  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 };
 
 function TextObject(props: TextObjProps) {
-
   const textObj = props.textObj;
 
   const style = {
@@ -44,15 +43,9 @@ function TextObject(props: TextObjProps) {
       suppressContentEditableWarning={true}
       ref={textRef}
     >
-      <div>
-        {textObj.content}
-      </div>
-      
-      {props.isSelected && (
-        <SelectionFrame
-          object={props.textObj}>
-        </SelectionFrame>
-      )}
+      <div>{textObj.content}</div>
+
+      {props.isSelected && <SelectionFrame object={props.textObj}></SelectionFrame>}
     </div>
   );
 }

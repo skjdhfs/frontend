@@ -1,49 +1,46 @@
-
 type DndArgs = {
-  startX: number,
-  startY: number,
-  onDrag?: (newX: number, newY: number) => void,
-  onFinish?: (newX: number, newY: number) => void,
-}
+  startX: number;
+  startY: number;
+  onDrag?: (newX: number, newY: number) => void;
+  onFinish?: (newX: number, newY: number) => void;
+};
 
 type DndResult = {
-    onMouseDown: (event: React.MouseEvent) => void
-}
+  onMouseDown: (event: React.MouseEvent) => void;
+};
 
 function useDnd(args: DndArgs): DndResult {
+  const handleMouseDown = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    const handleMouseDown = (event: React.MouseEvent) => {
-        
-        event.preventDefault()
-        event.stopPropagation()
+    const startMouseX = event.pageX;
+    const startMouseY = event.pageY;
 
-        const startMouseX = event.pageX
-        const startMouseY = event.pageY
+    const initialX = args.startX;
+    const initialY = args.startY;
 
-        const initialX = args.startX
-        const initialY = args.startY
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const offsetX = moveEvent.pageX - startMouseX;
+      const offsetY = moveEvent.pageY - startMouseY;
 
-        const handleMouseMove = (moveEvent: MouseEvent) => {
-            const offsetX = (moveEvent.pageX - startMouseX)
-            const offsetY = (moveEvent.pageY - startMouseY)
+      const newX = initialX + offsetX;
+      const newY = initialY + offsetY;
 
-            const newX = initialX + offsetX
-            const newY = initialY + offsetY
+      args.onDrag?.(newX, newY);
+    };
 
-            args.onDrag?.(newX, newY)
-        }
+    const handleMouseUp = () => {
+      event.stopPropagation();
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
 
-        const handleMouseUp = () => {
-            event.stopPropagation()
-            window.removeEventListener('mousemove', handleMouseMove)
-            window.removeEventListener('mouseup', handleMouseUp)
-        }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
 
-        window.addEventListener('mousemove', handleMouseMove)
-        window.addEventListener('mouseup', handleMouseUp)
-    }
-
-    return {onMouseDown: handleMouseDown}
+  return { onMouseDown: handleMouseDown };
 }
 
-export { useDnd }
+export { useDnd };

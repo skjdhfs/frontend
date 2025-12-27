@@ -198,21 +198,48 @@ function deleteSlides(editor: Editor): Editor {
   };
 }
 
-function moveSlide(editor: Editor, targetSlideIndex: number): Editor {
+// function moveSlide(editor: Editor, payload: {targetSlideIndex: number}): Editor {
+//   const slides = editor.presentation.slides;
+//   const selectedSlidesIds = editor.selected.selectedSlidesIds;
+
+//   if (selectedSlidesIds.length != 1) {
+//     return editor;
+//   }
+
+//   const movedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0])!;
+
+//   const newSlides = [
+//     ...slides.slice(0, payload.targetSlideIndex).filter((slide) => slide.id != selectedSlidesIds[0]),
+//     movedSlide,
+//     ...slides.slice(payload.targetSlideIndex).filter((slide) => slide.id != selectedSlidesIds[0]),
+//   ];
+
+//   return {
+//     ...editor,
+//     presentation: {
+//       ...editor.presentation,
+//       slides: newSlides,
+//     },
+//   };
+// }
+
+function moveSlides(editor: Editor, payload: { targetIndex: number }): Editor {
   const slides = editor.presentation.slides;
   const selectedSlidesIds = editor.selected.selectedSlidesIds;
 
-  if (selectedSlidesIds.length != 1) {
+  const targetIndex = payload.targetIndex;
+  const targetSlide = slides[targetIndex];
+
+  const movedSlides = slides.filter((s) => selectedSlidesIds.includes(s.id));
+  const remainingSlides = slides.filter((s) => !selectedSlidesIds.includes(s.id));
+
+  const insertAt = remainingSlides.indexOf(targetSlide);
+  if (insertAt === -1) {
     return editor;
   }
 
-  const movedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0])!;
-
-  const newSlides = [
-    ...slides.slice(0, targetSlideIndex).filter((slide) => slide.id != selectedSlidesIds[0]),
-    movedSlide,
-    ...slides.slice(targetSlideIndex + 1).filter((slide) => slide.id != selectedSlidesIds[0]),
-  ];
+  const newSlides = [...remainingSlides];
+  newSlides.splice(insertAt, 0, ...movedSlides);
 
   return {
     ...editor,
@@ -344,7 +371,7 @@ function deleteSlideObj(editor: Editor): Editor {
   };
 }
 
-function moveSlideObj(editor: Editor, payload: {newPosition: Position}): Editor {
+function moveSlideObj(editor: Editor, payload: { newPosition: Position }): Editor {
   const selected = editor.selected;
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
@@ -369,23 +396,30 @@ function moveSlideObj(editor: Editor, payload: {newPosition: Position}): Editor 
   };
 }
 
-function changeSlideObjSize(editor: Editor, payload: {newSize: Size, newPosition?: Position}): Editor {
+function changeSlideObjSize(
+  editor: Editor,
+  payload: { newSize: Size; newPosition?: Position }
+): Editor {
   const selected = editor.selected;
   if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
     return editor;
   }
 
   const newSlides = editor.presentation.slides.map((slide) =>
-    slide.id == selected.selectedSlidesIds[0] ? {
-      ...slide,
-      slideObj: slide.slideObj.map((obj) =>
-        obj.id == selected.selectedObjId ? { 
-          ...obj, 
-          size: payload.newSize,
-          position: payload.newPosition || obj.position 
-        } : obj
-      ),
-    } : slide
+    slide.id == selected.selectedSlidesIds[0]
+      ? {
+          ...slide,
+          slideObj: slide.slideObj.map((obj) =>
+            obj.id == selected.selectedObjId
+              ? {
+                  ...obj,
+                  size: payload.newSize,
+                  position: payload.newPosition || obj.position,
+                }
+              : obj
+          ),
+        }
+      : slide
   );
   return {
     ...editor,
@@ -518,7 +552,7 @@ export {
   changePresentationTitle,
   addSlide,
   deleteSlides,
-  moveSlide,
+  moveSlides,
   selectOneSlide,
   selectMultipleSlides,
   selectObject,

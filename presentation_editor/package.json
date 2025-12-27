@@ -8,9 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "style": "stylelint \"**/*.css\""
   },
   "dependencies": {
+    "@typescript-eslint/parser": "^8.50.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -26,6 +28,7 @@
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.5.0",
     "prettier": "3.7.4",
+    "prettier-eslint": "^16.4.2",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-react-native": "^2.7.0",

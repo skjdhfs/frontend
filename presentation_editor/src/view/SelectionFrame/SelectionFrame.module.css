@@ -1,103 +1,103 @@
 .container {
-    position: absolute;
-    border: 3px solid #007bff;
-    background-color: transparent;
-    pointer-events: none;
-    box-sizing: border-box;
+  position: absolute;
+  border: 3px solid #007bff;
+  background-color: transparent;
+  pointer-events: none;
+  box-sizing: border-box;
 }
 
 .border {
-    position: absolute;
-    pointer-events: all;
-    cursor: move;
+  position: absolute;
+  pointer-events: all;
+  cursor: move;
 }
 
 .borderTop {
-    top: -5px;
-    left: 0;
-    right: 0;
-    height: 10px;
+  top: -5px;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 
 .borderBottom {
-    bottom: -5px;
-    left: 0;
-    right: 0;
-    height: 10px;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 
 .borderLeft {
-    left: -5px;
-    top: 0;
-    bottom: 0;
-    width: 10px;
+  left: -5px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
 }
 
 .borderRight {
-    right: -5px;
-    top: 0;
-    bottom: 0;
-    width: 10px;
+  right: -5px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
 }
 
 .dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: #fff;
-    border: 3px solid #007bff;
-    z-index: 1000;
-    pointer-events: all;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border: 3px solid #007bff;
+  z-index: 1000;
+  pointer-events: all;
 }
 
 .dotCorner {
-    border-radius: 100%;
+  border-radius: 100%;
 }
 
 .dotTopLeft {
-    top: -5px;
-    left: -5px;
-    cursor: nwse-resize;
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
 }
 
 .dotTopRight {
-    top: -5px;
-    right: -5px;
-    cursor: nesw-resize;
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
 }
 
 .dotBottomLeft {
-    bottom: -5px;
-    left: -5px;
-    cursor: nesw-resize;
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
 }
 
 .dotBottomRight {
-    bottom: -5px;
-    right: -5px;
-    cursor: nwse-resize;
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
 }
 
 .dotMidTop {
-    top: -7px;
-    left: calc(50% - 5px);
-    cursor: n-resize;
+  top: -7px;
+  left: calc(50% - 5px);
+  cursor: n-resize;
 }
 
 .dotMidBottom {
-    bottom: -7px;
-    left: calc(50% - 5px);
-    cursor: s-resize;
+  bottom: -7px;
+  left: calc(50% - 5px);
+  cursor: s-resize;
 }
 
 .dotMidLeft {
-    top: calc(50% - 5px);
-    left: -7px;
-    cursor: w-resize;
+  top: calc(50% - 5px);
+  left: -7px;
+  cursor: w-resize;
 }
 
 .dotMidRight {
-    top: calc(50% - 5px);
-    right: -7px;
-    cursor: e-resize;
+  top: calc(50% - 5px);
+  right: -7px;
+  cursor: e-resize;
 }

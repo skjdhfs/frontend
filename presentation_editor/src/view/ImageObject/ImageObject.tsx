@@ -10,11 +10,10 @@ type ImageObjProps = {
   scale: number;
   isSelected?: boolean;
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void
+  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 };
 
 function ImageObject(props: ImageObjProps) {
-
   const imageObj = props.imageObj;
 
   const styleContainer = {
@@ -25,35 +24,26 @@ function ImageObject(props: ImageObjProps) {
     cursor: props.isSelected ? 'move' : 'default',
   };
 
-  const {onMouseDown} = useDnd({
+  const { onMouseDown } = useDnd({
     startX: imageObj.position.x,
     startY: imageObj.position.y,
-    onDrag: (newX, newY) => dispatch(moveSlideObj, {newPosition: {x: newX, y: newY}})
-  })
+    onDrag: (newX, newY) => dispatch(moveSlideObj, { newPosition: { x: newX, y: newY } }),
+  });
 
   const handleMouseDown = (event: React.MouseEvent) => {
-    onMouseDown(event)
-  }
+    onMouseDown(event);
+  };
 
   return (
-    <div
-      style={styleContainer} 
-      className={styles.imageContainer} 
-    >
-      {props.isSelected && (
-        <SelectionFrame
-          object={imageObj}>
-        </SelectionFrame>
-      )}
-      <img 
-        src={imageObj.src} 
+    <div style={styleContainer} className={styles.imageContainer}>
+      {props.isSelected && <SelectionFrame object={imageObj}></SelectionFrame>}
+      <img
+        src={imageObj.src}
         className={styles.image}
-        onClick={props.onClick} 
+        onClick={props.onClick}
         onMouseDown={handleMouseDown}
       />
-      
     </div>
-    
   );
 }
 

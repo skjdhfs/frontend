@@ -12,3 +12,12 @@
   border: 2px solid #007bff;
   box-shadow: 0 0 5px rgb(0 123 255 / 50%);
 }
+
+.slideWrapper {
+  position: relative;
+  cursor: grab;
+}
+
+.slideWrapper:active {
+  cursor: grabbing;
+}

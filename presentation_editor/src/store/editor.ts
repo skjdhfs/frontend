@@ -2,11 +2,11 @@ import type { Editor, Slide } from './types.ts';
 import { createNewSlide } from './functions.ts';
 import { loadFromLocalStorage, saveToLocalStorage } from './localStorage.ts';
 
-const defaultSlide: Slide = createNewSlide()
+const defaultSlide: Slide = createNewSlide();
 const defaultEditor: Editor = {
-  presentation: {title: 'New Presentation', slides: [defaultSlide]},
-  selected: {selectedSlidesIds: [defaultSlide.id], selectedObjId: null}
-}
+  presentation: { title: 'New Presentation', slides: [defaultSlide] },
+  selected: { selectedSlidesIds: [defaultSlide.id], selectedObjId: null },
+};
 const initialState: Editor = loadFromLocalStorage() || defaultEditor;
 
 let editor: Editor = initialState;

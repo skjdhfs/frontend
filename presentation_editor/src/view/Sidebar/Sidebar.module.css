@@ -13,3 +13,14 @@
   overflow: hidden auto;
   box-sizing: border-box;
 }
+
+.dropIndicator {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #007bff;
+  border-radius: 2px;
+  pointer-events: none;
+}
