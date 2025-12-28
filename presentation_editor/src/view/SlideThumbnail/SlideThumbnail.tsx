@@ -2,7 +2,6 @@ import styles from './SlideThumbnail.module.css';
 import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-import { useState } from 'react';
 import { dispatch } from '../../store/editor';
 import { moveSlides, selectMultipleSlides, selectOneSlide } from '../../store/functions';
 import { useSlideDnd } from '../../store/hooks/useSlideDnd';
@@ -14,6 +13,11 @@ type SlideThumbnailProps = {
   selectedSlidesIds: string[];
   setDropIndex: (i: number | null) => void;
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  isDragging: boolean;
+  dragOffset: number;
+  onDragStart: (id: string) => void;
+  onDrag: (offset: number) => void;
+  onDragEnd: () => void
 };
 
 function SlideThumbnail(props: SlideThumbnailProps) {
@@ -35,18 +39,15 @@ function SlideThumbnail(props: SlideThumbnailProps) {
 
   const slideHeight = 190;
 
-  const [offsetY, setOffsetY] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-
   const { onMouseDown } = useSlideDnd({
     index: props.index,
     slideHeight: slideHeight,
     scrollContainerRef: props.scrollContainerRef,
     onDragStart: () => {
-      setIsDragging(true);
+      props.onDragStart(props.slide.id)
     },
     onDrag: (y) => {
-      setOffsetY(y);
+      props.onDrag(y)
       const shift = Math.round(y / slideHeight)
       let targetIndex = props.index + shift
       if (y > 0) targetIndex += 1
@@ -54,22 +55,21 @@ function SlideThumbnail(props: SlideThumbnailProps) {
       props.setDropIndex(finalTargetIndex)
     },
     onFinish: (y) => {
-      setIsDragging(false);
-      setOffsetY(0);
       const shift = Math.round(y / slideHeight)
       let targetIndex = props.index + shift
       if (y > 0) targetIndex += 1
       const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
-      dispatch(moveSlides, { targetIndex: finalTargetIndex });
+      props.onDragEnd()
       props.setDropIndex(null)
+      dispatch(moveSlides, { targetIndex: finalTargetIndex });
     },
   });
 
   const slideWrapperStyle = {
-    transform: `translateY(${offsetY}px)`,
-    zIndex: isDragging ? 1000 : 1,
+    transform: `translateY(${props.dragOffset}px)`,
+    zIndex: props.isDragging ? 1000 : 1,
     position: 'relative' as const,
-    opacity: isDragging ? 0.8 : 1,
+    opacity: props.isDragging ? 0.8 : 1,
   };
 
   const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
