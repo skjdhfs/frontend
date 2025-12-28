@@ -115,21 +115,26 @@ function changePresentationTitle(editor: Editor, payload: { newTitle: string }):
 
 function addSlide(editor: Editor, payload: { newSlide: Slide }): Editor {
   const newSlide = payload.newSlide;
-
-  const selectedSlidesIds = editor.selected.selectedSlidesIds;
-  const lastSelectedSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
-
-  const lastSelectedSlide = editor.presentation.slides.find(
-    (slide) => slide.id == lastSelectedSlideId
-  )!;
-  const targetSlideIndex = editor.presentation.slides.indexOf(lastSelectedSlide) + 1;
-
   const slides = editor.presentation.slides;
-  const newSlides = [
-    ...slides.slice(0, targetSlideIndex),
-    newSlide,
-    ...slides.slice(targetSlideIndex),
-  ];
+  const selectedSlidesIds = editor.selected.selectedSlidesIds;
+
+  let newSlides: Slide[] = []
+
+  if (!selectedSlidesIds) {
+    newSlides.push(newSlide)
+  } else {
+    const lastSelectedSlideId = selectedSlidesIds[selectedSlidesIds.length - 1];
+    const lastSelectedSlide = editor.presentation.slides.find(
+      (slide) => slide.id == lastSelectedSlideId
+    )!;
+    const targetSlideIndex = editor.presentation.slides.indexOf(lastSelectedSlide) + 1;
+
+    newSlides = [
+      ...slides.slice(0, targetSlideIndex),
+      newSlide,
+      ...slides.slice(targetSlideIndex),
+    ];
+  }
 
   const newSelectedSlidesIds = [newSlide.id];
 
@@ -163,10 +168,8 @@ function deleteSlides(editor: Editor): Editor {
     newSelectedSlidesIds = [];
   } else {
     const lastSelectedId = selectedSlidesIds[selectedSlidesIds.length - 1];
-    console.log(lastSelectedId);
 
     const lastSelectedIndexInOriginal = slides.findIndex((s) => s.id === lastSelectedId);
-    console.log(lastSelectedIndexInOriginal);
 
     let targetIndex: number;
 
@@ -175,7 +178,6 @@ function deleteSlides(editor: Editor): Editor {
     } else {
       targetIndex = lastSelectedIndexInOriginal;
     }
-    console.log(targetIndex);
 
     if (targetIndex < newSlides.length) {
       newSelectedSlidesIds = [newSlides[targetIndex].id];
@@ -214,7 +216,7 @@ function moveSlides(editor: Editor, payload: {targetIndex: number}): Editor {
     const insertIndex = remainingSlides.indexOf(insertAfter)
 
     if (insertIndex === -1) return editor
-    
+
     newSlides = [...remainingSlides]
     newSlides.splice(insertIndex + 1, 0, ...movedSlides)
   }

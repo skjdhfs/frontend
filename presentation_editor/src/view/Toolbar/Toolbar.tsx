@@ -1,61 +1,60 @@
 import styles from './Toolbar.module.css';
 import { ButtonLarge } from '../../common/ButtonLarge/ButtonLarge';
 import { ButtonSmall } from '../../common/ButtonSmall/ButtonSmall';
-import { InputField } from '../../common/InputField/InputField';
-import { InputFile } from '../../common/InputFile/InputFile';
+// import { InputField } from '../../common/InputField/InputField';
+// import { InputFile } from '../../common/InputFile/InputFile';
 import { Select } from '../../common/Select/Select';
 import { DropdownMenu } from '../../common/DropdownMenu/DropdownMenu';
-
-import type { Size } from '../../store/types';
-import { dispatch } from '../../store/editor';
+// import type { Size } from '../../store/types';
+// import { dispatch } from '../../store/editor';
 import {
-  addSlide,
-  addSlideObj,
-  createNewTextObject,
-  deleteSlideObj,
-  deleteSlides,
+  // addSlide,
+  // addSlideObj,
+  // createNewTextObject,
+  // deleteSlideObj,
+  // deleteSlides,
   createNewSlide,
-  createNewImageObject,
-  changePresentationTitle,
+  // createNewImageObject,
+  // changePresentationTitle,
 } from '../../store/functions';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { addSlide } from '../../store/editorSlice';
 
-type ToolbarProps = {
-  title: string;
-};
+function Toolbar() {
+  const dispatch = useAppDispatch()
 
-function Toolbar(props: ToolbarProps) {
   const handleAddSlideClick = () => {
-    dispatch(addSlide, { newSlide: createNewSlide() });
+    dispatch(addSlide({newSlide: createNewSlide()}));
   };
 
-  const handleDeleteSlidesClick = () => {
-    dispatch<void>(deleteSlides, undefined);
-  };
+  // const handleDeleteSlidesClick = () => {
+  //   dispatch<void>(deleteSlides, undefined);
+  // };
 
-  const handleAddTextObject = () => {
-    dispatch(addSlideObj, { newSlideObj: createNewTextObject() });
-  };
+  // const handleAddTextObject = () => {
+  //   dispatch(addSlideObj, { newSlideObj: createNewTextObject() });
+  // };
 
-  const handleDeleteSlideObject = () => {
-    dispatch<void>(deleteSlideObj, undefined);
-  };
+  // const handleDeleteSlideObject = () => {
+  //   dispatch<void>(deleteSlideObj, undefined);
+  // };
 
-  const handleAddSlideImgObj = (src: string, size: Size) => {
-    dispatch(addSlideObj, { newSlideObj: createNewImageObject(src, size) });
-  };
+  // const handleAddSlideImgObj = (src: string, size: Size) => {
+  //   dispatch(addSlideObj, { newSlideObj: createNewImageObject(src, size) });
+  // };
 
-  const handleTitleChange = (title: string) => {
-    dispatch(changePresentationTitle, { newTitle: title });
-  };
+  // const handleTitleChange = (title: string) => {
+  //   dispatch(changePresentationTitle, { newTitle: title });
+  // };
 
   return (
     <div className={styles.toolbar}>
       <div className={styles.section}>
-        <InputField
+        {/* <InputField
           placeholder={'Presentation Title'}
           value={props.title}
           onBlur={handleTitleChange}
-        ></InputField>
+        ></InputField> */}
         <div className={styles.buttonContainer}>
           <ButtonSmall
             image={'src/assets/save.png'}
@@ -79,17 +78,17 @@ function Toolbar(props: ToolbarProps) {
             onClick={handleAddSlideClick}
           ></ButtonLarge>
 
-          <ButtonLarge
+          {/* <ButtonLarge
             image={'src/assets/delete.png'}
             text={'Удалить слайд'}
             onClick={handleDeleteSlidesClick}
-          ></ButtonLarge>
+          ></ButtonLarge> */}
         </div>
       </div>
 
       <div className={styles.section}>
         <div className={styles.buttonContainer}>
-          <ButtonSmall
+          {/* <ButtonSmall
             image={'src/assets/text.png'}
             text={'Добавить текст'}
             onClick={handleAddTextObject}
@@ -99,15 +98,15 @@ function Toolbar(props: ToolbarProps) {
             image={'src/assets/image.png'}
             text={'Добавить изображение'}
             onImageLoadSuccess={handleAddSlideImgObj}
-          ></InputFile>
+          ></InputFile> */}
         </div>
 
         <div className={styles.buttonContainer}>
-          <ButtonSmall
+          {/* <ButtonSmall
             image={'src/assets/delete.png'}
             text={'Удалить элемент'}
             onClick={handleDeleteSlideObject}
-          ></ButtonSmall>
+          ></ButtonSmall> */}
 
           <DropdownMenu></DropdownMenu>
         </div>
@@ -115,7 +114,7 @@ function Toolbar(props: ToolbarProps) {
 
       <div className={styles.section}>
         <Select></Select>
-        <InputField placeholder={'Font Size'} value={'14'} onBlur={handleTitleChange}></InputField>
+        {/* <InputField placeholder={'Font Size'} value={'14'} onBlur={handleTitleChange}></InputField> */}
       </div>
 
       <div className={styles.section}>

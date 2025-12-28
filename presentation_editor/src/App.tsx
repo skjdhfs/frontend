@@ -5,17 +5,14 @@ import { Sidebar } from './view/Sidebar/Sidebar';
 import { SlideView } from './view/SlideView/SlideView';
 import { NoSlidesPlaceholder } from './view/NoSlidesPlaceholder/NoSlidesPlaceholder';
 
-import type { Editor } from './store/types';
+import { useAppSelector } from './store/hooks/reduxHooks';
 
-type AppProps = {
-  editor: Editor;
-};
+function App() {
+  const slides = useAppSelector((state) => state.editor.presentation.slides);
+  const selectedSlidesIds = useAppSelector((state) => state.editor.selected.selectedSlidesIds);
+  const selectedObjId = useAppSelector((state) => state.editor.selected.selectedObjId)
 
-function App(props: AppProps) {
-  const selectedSlideIds = props.editor.selected.selectedSlidesIds;
-
-  const slides = props.editor.presentation.slides;
-  const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlideIds[0]);
+  const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0]);
 
   let WorkspaceContent;
 
@@ -25,19 +22,19 @@ function App(props: AppProps) {
     WorkspaceContent = (
       <SlideView
         slide={firstSelectedSlide}
-        selectedObjId={props.editor.selected.selectedObjId}
+        selectedObjId={selectedObjId}
       ></SlideView>
     );
   }
 
   return (
     <div className={styles.page}>
-      <Toolbar title={props.editor.presentation.title}></Toolbar>
+      <Toolbar></Toolbar>
 
       <div className={styles.main}>
         <Sidebar
-          slides={props.editor.presentation.slides}
-          selectedSlidesIds={props.editor.selected.selectedSlidesIds}
+          slides={slides}
+          selectedSlidesIds={selectedSlidesIds}
         ></Sidebar>
 
         <div className={styles.workspace}>{WorkspaceContent}</div>
