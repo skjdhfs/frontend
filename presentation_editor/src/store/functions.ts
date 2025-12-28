@@ -212,6 +212,9 @@ function moveSlides(editor: Editor, payload: {targetIndex: number}): Editor {
   } else {
     const insertAfter = slides[payload.targetIndex - 1]
     const insertIndex = remainingSlides.indexOf(insertAfter)
+
+    if (insertIndex === -1) return editor
+    
     newSlides = [...remainingSlides]
     newSlides.splice(insertIndex + 1, 0, ...movedSlides)
   }

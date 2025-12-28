@@ -12,7 +12,8 @@ type SlideThumbnailProps = {
   index: number;
   length: number;
   selectedSlidesIds: string[];
-  setDropIndex: (i: number | null) => void
+  setDropIndex: (i: number | null) => void;
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
 };
 
 function SlideThumbnail(props: SlideThumbnailProps) {
@@ -40,6 +41,7 @@ function SlideThumbnail(props: SlideThumbnailProps) {
   const { onMouseDown } = useSlideDnd({
     index: props.index,
     slideHeight: slideHeight,
+    scrollContainerRef: props.scrollContainerRef,
     onDragStart: () => {
       setIsDragging(true);
     },
