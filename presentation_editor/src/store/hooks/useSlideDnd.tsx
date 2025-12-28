@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 
 type SlideDndArgs = {
   index: number;
@@ -14,6 +14,7 @@ function useSlideDnd(args: SlideDndArgs) {
   argsRef.current = args;
 
   const startMouseY = useRef(0);
+  const startScrollTop = useRef(0);
   const isDragging = useRef(false);
   const wasMoved = useRef(false);
   const scrollAnimationFrame = useRef<number | null>(null);
@@ -28,18 +29,16 @@ function useSlideDnd(args: SlideDndArgs) {
 
     const containerRect = container.getBoundingClientRect();
     const cursorY = lastMouseY.current;
-    const scrollThreshold = 50; 
-    const scrollSpeed = 10; 
+    const scrollThreshold = 50;
+    const scrollSpeed = 10;
 
     const distanceFromTop = cursorY - containerRect.top;
     const distanceFromBottom = containerRect.bottom - cursorY;
 
     let scrollAmount = 0;
     if (distanceFromTop < scrollThreshold && container.scrollTop > 0) {
-
       scrollAmount = -scrollSpeed * ((scrollThreshold - distanceFromTop) / scrollThreshold);
     } else if (distanceFromBottom < scrollThreshold) {
-    
       const maxScroll = container.scrollHeight - container.clientHeight;
       if (container.scrollTop < maxScroll) {
         scrollAmount = scrollSpeed * ((scrollThreshold - distanceFromBottom) / scrollThreshold);
@@ -48,7 +47,12 @@ function useSlideDnd(args: SlideDndArgs) {
 
     if (scrollAmount !== 0) {
       container.scrollTop += scrollAmount;
-      
+
+      const currentScroll = container.scrollTop;
+      const scrollDelta = currentScroll - startScrollTop.current;
+      const mouseDelta = lastMouseY.current - startMouseY.current;
+      argsRef.current.onDrag?.(mouseDelta + scrollDelta);
+
       scrollAnimationFrame.current = requestAnimationFrame(handleAutoScroll);
     } else {
       scrollAnimationFrame.current = null;
@@ -58,16 +62,20 @@ function useSlideDnd(args: SlideDndArgs) {
   const handleMouseMove = useCallback((event: MouseEvent) => {
     if (!isDragging.current) return;
 
+    const container = argsRef.current.scrollContainerRef?.current;
     lastMouseY.current = event.clientY;
-    const deltaY = event.clientY - startMouseY.current;
 
-    if (!wasMoved.current && Math.abs(deltaY) > 3) {
+    const scrollDelta = container ? container.scrollTop - startScrollTop.current : 0;
+    const mouseDelta = event.clientY - startMouseY.current;
+    const totalDeltaY = mouseDelta + scrollDelta;
+
+    if (!wasMoved.current && Math.abs(totalDeltaY) > 3) {
       wasMoved.current = true;
       argsRef.current.onDragStart?.(event);
     }
 
     if (wasMoved.current) {
-      argsRef.current.onDrag?.(deltaY);
+      argsRef.current.onDrag?.(totalDeltaY);
       
       if (scrollAnimationFrame.current === null) {
         handleAutoScroll();
@@ -78,17 +86,19 @@ function useSlideDnd(args: SlideDndArgs) {
   const handleMouseUp = useCallback(
     (event: MouseEvent) => {
       if (!isDragging.current) return;
-      isDragging.current = false;
+      
+      const container = argsRef.current.scrollContainerRef?.current;
+      const scrollDelta = container ? container.scrollTop - startScrollTop.current : 0;
+      const totalDeltaY = (event.clientY - startMouseY.current) + scrollDelta;
 
+      isDragging.current = false;
       if (scrollAnimationFrame.current !== null) {
         cancelAnimationFrame(scrollAnimationFrame.current);
         scrollAnimationFrame.current = null;
       }
 
-      const deltaY = event.clientY - startMouseY.current;
-
       if (wasMoved.current) {
-        argsRef.current.onFinish?.(deltaY);
+        argsRef.current.onFinish?.(totalDeltaY);
       }
 
       document.removeEventListener('mousemove', handleMouseMove);
@@ -97,21 +107,13 @@ function useSlideDnd(args: SlideDndArgs) {
     [handleMouseMove]
   );
 
-  useEffect(() => {
-    return () => {
-      if (scrollAnimationFrame.current !== null) {
-        cancelAnimationFrame(scrollAnimationFrame.current);
-      }
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [handleMouseMove, handleMouseUp]);
-
   const onMouseDown = useCallback(
     (event: React.MouseEvent) => {
+      const container = argsRef.current.scrollContainerRef?.current;
       isDragging.current = true;
       wasMoved.current = false;
       startMouseY.current = event.clientY;
+      startScrollTop.current = container ? container.scrollTop : 0; // Сохраняем скролл в момент нажатия
 
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
