@@ -16,6 +16,7 @@
 .slideWrapper {
   position: relative;
   cursor: grab;
+  user-select: none;
 }
 
 .slideWrapper:active {

@@ -198,56 +198,31 @@ function deleteSlides(editor: Editor): Editor {
   };
 }
 
-// function moveSlide(editor: Editor, payload: {targetSlideIndex: number}): Editor {
-//   const slides = editor.presentation.slides;
-//   const selectedSlidesIds = editor.selected.selectedSlidesIds;
-
-//   if (selectedSlidesIds.length != 1) {
-//     return editor;
-//   }
-
-//   const movedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0])!;
-
-//   const newSlides = [
-//     ...slides.slice(0, payload.targetSlideIndex).filter((slide) => slide.id != selectedSlidesIds[0]),
-//     movedSlide,
-//     ...slides.slice(payload.targetSlideIndex).filter((slide) => slide.id != selectedSlidesIds[0]),
-//   ];
-
-//   return {
-//     ...editor,
-//     presentation: {
-//       ...editor.presentation,
-//       slides: newSlides,
-//     },
-//   };
-// }
-
-function moveSlides(editor: Editor, payload: { targetIndex: number }): Editor {
-  const slides = editor.presentation.slides;
-  const selectedSlidesIds = editor.selected.selectedSlidesIds;
-
-  const targetIndex = payload.targetIndex;
-  const targetSlide = slides[targetIndex];
+function moveSlides(editor: Editor, payload: {targetIndex: number}): Editor {
+  const slides = editor.presentation.slides
+  const selectedSlidesIds = editor.selected.selectedSlidesIds
 
   const movedSlides = slides.filter((s) => selectedSlidesIds.includes(s.id));
   const remainingSlides = slides.filter((s) => !selectedSlidesIds.includes(s.id));
 
-  const insertAt = remainingSlides.indexOf(targetSlide);
-  if (insertAt === -1) {
-    return editor;
-  }
+  let newSlides = slides
 
-  const newSlides = [...remainingSlides];
-  newSlides.splice(insertAt, 0, ...movedSlides);
+  if (payload.targetIndex === 0) {
+    newSlides = [...movedSlides, ...remainingSlides]
+  } else {
+    const insertAfter = slides[payload.targetIndex - 1]
+    const insertIndex = remainingSlides.indexOf(insertAfter)
+    newSlides = [...remainingSlides]
+    newSlides.splice(insertIndex + 1, 0, ...movedSlides)
+  }
 
   return {
     ...editor,
     presentation: {
-      ...editor.presentation,
+      ...editor.presentation, 
       slides: newSlides,
     },
-  };
+  }
 }
 
 function selectOneSlide(editor: Editor, payload: { selectedSlideId: string }): Editor {

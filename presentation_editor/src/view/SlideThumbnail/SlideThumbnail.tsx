@@ -3,18 +3,19 @@ import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
 import { useState } from 'react';
-import { useDnd } from '../../store/hooks/useDnd';
 import { dispatch } from '../../store/editor';
 import { moveSlides, selectMultipleSlides, selectOneSlide } from '../../store/functions';
+import { useSlideDnd } from '../../store/hooks/useSlideDnd';
 
-type SlideViewProps = {
+type SlideThumbnailProps = {
   slide: Slide;
   index: number;
   length: number;
   selectedSlidesIds: string[];
+  setDropIndex: (i: number | null) => void
 };
 
-function SlideThumbnail(props: SlideViewProps) {
+function SlideThumbnail(props: SlideThumbnailProps) {
   const background = props.slide.background;
   let style;
 
@@ -28,58 +29,67 @@ function SlideThumbnail(props: SlideViewProps) {
       backgroundSize: 'cover',
     };
   }
-  const isSelected = props.selectedSlidesIds.includes(props.slide.id)
+  const isSelected = props.selectedSlidesIds.includes(props.slide.id);
   const thumbnailClasses = `${styles.thumbnail} ${isSelected ? styles.selected : ''}`;
 
-  const slideHeight = 170
+  const slideHeight = 190;
 
-  const [offsetY, setOffsetY] = useState(0)
-  const [isDragging, setIsDragging] = useState(false)
+  const [offsetY, setOffsetY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const {onMouseDown} = useDnd({
-    startX: 0,
-    startY: 0,
-    onDrag: (_, y) => {
-      setIsDragging(true)
-      setOffsetY(y)
+  const { onMouseDown } = useSlideDnd({
+    index: props.index,
+    slideHeight: slideHeight,
+    onDragStart: () => {
+      setIsDragging(true);
     },
-    onFinish: (_, y) => {
-      setIsDragging(false)
-      setOffsetY(0)
+    onDrag: (y) => {
+      setOffsetY(y);
       const shift = Math.round(y / slideHeight)
-      const targetIndex = Math.max(0, Math.min(props.length - 1, props.index + shift))
-      if (props.index !== targetIndex) {
-        dispatch(moveSlides, {targetIndex})
-      }
-    }
-  })
+      let targetIndex = props.index + shift
+      if (y > 0) targetIndex += 1
+      const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
+      props.setDropIndex(finalTargetIndex)
+    },
+    onFinish: (y) => {
+      setIsDragging(false);
+      setOffsetY(0);
+      const shift = Math.round(y / slideHeight)
+      let targetIndex = props.index + shift
+      if (y > 0) targetIndex += 1
+      const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
+      dispatch(moveSlides, { targetIndex: finalTargetIndex });
+      props.setDropIndex(null)
+    },
+  });
 
   const slideWrapperStyle = {
     transform: `translateY(${offsetY}px)`,
-    zIndex: isDragging ? 100 : 1,
+    zIndex: isDragging ? 1000 : 1,
     position: 'relative' as const,
     opacity: isDragging ? 0.8 : 1,
-    transition: isDragging ? 'none' : 'transform 0.2s',
-  }
+  };
 
   const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const isModifierPressed = event.ctrlKey || event.metaKey
+    const isModifierPressed = event.ctrlKey || event.metaKey;
 
     if (isModifierPressed) {
-      dispatch(selectMultipleSlides, {selectedSlideId: props.slide.id})
+      dispatch(selectMultipleSlides, { selectedSlideId: props.slide.id });
     } else {
-      dispatch(selectOneSlide, {selectedSlideId: props.slide.id})
+      dispatch(selectOneSlide, { selectedSlideId: props.slide.id });
     }
-  }
+  };
 
   return (
-    <div
+    <div 
       className={styles.slideWrapper}
-      onMouseDown={(e) => {onMouseDown(e)}}
+      onMouseDown={(e) => {
+        const isSelected = props.selectedSlidesIds.includes(props.slide.id)
+        if (isSelected) {onMouseDown(e)}
+      }}
       style={slideWrapperStyle}
     >
       <div>{props.index + 1}</div>
-
       <div 
         className={thumbnailClasses} 
         onClick={handleSlideThumbnailClick} 
@@ -93,7 +103,6 @@ function SlideThumbnail(props: SlideViewProps) {
         })}
       </div>
     </div>
-    
   );
 }
 
