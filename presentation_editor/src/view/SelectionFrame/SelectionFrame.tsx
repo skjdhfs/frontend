@@ -1,7 +1,7 @@
 import styles from './SelectionFrame.module.css';
 import { useDnd } from '../../store/hooks/useDnd';
-import { dispatch } from '../../store/editor';
-import { moveSlideObj, changeSlideObjSize } from '../../store/functions';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { changeObjectPosition, changeObjectSize } from '../../store/editorSlice';
 import type { SlideObj } from '../../store/types';
 
 type SelectionFrameProps = {
@@ -9,6 +9,8 @@ type SelectionFrameProps = {
 };
 
 function SelectionFrame(props: SelectionFrameProps) {
+  const dispatch = useAppDispatch()
+
   const { object } = props;
 
   const minSize = 10;
@@ -18,7 +20,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMoveMouseDown } = useDnd({
     startX: object.position.x,
     startY: object.position.y,
-    onDrag: (newX, newY) => dispatch(moveSlideObj, { newPosition: { x: newX, y: newY } }),
+    onDrag: (newX, newY) => dispatch(changeObjectPosition({ newPosition: { x: newX, y: newY } })),
   });
 
   const { onMouseDown: onBottomRight } = useDnd({
@@ -30,9 +32,7 @@ function SelectionFrame(props: SelectionFrameProps) {
       if (isImage) {
         height = width / aspectRatio;
       }
-      dispatch(changeSlideObjSize, {
-        newSize: { width, height },
-      });
+      dispatch(changeObjectSize({ newSize: { width, height } }));
     },
   });
 
@@ -48,10 +48,10 @@ function SelectionFrame(props: SelectionFrameProps) {
         height = width / aspectRatio;
       }
 
-      dispatch(changeSlideObjSize, {
+      dispatch(changeObjectSize({
         newSize: { width, height },
         newPosition: { x: object.position.x + (object.size.width - width), y: object.position.y },
-      });
+      }));
     },
   });
 
@@ -68,10 +68,10 @@ function SelectionFrame(props: SelectionFrameProps) {
       }
 
       if (height > minSize) {
-        dispatch(changeSlideObjSize, {
+        dispatch(changeObjectSize({
           newSize: { width, height },
           newPosition: { x: object.position.x, y: newY },
-        });
+        }));
       }
     },
   });
@@ -91,13 +91,13 @@ function SelectionFrame(props: SelectionFrameProps) {
       }
 
       if (height > minSize) {
-        dispatch(changeSlideObjSize, {
+        dispatch(changeObjectSize({
           newSize: { width, height },
           newPosition: {
             x: object.position.x + object.size.width - width,
             y: object.position.y + object.size.height - height,
           },
-        });
+        }));
       }
     },
   });
@@ -106,9 +106,9 @@ function SelectionFrame(props: SelectionFrameProps) {
     startX: object.size.width,
     startY: 0,
     onDrag: (newW) => {
-      dispatch(changeSlideObjSize, {
+      dispatch(changeObjectSize({
         newSize: { width: Math.max(newW, minSize), height: object.size.height },
-      });
+      }));
     },
   });
 
@@ -118,13 +118,13 @@ function SelectionFrame(props: SelectionFrameProps) {
     onDrag: (newX) => {
       const offsetX = object.position.x - newX;
       const width = Math.max(object.size.width + offsetX, minSize);
-      dispatch(changeSlideObjSize, {
+      dispatch(changeObjectSize({
         newSize: { width, height: object.size.height },
         newPosition: {
           x: object.position.x + object.size.width - width,
           y: object.position.y,
         },
-      });
+      }));
     },
   });
 
@@ -132,12 +132,12 @@ function SelectionFrame(props: SelectionFrameProps) {
     startX: 0,
     startY: object.size.height,
     onDrag: (_, newH) => {
-      dispatch(changeSlideObjSize, {
+      dispatch(changeObjectSize({
         newSize: {
           width: object.size.width,
           height: Math.max(newH, minSize),
         },
-      });
+      }));
     },
   });
 
@@ -147,13 +147,13 @@ function SelectionFrame(props: SelectionFrameProps) {
     onDrag: (_, newY) => {
       const offsetY = object.position.y - newY;
       const height = Math.max(object.size.height + offsetY, minSize);
-      dispatch(changeSlideObjSize, {
+      dispatch(changeObjectSize({
         newSize: { width: object.size.width, height },
         newPosition: {
           x: object.position.x,
           y: object.position.y + object.size.height - height,
         },
-      });
+      }));
     },
   });
 

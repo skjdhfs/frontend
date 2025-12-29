@@ -1,8 +1,6 @@
 import styles from './InputFile.module.css';
-
 import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
 import type { Size } from '../../store/types';
-
 import { useRef } from 'react';
 
 type InputFileProps = {

@@ -2,8 +2,8 @@ import styles from './SlideView.module.css';
 import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-import { dispatch } from '../../store/editor';
-import { changeTextContent, selectObject, unselectObject } from '../../store/functions';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { selectObject, unselectObject, changeTextContent } from '../../store/editorSlice';
 
 type SlideViewProps = {
   slide: Slide;
@@ -11,6 +11,8 @@ type SlideViewProps = {
 };
 
 function SlideView(props: SlideViewProps) {
+  const dispatch = useAppDispatch()
+
   const background = props.slide.background;
 
   let style;
@@ -27,22 +29,23 @@ function SlideView(props: SlideViewProps) {
   }
 
   const handleUnselectObject = () => {
-    dispatch<void>(unselectObject, undefined);
+    dispatch(unselectObject());
   };
 
   return (
     <div className={styles.slide} onClick={handleUnselectObject} style={style}>
       {props.slide.slideObj.map((object) => {
+
         const handleSlideObjClick = (event: React.MouseEvent<HTMLDivElement>) => {
           event.stopPropagation();
-          dispatch(selectObject, { selectedObjId: object.id });
+          dispatch(selectObject({ selectedObjId: object.id }));
         };
 
         const isSelected = object.id === props.selectedObjId;
 
         if (object.type == 'text') {
           const handleTextContentChange = (content: string) => {
-            dispatch(changeTextContent, { newContent: content });
+            dispatch(changeTextContent({ newContent: content }));
           };
 
           return (

@@ -2,8 +2,8 @@ import styles from './SlideThumbnail.module.css';
 import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-import { dispatch } from '../../store/editor';
-import { moveSlides, selectMultipleSlides, selectOneSlide } from '../../store/functions';
+import { selectOneSlide, selectMultipleSlides, moveSlides } from '../../store/editorSlice';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
 import { useSlideDnd } from '../../store/hooks/useSlideDnd';
 
 type SlideThumbnailProps = {
@@ -21,9 +21,10 @@ type SlideThumbnailProps = {
 };
 
 function SlideThumbnail(props: SlideThumbnailProps) {
+  const dispatch = useAppDispatch()
+
   const background = props.slide.background;
   let style;
-
   if (background.type === 'color') {
     style = {
       backgroundColor: `${background.color}`,
@@ -61,7 +62,7 @@ function SlideThumbnail(props: SlideThumbnailProps) {
       const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
       props.onDragEnd()
       props.setDropIndex(null)
-      dispatch(moveSlides, { targetIndex: finalTargetIndex });
+      dispatch(moveSlides({ targetIndex: finalTargetIndex }));
     },
   });
 
@@ -76,9 +77,9 @@ function SlideThumbnail(props: SlideThumbnailProps) {
     const isModifierPressed = event.ctrlKey || event.metaKey;
 
     if (isModifierPressed) {
-      dispatch(selectMultipleSlides, { selectedSlideId: props.slide.id });
+      dispatch(selectMultipleSlides({ selectedSlideId: props.slide.id }));
     } else {
-      dispatch(selectOneSlide, { selectedSlideId: props.slide.id });
+      dispatch(selectOneSlide({ selectedSlideId: props.slide.id }));
     }
   };
 

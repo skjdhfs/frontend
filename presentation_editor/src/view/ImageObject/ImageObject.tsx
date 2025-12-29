@@ -2,8 +2,8 @@ import type { ImageObj } from '../../store/types';
 import styles from './ImageObject.module.css';
 import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
 import { useDnd } from '../../store/hooks/useDnd';
-import { dispatch } from '../../store/editor';
-import { moveSlideObj } from '../../store/functions';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { changeObjectPosition } from '../../store/editorSlice';
 
 type ImageObjProps = {
   imageObj: ImageObj;
@@ -14,6 +14,8 @@ type ImageObjProps = {
 };
 
 function ImageObject(props: ImageObjProps) {
+  const dispatch = useAppDispatch()
+  
   const imageObj = props.imageObj;
 
   const styleContainer = {
@@ -27,7 +29,7 @@ function ImageObject(props: ImageObjProps) {
   const { onMouseDown } = useDnd({
     startX: imageObj.position.x,
     startY: imageObj.position.y,
-    onDrag: (newX, newY) => dispatch(moveSlideObj, { newPosition: { x: newX, y: newY } }),
+    onDrag: (newX, newY) => dispatch(changeObjectPosition({ newPosition: { x: newX, y: newY } })),
   });
 
   const handleMouseDown = (event: React.MouseEvent) => {

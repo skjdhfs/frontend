@@ -1,60 +1,52 @@
 import styles from './Toolbar.module.css';
 import { ButtonLarge } from '../../common/ButtonLarge/ButtonLarge';
 import { ButtonSmall } from '../../common/ButtonSmall/ButtonSmall';
-// import { InputField } from '../../common/InputField/InputField';
-// import { InputFile } from '../../common/InputFile/InputFile';
+import { InputField } from '../../common/InputField/InputField';
+import { InputFile } from '../../common/InputFile/InputFile';
 import { Select } from '../../common/Select/Select';
 import { DropdownMenu } from '../../common/DropdownMenu/DropdownMenu';
-// import type { Size } from '../../store/types';
-// import { dispatch } from '../../store/editor';
-import {
-  // addSlide,
-  // addSlideObj,
-  // createNewTextObject,
-  // deleteSlideObj,
-  // deleteSlides,
-  createNewSlide,
-  // createNewImageObject,
-  // changePresentationTitle,
-} from '../../store/functions';
-import { useAppDispatch } from '../../store/hooks/reduxHooks';
-import { addSlide } from '../../store/editorSlice';
+import type { Size } from '../../store/types';
+import { createNewTextObject, createNewSlide, createNewImageObject } from '../../store/functions';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
+import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, changeTitle } from '../../store/editorSlice';
 
 function Toolbar() {
   const dispatch = useAppDispatch()
+
+  const title = useAppSelector((state) => state.editor.presentation.title);
 
   const handleAddSlideClick = () => {
     dispatch(addSlide({newSlide: createNewSlide()}));
   };
 
-  // const handleDeleteSlidesClick = () => {
-  //   dispatch<void>(deleteSlides, undefined);
-  // };
+  const handleDeleteSlidesClick = () => {
+    dispatch(deleteSlides());
+  };
 
-  // const handleAddTextObject = () => {
-  //   dispatch(addSlideObj, { newSlideObj: createNewTextObject() });
-  // };
+  const handleAddTextObject = () => {
+    dispatch(addSlideObj({ newObj: createNewTextObject() }));
+  };
 
-  // const handleDeleteSlideObject = () => {
-  //   dispatch<void>(deleteSlideObj, undefined);
-  // };
+  const handleDeleteSlideObject = () => {
+    dispatch(deleteSlideObj());
+  };
 
-  // const handleAddSlideImgObj = (src: string, size: Size) => {
-  //   dispatch(addSlideObj, { newSlideObj: createNewImageObject(src, size) });
-  // };
+  const handleAddSlideImgObj = (src: string, size: Size) => {
+    dispatch(addSlideObj({ newObj: createNewImageObject(src, size) }));
+  };
 
-  // const handleTitleChange = (title: string) => {
-  //   dispatch(changePresentationTitle, { newTitle: title });
-  // };
+  const handleTitleChange = (title: string) => {
+    dispatch(changeTitle({ newTitle: title }));
+  };
 
   return (
     <div className={styles.toolbar}>
       <div className={styles.section}>
-        {/* <InputField
+        <InputField
           placeholder={'Presentation Title'}
-          value={props.title}
+          value={title}
           onBlur={handleTitleChange}
-        ></InputField> */}
+        ></InputField>
         <div className={styles.buttonContainer}>
           <ButtonSmall
             image={'src/assets/save.png'}
@@ -78,17 +70,17 @@ function Toolbar() {
             onClick={handleAddSlideClick}
           ></ButtonLarge>
 
-          {/* <ButtonLarge
+          <ButtonLarge
             image={'src/assets/delete.png'}
             text={'Удалить слайд'}
             onClick={handleDeleteSlidesClick}
-          ></ButtonLarge> */}
+          ></ButtonLarge>
         </div>
       </div>
 
       <div className={styles.section}>
         <div className={styles.buttonContainer}>
-          {/* <ButtonSmall
+          <ButtonSmall
             image={'src/assets/text.png'}
             text={'Добавить текст'}
             onClick={handleAddTextObject}
@@ -98,15 +90,15 @@ function Toolbar() {
             image={'src/assets/image.png'}
             text={'Добавить изображение'}
             onImageLoadSuccess={handleAddSlideImgObj}
-          ></InputFile> */}
+          ></InputFile>
         </div>
 
         <div className={styles.buttonContainer}>
-          {/* <ButtonSmall
+          <ButtonSmall
             image={'src/assets/delete.png'}
             text={'Удалить элемент'}
             onClick={handleDeleteSlideObject}
-          ></ButtonSmall> */}
+          ></ButtonSmall>
 
           <DropdownMenu></DropdownMenu>
         </div>

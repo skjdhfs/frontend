@@ -3,14 +3,15 @@ import { useState, useRef, useEffect } from 'react';
 import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
 import { InputFile } from '../InputFile/InputFile';
 import { InputColor } from '../InputColor/InputColor';
-import { dispatch } from '../../store/editor';
-import { changeBackground, createNewBackgroundPicture } from '../../store/functions';
+import { createNewBackgroundPicture } from '../../store/functions';
+import { changeBackground } from '../../store/editorSlice';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
 
 function DropdownMenu() {
+  const dispatch = useAppDispatch()
+
   const handleAddBackgroundImg = (src: string) => {
-    dispatch(changeBackground, {
-      newBackground: createNewBackgroundPicture(src),
-    });
+    dispatch(changeBackground({newBackground: createNewBackgroundPicture(src)}));
   };
 
   const [isOpen, setIsOpen] = useState(false);

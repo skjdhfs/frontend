@@ -1,10 +1,8 @@
 import styles from './App.module.css';
-
 import { Toolbar } from './view/Toolbar/Toolbar';
 import { Sidebar } from './view/Sidebar/Sidebar';
 import { SlideView } from './view/SlideView/SlideView';
 import { NoSlidesPlaceholder } from './view/NoSlidesPlaceholder/NoSlidesPlaceholder';
-
 import { useAppSelector } from './store/hooks/reduxHooks';
 
 function App() {

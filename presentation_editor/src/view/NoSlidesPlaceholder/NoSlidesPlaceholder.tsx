@@ -1,12 +1,13 @@
 import styles from './NoSlidesPlaceholder.module.css';
-
-import { dispatch } from '../../store/editor';
 import { createNewSlide } from '../../store/functions';
-import { addSlide } from '../../store/functions';
+import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { addSlide } from '../../store/editorSlice';
 
 function NoSlidesPlaceholder() {
+  const dispatch = useAppDispatch()
+  
   const handleAddSlideClick = () => {
-    dispatch(addSlide, { newSlide: createNewSlide() });
+    dispatch(addSlide({newSlide: createNewSlide()}));
   };
 
   return (
