@@ -1,51 +1,64 @@
 import { useRef } from 'react';
-import type { TextObj } from '../../store/types';
 import styles from './TextObject.module.css';
 import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
+import { useAppSelector, useAppDispatch } from '../../store/hooks/reduxHooks';
+import type { TextObj } from '../../store/types';
+import { changeTextContent, selectObject } from '../../store/editorSlice';
 
 type TextObjProps = {
-  textObj: TextObj;
+  textObjId: string;
+  slideId: string;
   scale: number;
-  isSelected?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onContentChange?: (newContent: string) => void;
-  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 };
 
 function TextObject(props: TextObjProps) {
-  const textObj = props.textObj;
-
-  const style = {
-    top: `${textObj.position.y * props.scale}px`,
-    left: `${textObj.position.x * props.scale}px`,
-    fontFamily: `${textObj.fontFamily}`,
-    fontSize: `${textObj.fontSize * props.scale}px`,
-    color: `${textObj.fontColor}`,
-    height: `${textObj.size.height * props.scale}px`,
-    width: `${textObj.size.width * props.scale}px`,
-  };
-
+  const { textObjId, slideId, scale } = props;
+  const dispatch = useAppDispatch(); 
   const textRef = useRef<HTMLDivElement>(null);
 
+  const textObj = useAppSelector((state) => {
+    const slide = state.editor.presentation.slides.find(s => s.id === slideId);
+    const obj = slide?.slideObj.find(o => o.id === textObjId) as TextObj | undefined;
+    return obj
+  })
+  const isSelected = useAppSelector((state) => state.editor.selected.selectedObjId === textObjId)
+
+  if (!textObj) return null;
+
+  const style = {
+    top: `${textObj.position.y * scale}px`,
+    left: `${textObj.position.x * scale}px`,
+    fontFamily: `${textObj.fontFamily}`,
+    fontSize: `${textObj.fontSize * scale}px`,
+    color: `${textObj.fontColor}`,
+    height: `${textObj.size.height * scale}px`,
+    width: `${textObj.size.width * scale}px`,
+  };
+
   const handleExit = () => {
-    if (textRef.current && props.onContentChange) {
-      props.onContentChange(textRef.current.innerText);
+    if (textRef.current) {
+      const newContent = textRef.current.innerText;
+      dispatch(changeTextContent({newContent}))
     }
   };
+
+  const handleObjClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    dispatch(selectObject({selectedObjId: textObj.id}))
+  }
 
   return (
     <div
       className={styles.text}
       style={style}
-      onClick={props.onClick}
+      onClick={handleObjClick}
       onBlur={handleExit}
-      contentEditable={props.isSelected ? 'plaintext-only' : false}
+      contentEditable={isSelected ? 'plaintext-only' : false}
       suppressContentEditableWarning={true}
       ref={textRef}
     >
       <div>{textObj.content}</div>
-
-      {props.isSelected && <SelectionFrame object={props.textObj}></SelectionFrame>}
+      {isSelected && <SelectionFrame object={textObj}></SelectionFrame>}
     </div>
   );
 }

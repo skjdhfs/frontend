@@ -1,22 +1,27 @@
 import styles from './SlideView.module.css';
-import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-import { useAppDispatch } from '../../store/hooks/reduxHooks';
-import { selectObject, unselectObject, changeTextContent } from '../../store/editorSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
+import { unselectObject } from '../../store/editorSlice';
 
 type SlideViewProps = {
-  slide: Slide;
-  selectedObjId: string | null;
+  slideId: string;
+  scale: number | 1;
 };
 
 function SlideView(props: SlideViewProps) {
+  const {
+    slideId,
+  } = props
+
   const dispatch = useAppDispatch()
 
-  const background = props.slide.background;
+  const slide = useAppSelector((state) => state.editor.presentation.slides.find(s => s.id === slideId))
+  if (!slide) return null
+
+  const background = slide.background;
 
   let style;
-
   if (background.type === 'color') {
     style = {
       backgroundColor: `${background.color}`,
@@ -34,38 +39,26 @@ function SlideView(props: SlideViewProps) {
 
   return (
     <div className={styles.slide} onClick={handleUnselectObject} style={style}>
-      {props.slide.slideObj.map((object) => {
-
-        const handleSlideObjClick = (event: React.MouseEvent<HTMLDivElement>) => {
-          event.stopPropagation();
-          dispatch(selectObject({ selectedObjId: object.id }));
-        };
-
-        const isSelected = object.id === props.selectedObjId;
+      
+      {slide.slideObj.map((object) => {
 
         if (object.type == 'text') {
-          const handleTextContentChange = (content: string) => {
-            dispatch(changeTextContent({ newContent: content }));
-          };
 
           return (
             <TextObject
               key={object.id}
-              textObj={object}
+              slideId={slide.id}
+              textObjId={object.id}
               scale={1}
-              onClick={handleSlideObjClick}
-              onContentChange={handleTextContentChange}
-              isSelected={isSelected}
             ></TextObject>
           );
         }
         return (
           <ImageObject
             key={object.id}
-            imageObj={object}
-            onClick={handleSlideObjClick}
+            slideId={slide.id}
+            imageObjId={object.id}
             scale={1}
-            isSelected={isSelected}
           ></ImageObject>
         );
       })}

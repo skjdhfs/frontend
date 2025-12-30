@@ -1,29 +1,83 @@
 import styles from './SlideThumbnail.module.css';
-import type { Slide } from '../../store/types';
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
 import { selectOneSlide, selectMultipleSlides, moveSlides } from '../../store/editorSlice';
-import { useAppDispatch } from '../../store/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
 import { useSlideDnd } from '../../store/hooks/useSlideDnd';
+import { useState } from 'react';
 
 type SlideThumbnailProps = {
-  slide: Slide;
+  slideId: string;
   index: number;
-  length: number;
-  selectedSlidesIds: string[];
   setDropIndex: (i: number | null) => void;
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
-  isDragging: boolean;
-  dragOffset: number;
-  onDragStart: (id: string) => void;
-  onDrag: (offset: number) => void;
-  onDragEnd: () => void
 };
 
 function SlideThumbnail(props: SlideThumbnailProps) {
+  const {
+    slideId,
+    index,
+    setDropIndex,
+    scrollContainerRef,
+  } = props
+
+  const [dragOffset, setDragOffset] = useState(0);
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
   const dispatch = useAppDispatch()
 
-  const background = props.slide.background;
+  const slides = useAppSelector((state) => state.editor.presentation.slides)
+  const selectedSlidesIds = useAppSelector((state) => state.editor.selected.selectedSlidesIds)
+  
+  const slide = slides.find(s => s.id === slideId)
+  const length = slides.length
+  const isSelected = selectedSlidesIds.includes(slideId)
+
+  const isDragging = activeDragId !== null && isSelected
+
+  const onDragStart = (id: string) => {
+    setActiveDragId(id)
+  }
+
+  const onDrag = (offset: number) => {
+    setDragOffset(offset)
+  }
+
+  const onDragEnd = () => {
+    setActiveDragId(null);
+    setDragOffset(0);
+  }
+
+  const slideHeight = 190;
+  const { onMouseDown } = useSlideDnd({
+    index: index,
+    slideHeight: slideHeight,
+    scrollContainerRef: scrollContainerRef,
+    onDragStart: () => {
+      onDragStart(slideId)
+    },
+    onDrag: (y) => {
+      onDrag(y)
+      const shift = Math.round(y / slideHeight)
+      let targetIndex = index + shift
+      if (y > 0) targetIndex += 1
+      const finalTargetIndex = Math.max(0, Math.min(length, targetIndex))
+      setDropIndex(finalTargetIndex)
+    },
+    onFinish: (y) => {
+      const shift = Math.round(y / slideHeight)
+      let targetIndex = index + shift
+      if (y > 0) targetIndex += 1
+      const finalTargetIndex = Math.max(0, Math.min(length, targetIndex))
+      onDragEnd()
+      setDropIndex(null)
+      dispatch(moveSlides({ targetIndex: finalTargetIndex }));
+    },
+  });
+
+  if (!slide) return null
+
+  const background = slide.background;
   let style;
   if (background.type === 'color') {
     style = {
@@ -35,51 +89,23 @@ function SlideThumbnail(props: SlideThumbnailProps) {
       backgroundSize: 'cover',
     };
   }
-  const isSelected = props.selectedSlidesIds.includes(props.slide.id);
+
   const thumbnailClasses = `${styles.thumbnail} ${isSelected ? styles.selected : ''}`;
 
-  const slideHeight = 190;
-
-  const { onMouseDown } = useSlideDnd({
-    index: props.index,
-    slideHeight: slideHeight,
-    scrollContainerRef: props.scrollContainerRef,
-    onDragStart: () => {
-      props.onDragStart(props.slide.id)
-    },
-    onDrag: (y) => {
-      props.onDrag(y)
-      const shift = Math.round(y / slideHeight)
-      let targetIndex = props.index + shift
-      if (y > 0) targetIndex += 1
-      const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
-      props.setDropIndex(finalTargetIndex)
-    },
-    onFinish: (y) => {
-      const shift = Math.round(y / slideHeight)
-      let targetIndex = props.index + shift
-      if (y > 0) targetIndex += 1
-      const finalTargetIndex = Math.max(0, Math.min(props.length, targetIndex))
-      props.onDragEnd()
-      props.setDropIndex(null)
-      dispatch(moveSlides({ targetIndex: finalTargetIndex }));
-    },
-  });
-
   const slideWrapperStyle = {
-    transform: `translateY(${props.dragOffset}px)`,
-    zIndex: props.isDragging ? 1000 : 1,
+    transform: `translateY(${dragOffset}px)`,
+    zIndex: isDragging ? 1000 : 1,
     position: 'relative' as const,
-    opacity: props.isDragging ? 0.8 : 1,
+    opacity: isDragging ? 0.8 : 1,
   };
 
   const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const isModifierPressed = event.ctrlKey || event.metaKey;
 
     if (isModifierPressed) {
-      dispatch(selectMultipleSlides({ selectedSlideId: props.slide.id }));
+      dispatch(selectMultipleSlides({ selectedSlideId: slide.id }));
     } else {
-      dispatch(selectOneSlide({ selectedSlideId: props.slide.id }));
+      dispatch(selectOneSlide({ selectedSlideId: slide.id }));
     }
   };
 
@@ -87,22 +113,35 @@ function SlideThumbnail(props: SlideThumbnailProps) {
     <div 
       className={styles.slideWrapper}
       onMouseDown={(e) => {
-        const isSelected = props.selectedSlidesIds.includes(props.slide.id)
         if (isSelected) {onMouseDown(e)}
       }}
       style={slideWrapperStyle}
     >
-      <div>{props.index + 1}</div>
+      <div>{index + 1}</div>
       <div 
         className={thumbnailClasses} 
         onClick={handleSlideThumbnailClick} 
         style={style}
       >
-        {props.slide.slideObj.map((object) => {
+        {slide.slideObj.map((object) => {
           if (object.type == 'text') {
-            return <TextObject key={object.id} textObj={object} scale={0.3}></TextObject>;
+            return ( 
+            <TextObject 
+              key={object.id} 
+              textObjId={object.id} 
+              slideId={slide.id} 
+              scale={0.3}
+            ></TextObject>
+          )
           }
-          return <ImageObject key={object.id} imageObj={object} scale={0.3}></ImageObject>;
+          return (
+          <ImageObject 
+            key={object.id} 
+            imageObjId={object.id} 
+            slideId={slide.id} 
+            scale={0.3}
+          ></ImageObject>
+          )
         })}
       </div>
     </div>

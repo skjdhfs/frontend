@@ -167,10 +167,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   return (
     <div className={styles.container} style={styleContainer} onClick={(e) => e.stopPropagation()}>
       <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderTop}`}></div>
-      <div
-        onMouseDown={onMoveMouseDown}
-        className={`${styles.border} ${styles.borderBottom}`}
-      ></div>
+      <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderBottom}`}></div>
       <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderLeft}`}></div>
       <div onMouseDown={onMoveMouseDown} className={`${styles.border} ${styles.borderRight}`}></div>
 

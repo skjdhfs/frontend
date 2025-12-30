@@ -8,8 +8,6 @@ import { useAppSelector } from './store/hooks/reduxHooks';
 function App() {
   const slides = useAppSelector((state) => state.editor.presentation.slides);
   const selectedSlidesIds = useAppSelector((state) => state.editor.selected.selectedSlidesIds);
-  const selectedObjId = useAppSelector((state) => state.editor.selected.selectedObjId)
-
   const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0]);
 
   let WorkspaceContent;
@@ -19,8 +17,7 @@ function App() {
   } else {
     WorkspaceContent = (
       <SlideView
-        slide={firstSelectedSlide}
-        selectedObjId={selectedObjId}
+        slideId={firstSelectedSlide.id}
       ></SlideView>
     );
   }
@@ -30,10 +27,7 @@ function App() {
       <Toolbar></Toolbar>
 
       <div className={styles.main}>
-        <Sidebar
-          slides={slides}
-          selectedSlidesIds={selectedSlidesIds}
-        ></Sidebar>
+        <Sidebar></Sidebar>
 
         <div className={styles.workspace}>{WorkspaceContent}</div>
       </div>

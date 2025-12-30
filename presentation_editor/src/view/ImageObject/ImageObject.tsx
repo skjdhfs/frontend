@@ -2,47 +2,60 @@ import type { ImageObj } from '../../store/types';
 import styles from './ImageObject.module.css';
 import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
 import { useDnd } from '../../store/hooks/useDnd';
-import { useAppDispatch } from '../../store/hooks/reduxHooks';
-import { changeObjectPosition } from '../../store/editorSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
+import { changeObjectPosition, selectObject } from '../../store/editorSlice';
 
 type ImageObjProps = {
-  imageObj: ImageObj;
+  imageObjId: string;
+  slideId: string;
   scale: number;
-  isSelected?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseDown?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 };
 
 function ImageObject(props: ImageObjProps) {
-  const dispatch = useAppDispatch()
+  const { imageObjId, slideId, scale } = props;
   
-  const imageObj = props.imageObj;
+  const dispatch = useAppDispatch()
 
-  const styleContainer = {
-    top: `${imageObj.position.y * props.scale}px`,
-    left: `${imageObj.position.x * props.scale}px`,
-    height: `${imageObj.size.height * props.scale}px`,
-    width: `${imageObj.size.width * props.scale}px`,
-    cursor: props.isSelected ? 'move' : 'default',
-  };
+  const imageObj = useAppSelector((state) => {
+    const slide = state.editor.presentation.slides.find(s => s.id === slideId);
+    const obj = slide?.slideObj.find(o => o.id === imageObjId) as ImageObj | undefined;
+    return obj
+  })
+
+  const isSelected = useAppSelector((state) => state.editor.selected.selectedObjId === imageObjId)
 
   const { onMouseDown } = useDnd({
-    startX: imageObj.position.x,
-    startY: imageObj.position.y,
+    startX: imageObj?.position.x ?? 0,
+    startY: imageObj?.position.y ?? 0,
     onDrag: (newX, newY) => dispatch(changeObjectPosition({ newPosition: { x: newX, y: newY } })),
   });
+
+  if (!imageObj) return null
+
+  const styleContainer = {
+    top: `${imageObj.position.y * scale}px`,
+    left: `${imageObj.position.x * scale}px`,
+    height: `${imageObj.size.height * scale}px`,
+    width: `${imageObj.size.width * scale}px`,
+    cursor: isSelected ? 'move' : 'default',
+  };
 
   const handleMouseDown = (event: React.MouseEvent) => {
     onMouseDown(event);
   };
 
+  const handleObjClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    dispatch(selectObject({selectedObjId: imageObj.id}))
+  }
+
   return (
     <div style={styleContainer} className={styles.imageContainer}>
-      {props.isSelected && <SelectionFrame object={imageObj}></SelectionFrame>}
+      {isSelected && <SelectionFrame object={imageObj}></SelectionFrame>}
       <img
         src={imageObj.src}
         className={styles.image}
-        onClick={props.onClick}
+        onClick={handleObjClick}
         onMouseDown={handleMouseDown}
       />
     </div>
