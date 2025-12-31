@@ -6,8 +6,8 @@ import { NoSlidesPlaceholder } from './view/NoSlidesPlaceholder/NoSlidesPlacehol
 import { useAppSelector } from './store/hooks/reduxHooks';
 
 function App() {
-  const slides = useAppSelector((state) => state.editor.presentation.slides);
-  const selectedSlidesIds = useAppSelector((state) => state.editor.selected.selectedSlidesIds);
+  const slides = useAppSelector((state) => state.editor.present.presentation.slides);
+  const selectedSlidesIds = useAppSelector((state) => state.editor.present.selected.selectedSlidesIds);
   const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0]);
 
   let WorkspaceContent;

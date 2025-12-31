@@ -1,7 +1,7 @@
 import styles from './SelectionFrame.module.css';
 import { useDnd } from '../../store/hooks/useDnd';
 import { useAppDispatch } from '../../store/hooks/reduxHooks';
-import { changeObjectPosition, changeObjectSize } from '../../store/editorSlice';
+import { changeObjectPosition, changeObjectSize, commitToHistory } from '../../store/editorSlice';
 import type { SlideObj } from '../../store/types';
 
 type SelectionFrameProps = {
@@ -20,12 +20,14 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMoveMouseDown } = useDnd({
     startX: object.position.x,
     startY: object.position.y,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newX, newY) => dispatch(changeObjectPosition({ newPosition: { x: newX, y: newY } })),
   });
 
   const { onMouseDown: onBottomRight } = useDnd({
     startX: object.size.width,
     startY: object.size.height,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newW, newH) => {
       const width = Math.max(newW, minSize);
       let height = Math.max(newH, minSize);
@@ -39,6 +41,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onBottomLeft } = useDnd({
     startX: object.position.x,
     startY: object.size.height,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newX, newH) => {
       const offsetX = object.position.x - newX;
       const width = Math.max(object.size.width + offsetX, minSize);
@@ -58,6 +61,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onTopRight } = useDnd({
     startX: object.size.width,
     startY: object.position.y,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newW, newY) => {
       const offsetY = object.position.y - newY;
       const height = Math.max(object.size.height + offsetY, minSize);
@@ -79,6 +83,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onTopLeft } = useDnd({
     startX: object.position.x,
     startY: object.position.y,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newX, newY) => {
       const offsetX = object.position.x - newX;
       const offsetY = object.position.y - newY;
@@ -105,6 +110,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMidRight } = useDnd({
     startX: object.size.width,
     startY: 0,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newW) => {
       dispatch(changeObjectSize({
         newSize: { width: Math.max(newW, minSize), height: object.size.height },
@@ -115,6 +121,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMidLeft } = useDnd({
     startX: object.position.x,
     startY: 0,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (newX) => {
       const offsetX = object.position.x - newX;
       const width = Math.max(object.size.width + offsetX, minSize);
@@ -131,6 +138,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMidBottom } = useDnd({
     startX: 0,
     startY: object.size.height,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (_, newH) => {
       dispatch(changeObjectSize({
         newSize: {
@@ -144,6 +152,7 @@ function SelectionFrame(props: SelectionFrameProps) {
   const { onMouseDown: onMidTop } = useDnd({
     startX: 0,
     startY: object.position.y,
+    onDragStart: () => dispatch(commitToHistory()),
     onDrag: (_, newY) => {
       const offsetY = object.position.y - newY;
       const height = Math.max(object.size.height + offsetY, minSize);

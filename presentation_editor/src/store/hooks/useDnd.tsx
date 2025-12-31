@@ -1,6 +1,7 @@
 type DndArgs = {
   startX: number;
   startY: number;
+  onDragStart?: () => void;
   onDrag?: (newX: number, newY: number) => void;
   onFinish?: (newX: number, newY: number) => void;
 };
@@ -13,6 +14,7 @@ function useDnd(args: DndArgs): DndResult {
   const handleMouseDown = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
+    args.onDragStart?.()
 
     const startMouseX = event.pageX;
     const startMouseY = event.pageY;

@@ -8,12 +8,12 @@ import { DropdownMenu } from '../../common/DropdownMenu/DropdownMenu';
 import type { Size } from '../../store/types';
 import { createNewTextObject, createNewSlide, createNewImageObject } from '../../store/functions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
-import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, changeTitle } from '../../store/editorSlice';
+import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, changeTitle, undoAction, redoAction } from '../../store/editorSlice';
 
 function Toolbar() {
   const dispatch = useAppDispatch()
 
-  const title = useAppSelector((state) => state.editor.presentation.title);
+  const title = useAppSelector((state) => state.editor.present.presentation.title);
 
   const handleAddSlideClick = () => {
     dispatch(addSlide({newSlide: createNewSlide()}));
@@ -38,6 +38,14 @@ function Toolbar() {
   const handleTitleChange = (title: string) => {
     dispatch(changeTitle({ newTitle: title }));
   };
+
+  const handleUndo = () => {
+    dispatch(undoAction())
+  }
+
+  const handleRedo = () => {
+    dispatch(redoAction())
+  }
 
   return (
     <div className={styles.toolbar}>
@@ -135,6 +143,24 @@ function Toolbar() {
             image={'src/assets/palette.png'}
             text={'Цвет текста'}
             onClick={() => console.log('Изменить цвет текста')}
+          ></ButtonSmall>
+        </div>
+
+        
+      </div>
+      
+      <div className={styles.section}>
+        <div className={styles.buttonContainer}>
+          <ButtonSmall
+            image={'src/assets/arrow-undo.png'}
+            text={'Отменить'}
+            onClick={handleUndo}
+          ></ButtonSmall>
+
+          <ButtonSmall
+            image={'src/assets/arrow-redo.png'}
+            text={'Вернуть'}
+            onClick={handleRedo}
           ></ButtonSmall>
         </div>
       </div>

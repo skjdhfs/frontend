@@ -17,11 +17,11 @@ function TextObject(props: TextObjProps) {
   const textRef = useRef<HTMLDivElement>(null);
 
   const textObj = useAppSelector((state) => {
-    const slide = state.editor.presentation.slides.find(s => s.id === slideId);
+    const slide = state.editor.present.presentation.slides.find(s => s.id === slideId);
     const obj = slide?.slideObj.find(o => o.id === textObjId) as TextObj | undefined;
     return obj
   })
-  const isSelected = useAppSelector((state) => state.editor.selected.selectedObjId === textObjId)
+  const isSelected = useAppSelector((state) => state.editor.present.selected.selectedObjId === textObjId)
 
   if (!textObj) return null;
 

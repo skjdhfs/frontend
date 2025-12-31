@@ -4,7 +4,7 @@ import { TextObject } from '../TextObject/TextObject';
 import { selectOneSlide, selectMultipleSlides, moveSlides } from '../../store/editorSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
 import { useSlideDnd } from '../../store/hooks/useSlideDnd';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type SlideThumbnailProps = {
   slideId: string;
@@ -23,15 +23,25 @@ function SlideThumbnail(props: SlideThumbnailProps) {
 
   const [dragOffset, setDragOffset] = useState(0);
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
+  const thumbnailRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useAppDispatch()
 
-  const slides = useAppSelector((state) => state.editor.presentation.slides)
-  const selectedSlidesIds = useAppSelector((state) => state.editor.selected.selectedSlidesIds)
+  const slides = useAppSelector((state) => state.editor.present.presentation.slides)
+  const selectedSlidesIds = useAppSelector((state) => state.editor.present.selected.selectedSlidesIds)
   
   const slide = slides.find(s => s.id === slideId)
   const length = slides.length
   const isSelected = selectedSlidesIds.includes(slideId)
+
+  useEffect(() => {
+    if (isSelected && thumbnailRef.current) {
+      thumbnailRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      })
+    }
+  }, [isSelected])
 
   const isDragging = activeDragId !== null && isSelected
 
@@ -112,6 +122,7 @@ function SlideThumbnail(props: SlideThumbnailProps) {
   return (
     <div 
       className={styles.slideWrapper}
+      ref={thumbnailRef}
       onMouseDown={(e) => {
         if (isSelected) {onMouseDown(e)}
       }}

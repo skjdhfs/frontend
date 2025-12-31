@@ -6,7 +6,6 @@ import { unselectObject } from '../../store/editorSlice';
 
 type SlideViewProps = {
   slideId: string;
-  scale: number | 1;
 };
 
 function SlideView(props: SlideViewProps) {
@@ -16,7 +15,7 @@ function SlideView(props: SlideViewProps) {
 
   const dispatch = useAppDispatch()
 
-  const slide = useAppSelector((state) => state.editor.presentation.slides.find(s => s.id === slideId))
+  const slide = useAppSelector((state) => state.editor.present.presentation.slides.find(s => s.id === slideId))
   if (!slide) return null
 
   const background = slide.background;

@@ -7,7 +7,7 @@ function Sidebar() {
   const [dropIndex, setDropIndex] = useState<number | null>(null)
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const slides = useAppSelector((state) => state.editor.presentation.slides)
+  const slides = useAppSelector((state) => state.editor.present.presentation.slides)
   
   return (
     <div ref={sidebarRef} className={styles.sidebar}>
