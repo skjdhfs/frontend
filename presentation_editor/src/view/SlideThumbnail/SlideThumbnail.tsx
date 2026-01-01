@@ -1,10 +1,9 @@
 import styles from './SlideThumbnail.module.css';
-import { ImageObject } from '../ImageObject/ImageObject';
-import { TextObject } from '../TextObject/TextObject';
-import { selectOneSlide, selectMultipleSlides, moveSlides } from '../../store/editorSlice';
+import { moveSlides, selectMultipleSlides, selectOneSlide } from '../../store/editorSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
 import { useSlideDnd } from '../../store/hooks/useSlideDnd';
 import { useState, useEffect, useRef } from 'react';
+import { SlideView } from '../SlideView/SlideView';
 
 type SlideThumbnailProps = {
   slideId: string;
@@ -59,6 +58,7 @@ function SlideThumbnail(props: SlideThumbnailProps) {
   }
 
   const slideHeight = 190;
+
   const { onMouseDown } = useSlideDnd({
     index: index,
     slideHeight: slideHeight,
@@ -87,28 +87,6 @@ function SlideThumbnail(props: SlideThumbnailProps) {
 
   if (!slide) return null
 
-  const background = slide.background;
-  let style;
-  if (background.type === 'color') {
-    style = {
-      backgroundColor: `${background.color}`,
-    };
-  } else {
-    style = {
-      backgroundImage: `url(${background.src})`,
-      backgroundSize: 'cover',
-    };
-  }
-
-  const thumbnailClasses = `${styles.thumbnail} ${isSelected ? styles.selected : ''}`;
-
-  const slideWrapperStyle = {
-    transform: `translateY(${dragOffset}px)`,
-    zIndex: isDragging ? 1000 : 1,
-    position: 'relative' as const,
-    opacity: isDragging ? 0.8 : 1,
-  };
-
   const handleSlideThumbnailClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const isModifierPressed = event.ctrlKey || event.metaKey;
 
@@ -119,6 +97,13 @@ function SlideThumbnail(props: SlideThumbnailProps) {
     }
   };
 
+  const slideWrapperStyle = {
+    transform: `translateY(${dragOffset}px)`,
+    zIndex: isDragging ? 1000 : 1,
+    position: 'relative' as const,
+    opacity: isDragging ? 0.8 : 1,
+  };
+
   return (
     <div 
       className={styles.slideWrapper}
@@ -127,34 +112,10 @@ function SlideThumbnail(props: SlideThumbnailProps) {
         if (isSelected) {onMouseDown(e)}
       }}
       style={slideWrapperStyle}
+      onClick={handleSlideThumbnailClick}
     >
       <div>{index + 1}</div>
-      <div 
-        className={thumbnailClasses} 
-        onClick={handleSlideThumbnailClick} 
-        style={style}
-      >
-        {slide.slideObj.map((object) => {
-          if (object.type == 'text') {
-            return ( 
-            <TextObject 
-              key={object.id} 
-              textObjId={object.id} 
-              slideId={slide.id} 
-              scale={0.3}
-            ></TextObject>
-          )
-          }
-          return (
-          <ImageObject 
-            key={object.id} 
-            imageObjId={object.id} 
-            slideId={slide.id} 
-            scale={0.3}
-          ></ImageObject>
-          )
-        })}
-      </div>
+      <SlideView slideId={slideId} isThumbnail={true}></SlideView>
     </div>
   );
 }

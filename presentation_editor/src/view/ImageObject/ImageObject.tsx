@@ -9,10 +9,11 @@ type ImageObjProps = {
   imageObjId: string;
   slideId: string;
   scale: number;
+  isThumbnail: boolean
 };
 
 function ImageObject(props: ImageObjProps) {
-  const { imageObjId, slideId, scale } = props;
+  const { imageObjId, slideId, scale, isThumbnail } = props;
   
   const dispatch = useAppDispatch()
 
@@ -32,7 +33,7 @@ function ImageObject(props: ImageObjProps) {
   });
 
   if (!imageObj) return null
-
+  
   const styleContainer = {
     top: `${imageObj.position.y * scale}px`,
     left: `${imageObj.position.x * scale}px`,
@@ -52,7 +53,7 @@ function ImageObject(props: ImageObjProps) {
 
   return (
     <div style={styleContainer} className={styles.imageContainer}>
-      {isSelected && <SelectionFrame object={imageObj}></SelectionFrame>}
+      {isSelected && !isThumbnail &&<SelectionFrame object={imageObj}></SelectionFrame>}
       <img
         src={imageObj.src}
         className={styles.image}

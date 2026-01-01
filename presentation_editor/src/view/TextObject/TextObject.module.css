@@ -4,4 +4,5 @@
   white-space: pre-wrap;
   outline: none;
   padding: 5px;
+  box-sizing: border-box;
 }

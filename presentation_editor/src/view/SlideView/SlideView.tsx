@@ -1,20 +1,23 @@
-import styles from './SlideView.module.css';
+import styles from './SlideView.module.css'
 import { ImageObject } from '../ImageObject/ImageObject';
 import { TextObject } from '../TextObject/TextObject';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
+import { useAppSelector, useAppDispatch } from '../../store/hooks/reduxHooks';
 import { unselectObject } from '../../store/editorSlice';
 
 type SlideViewProps = {
   slideId: string;
+  isThumbnail: boolean;
 };
 
 function SlideView(props: SlideViewProps) {
   const {
     slideId,
+    isThumbnail,
   } = props
 
   const dispatch = useAppDispatch()
 
+  const isSelected = useAppSelector((state) => state.editor.present.selected.selectedSlidesIds.includes(slideId))
   const slide = useAppSelector((state) => state.editor.present.presentation.slides.find(s => s.id === slideId))
   if (!slide) return null
 
@@ -32,12 +35,19 @@ function SlideView(props: SlideViewProps) {
     };
   }
 
+  const thumbnailClasses = `${styles.thumbnail} ${isSelected ? styles.selected : ''}`;
+  const slideClasses = `${styles.slide}`
+
+  const className = isThumbnail ? thumbnailClasses : slideClasses
+  
+  const scale = isThumbnail ? 0.3 : 1
+
   const handleUnselectObject = () => {
     dispatch(unselectObject());
   };
 
   return (
-    <div className={styles.slide} onClick={handleUnselectObject} style={style}>
+    <div className={className} style={style} onClick={handleUnselectObject}>
       
       {slide.slideObj.map((object) => {
 
@@ -48,7 +58,8 @@ function SlideView(props: SlideViewProps) {
               key={object.id}
               slideId={slide.id}
               textObjId={object.id}
-              scale={1}
+              scale={scale}
+              isThumbnail={isThumbnail}
             ></TextObject>
           );
         }
@@ -57,7 +68,8 @@ function SlideView(props: SlideViewProps) {
             key={object.id}
             slideId={slide.id}
             imageObjId={object.id}
-            scale={1}
+            scale={scale}
+            isThumbnail={isThumbnail}
           ></ImageObject>
         );
       })}

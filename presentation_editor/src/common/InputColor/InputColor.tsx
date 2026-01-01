@@ -3,7 +3,7 @@ import styles from './InputColor.module.css';
 import { useRef } from 'react';
 import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
 import { useAppDispatch } from '../../store/hooks/reduxHooks';
-import { changeBackground } from '../../store/editorSlice';
+import { changeBackground, commitToHistory } from '../../store/editorSlice';
 
 type InputColorProps = {
   image: string;
@@ -19,6 +19,7 @@ function InputColor(props: InputColorProps) {
     dispatch(changeBackground({newBackground: createNewBackgroundColor(newColor)}));
   };
   const handleClick = () => {
+    dispatch(commitToHistory())
     colorInputRef.current?.click();
   };
 

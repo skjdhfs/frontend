@@ -13,31 +13,31 @@ function App() {
   const selectedSlidesIds = useAppSelector((state) => state.editor.present.selected.selectedSlidesIds);
   const firstSelectedSlide = slides.find((slide) => slide.id == selectedSlidesIds[0]);
 
-useEffect(() => {
-  const handleKeyDown = (event: KeyboardEvent) => {
-    const isZ = event.code === 'KeyZ'; 
-    const isY = event.code === 'KeyY';
-    const isMod = event.ctrlKey || event.metaKey;
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const isZ = event.code === 'KeyZ'; 
+      const isY = event.code === 'KeyY';
+      const isMod = event.ctrlKey || event.metaKey;
 
-    if (!isMod) return;
-    if (event.repeat) return;
+      if (!isMod) return;
+      if (event.repeat) return;
 
-    if (isZ) {
-      event.preventDefault();
-      event.stopPropagation(); 
-      dispatch(undoAction());
-    }
-    
-    if (isY) {
-      event.preventDefault();
-      event.stopPropagation();
-      dispatch(redoAction());
-    }
-  };
+      if (isZ) {
+        event.preventDefault();
+        event.stopPropagation(); 
+        dispatch(undoAction());
+      }
+      
+      if (isY) {
+        event.preventDefault();
+        event.stopPropagation();
+        dispatch(redoAction());
+      }
+    };
 
-  window.addEventListener('keydown', handleKeyDown, { capture: true });
-  return () => window.removeEventListener('keydown', handleKeyDown, { capture: true });
-}, [dispatch]);
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
+    return () => window.removeEventListener('keydown', handleKeyDown, { capture: true });
+  }, [dispatch]);
 
   let WorkspaceContent;
 
@@ -47,6 +47,7 @@ useEffect(() => {
     WorkspaceContent = (
       <SlideView
         slideId={firstSelectedSlide.id}
+        isThumbnail={false}
       ></SlideView>
     );
   }

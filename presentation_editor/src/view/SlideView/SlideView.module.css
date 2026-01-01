@@ -5,3 +5,19 @@
   background-color: #fff;
   border-radius: 7px;
 }
+
+.thumbnail {
+  height: 170px;
+  width: 260px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 7px;
+  border: 2px solid #ccccd8;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.selected {
+  border: 2px solid #007bff;
+  box-shadow: 0 0 5px rgb(0 123 255 / 50%);
+}

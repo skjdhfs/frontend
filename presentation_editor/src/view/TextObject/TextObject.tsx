@@ -1,6 +1,6 @@
-import { useRef } from 'react';
 import styles from './TextObject.module.css';
 import { SelectionFrame } from '../SelectionFrame/SelectionFrame';
+import { useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks/reduxHooks';
 import type { TextObj } from '../../store/types';
 import { changeTextContent, selectObject } from '../../store/editorSlice';
@@ -9,10 +9,11 @@ type TextObjProps = {
   textObjId: string;
   slideId: string;
   scale: number;
+  isThumbnail: boolean;
 };
 
 function TextObject(props: TextObjProps) {
-  const { textObjId, slideId, scale } = props;
+  const { textObjId, slideId, scale, isThumbnail } = props;
   const dispatch = useAppDispatch(); 
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +59,7 @@ function TextObject(props: TextObjProps) {
       ref={textRef}
     >
       <div>{textObj.content}</div>
-      {isSelected && <SelectionFrame object={textObj}></SelectionFrame>}
+      {isSelected && !isThumbnail && <SelectionFrame object={textObj}></SelectionFrame>}
     </div>
   );
 }

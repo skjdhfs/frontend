@@ -248,8 +248,6 @@ const editorSlice = createSlice({
 
       if (selectedSlidesIds.length !== 1) return
 
-      editorSlice.caseReducers.commitToHistory(state)
-
       const targetSlideId = selectedSlidesIds[0]
       const targetSlide = slides.find((s) => s.id === targetSlideId)
 
