@@ -26,11 +26,18 @@ function TextObject(props: TextObjProps) {
 
   if (!textObj) return null;
 
+  const fontWeight = textObj.isBold ? 700 : 400
+  const fontStyle = textObj.isItalic ? 'italic' : 'normal'
+  const textDecoration = textObj.isUnderline ? 'underline' : 'none'
+
   const style = {
     top: `${textObj.position.y * scale}px`,
     left: `${textObj.position.x * scale}px`,
-    fontFamily: `${textObj.fontFamily}`,
+    fontFamily: `${textObj.fontFamily}, sans-serif`,
     fontSize: `${textObj.fontSize * scale}px`,
+    fontWeight: `${fontWeight}`,
+    fontStyle: `${fontStyle}`,
+    textDecoration: `${textDecoration}`,
     color: `${textObj.fontColor}`,
     height: `${textObj.size.height * scale}px`,
     width: `${textObj.size.width * scale}px`,

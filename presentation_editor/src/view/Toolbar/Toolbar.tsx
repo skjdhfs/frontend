@@ -1,19 +1,28 @@
 import styles from './Toolbar.module.css';
+import { useAppDispatch, useAppSelector} from '../../store/hooks/reduxHooks';
 import { ButtonLarge } from '../../common/ButtonLarge/ButtonLarge';
 import { ButtonSmall } from '../../common/ButtonSmall/ButtonSmall';
-import { InputField } from '../../common/InputField/InputField';
 import { InputFile } from '../../common/InputFile/InputFile';
-import { Select } from '../../common/Select/Select';
 import { DropdownMenu } from '../../common/DropdownMenu/DropdownMenu';
+import { SelectFont } from '../SelectFont/SelectFont';
+import { InputTitle } from '../InputTitle/InputTitle';
+import { InputColor } from '../../common/InputColor/InputColor';
+import { InputFontSize } from '../InputFontSize/InputFontSize';
 import type { Size } from '../../store/types';
 import { createNewTextObject, createNewSlide, createNewImageObject } from '../../store/functions';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/reduxHooks';
-import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, changeTitle, undoAction, redoAction } from '../../store/editorSlice';
+import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, undoAction, redoAction, changeFontWeight, changeFontColor, changeFontItalic, changeFontUnderline } from '../../store/editorSlice';
 
 function Toolbar() {
   const dispatch = useAppDispatch()
 
-  const title = useAppSelector((state) => state.editor.present.presentation.title);
+  const slides = useAppSelector((state) => state.editor.present.presentation.slides)
+  const selected = useAppSelector((state) => state.editor.present.selected)
+
+  const targetSlideId = selected.selectedSlidesIds[0]
+  const targetSlide = slides.find(s => s.id === targetSlideId)
+
+  const targetObjectId = selected.selectedObjId
+  const targetObject = targetSlide?.slideObj.find(obj => obj.id === targetObjectId)
 
   const handleAddSlideClick = () => {
     dispatch(addSlide({newSlide: createNewSlide()}));
@@ -35,10 +44,6 @@ function Toolbar() {
     dispatch(addSlideObj({ newObj: createNewImageObject(src, size) }));
   };
 
-  const handleTitleChange = (title: string) => {
-    dispatch(changeTitle({ newTitle: title }));
-  };
-
   const handleUndo = () => {
     dispatch(undoAction())
   }
@@ -47,25 +52,46 @@ function Toolbar() {
     dispatch(redoAction())
   }
 
+  const handleFontWeightChange = () => {
+    if (targetSlide && targetObject) {
+      dispatch(changeFontWeight({slideId: targetSlide.id, objectId: targetObject.id}))
+    }
+  }
+
+  const handleFontColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event?.target.value;
+    if (targetSlide && targetObject) {
+      dispatch(changeFontColor({slideId: targetSlide.id, objectId: targetObject.id, newColor}))
+    }
+  }
+
+  const handleItalicChange = () => {
+    if (targetSlide && targetObject) {
+      dispatch(changeFontItalic({slideId: targetSlide.id, objectId: targetObject.id}))
+    }
+  }
+
+  const handleUnderlineChange = () => {
+    if (targetSlide && targetObject) {
+      dispatch(changeFontUnderline({slideId: targetSlide.id, objectId: targetObject.id}))
+    }
+  }
+
   return (
     <div className={styles.toolbar}>
       <div className={styles.section}>
-        <InputField
-          placeholder={'Presentation Title'}
-          value={title}
-          onBlur={handleTitleChange}
-        ></InputField>
+        <InputTitle></InputTitle>
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={'src/assets/save.png'}
-            text={'Сохранить PDF'}
-            onClick={() => console.log('Сохранение презентации в PDF')}
+            image={'src/assets/arrow-undo.png'}
+            text={'Отменить'}
+            onClick={handleUndo}
           ></ButtonSmall>
 
           <ButtonSmall
-            image={'src/assets/play.png'}
-            text={'Проигрывать'}
-            onClick={() => console.log('Просмотр презентации')}
+            image={'src/assets/arrow-redo.png'}
+            text={'Вернуть'}
+            onClick={handleRedo}
           ></ButtonSmall>
         </div>
       </div>
@@ -113,8 +139,8 @@ function Toolbar() {
       </div>
 
       <div className={styles.section}>
-        <Select></Select>
-        {/* <InputField placeholder={'Font Size'} value={'14'} onBlur={handleTitleChange}></InputField> */}
+        <SelectFont></SelectFont>
+        <InputFontSize></InputFontSize>
       </div>
 
       <div className={styles.section}>
@@ -122,13 +148,13 @@ function Toolbar() {
           <ButtonSmall
             image={'src/assets/bold.png'}
             text={'Жирный текст'}
-            onClick={() => console.log('Жирный текст')}
+            onClick={handleFontWeightChange}
           ></ButtonSmall>
 
           <ButtonSmall
             image={'src/assets/italic.png'}
             text={'Курсив'}
-            onClick={() => console.log('Курсив')}
+            onClick={handleItalicChange}
           ></ButtonSmall>
         </div>
 
@@ -136,31 +162,30 @@ function Toolbar() {
           <ButtonSmall
             image={'src/assets/underline.png'}
             text={'Подчеркивание'}
-            onClick={() => console.log('Подчеркивание')}
+            onClick={handleUnderlineChange}
           ></ButtonSmall>
 
-          <ButtonSmall
+          <InputColor
             image={'src/assets/palette.png'}
             text={'Цвет текста'}
-            onClick={() => console.log('Изменить цвет текста')}
-          ></ButtonSmall>
+            onChange={handleFontColorChange}
+          ></InputColor>
         </div>
-
-        
       </div>
       
       <div className={styles.section}>
+        
         <div className={styles.buttonContainer}>
           <ButtonSmall
-            image={'src/assets/arrow-undo.png'}
-            text={'Отменить'}
-            onClick={handleUndo}
+            image={'src/assets/save.png'}
+            text={'Сохранить PDF'}
+            onClick={() => console.log('Сохранение презентации в PDF')}
           ></ButtonSmall>
 
           <ButtonSmall
-            image={'src/assets/arrow-redo.png'}
-            text={'Вернуть'}
-            onClick={handleRedo}
+            image={'src/assets/play.png'}
+            text={'Проигрывать'}
+            onClick={() => console.log('Просмотр презентации')}
           ></ButtonSmall>
         </div>
       </div>

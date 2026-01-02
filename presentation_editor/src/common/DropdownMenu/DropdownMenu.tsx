@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ButtonSmall } from '../ButtonSmall/ButtonSmall';
 import { InputFile } from '../InputFile/InputFile';
 import { InputColor } from '../InputColor/InputColor';
-import { createNewBackgroundPicture } from '../../store/functions';
+import { createNewBackgroundPicture, createNewBackgroundColor } from '../../store/functions';
 import { changeBackground } from '../../store/editorSlice';
 import { useAppDispatch } from '../../store/hooks/reduxHooks';
 
@@ -35,6 +35,11 @@ function DropdownMenu() {
     };
   }, [isOpen]);
 
+  const handleBackgroundColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event?.target.value;
+    dispatch(changeBackground({newBackground: createNewBackgroundColor(newColor)}));
+  };
+
   return (
     <div className={styles.menuContainer} ref={menuRef}>
       <ButtonSmall
@@ -50,7 +55,7 @@ function DropdownMenu() {
             text={'Установить фоновое изображение'}
             onImageLoadSuccess={handleAddBackgroundImg}
           ></InputFile>
-          <InputColor image={'src/assets/fill.png'} text={'Изменить цвет фона'}></InputColor>
+          <InputColor image={'src/assets/fill.png'} text={'Изменить цвет фона'} onChange={handleBackgroundColorChange}></InputColor>
         </div>
       )}
     </div>

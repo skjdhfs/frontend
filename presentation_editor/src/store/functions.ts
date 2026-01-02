@@ -57,9 +57,9 @@ function createNewTextObject(): TextObj {
     fontFamily: defaultFontFamily,
     fontSize: defaultFontSize,
     fontColor: defaultFontColor,
-    bold: false,
-    italic: false,
-    underline: false,
+    isBold: false,
+    isItalic: false,
+    isUnderline: false,
   };
 
   return newTextObj;

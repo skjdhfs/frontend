@@ -4,13 +4,13 @@
   background-color: transparent;
   pointer-events: none;
   box-sizing: border-box;
+  z-index: 1000;
 }
 
 .border {
   position: absolute;
   pointer-events: all;
   cursor: move;
-  z-index: 1000;
 }
 
 .borderTop {

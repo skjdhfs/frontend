@@ -40,9 +40,9 @@ type TextObj = DefaultObj & {
   fontFamily: string;
   fontSize: number;
   fontColor: string;
-  bold: boolean;
-  italic: boolean;
-  underline: boolean;
+  isBold: boolean;
+  isItalic: boolean;
+  isUnderline: boolean;
 };
 
 type ImageObj = DefaultObj & {

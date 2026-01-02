@@ -144,12 +144,7 @@ const editorSlice = createSlice({
     },
 
     changeTitle: (state, action: PayloadAction<{ newTitle: string }>) => {
-      if (action.payload.newTitle.trim() === '') {
-        return
-      }
-
       editorSlice.caseReducers.commitToHistory(state)
-
       state.present.presentation.title = action.payload.newTitle
     },
 
@@ -296,7 +291,115 @@ const editorSlice = createSlice({
           targetObject.position = action.payload.newPosition || targetObject.position
         }
       }
-    }
+    },
+
+    changeFontSize: (state, action: PayloadAction<{ slideId: string, objectId: string, newSize: number }>) => {
+      const { slideId, objectId, newSize } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state)
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.fontSize = newSize;
+      }
+    },
+
+    changeFontFamily: (state, action: PayloadAction<{ slideId: string, objectId: string, newFontFamily: string }>) => {
+      const { slideId, objectId, newFontFamily } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state);
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.fontFamily = newFontFamily;
+      }
+    },
+
+    changeFontWeight: (state, action: PayloadAction<{ slideId: string, objectId: string }>) => {
+      const { slideId, objectId } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state);
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.isBold = obj.isBold ? false : true
+      }
+    },
+
+    changeFontColor: (state, action: PayloadAction<{ slideId: string, objectId: string, newColor: string }>) => {
+      const { slideId, objectId, newColor } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state);
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.fontColor = newColor
+      }
+    },
+
+    changeFontItalic: (state, action: PayloadAction<{ slideId: string, objectId: string }>) => {
+      const { slideId, objectId } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state);
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.isItalic = obj.isItalic ? false : true
+      }
+    },
+
+    changeFontUnderline: (state, action: PayloadAction<{ slideId: string, objectId: string }>) => {
+      const { slideId, objectId } = action.payload;
+
+      const selected = state.present.selected
+      if (selected.selectedSlidesIds.length != 1 || !selected.selectedObjId) {
+        return;
+      }
+
+      editorSlice.caseReducers.commitToHistory(state);
+
+      const slide = state.present.presentation.slides.find(s => s.id === slideId);
+      const obj = slide?.slideObj.find(o => o.id === objectId);
+
+      if (obj && obj.type === 'text') {
+        obj.isUnderline = obj.isUnderline ? false : true
+      }
+    },
   }
 });
 
@@ -318,6 +421,12 @@ export const {
   changeBackground,
   changeObjectPosition,
   changeObjectSize,
+  changeFontSize,
+  changeFontFamily,
+  changeFontWeight,
+  changeFontItalic,
+  changeFontUnderline,
+  changeFontColor,
 } = editorSlice.actions;
 
 export default editorSlice.reducer;
