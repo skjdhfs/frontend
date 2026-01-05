@@ -11,6 +11,7 @@ import { InputFontSize } from '../InputFontSize/InputFontSize';
 import type { Size } from '../../store/types';
 import { createNewTextObject, createNewSlide, createNewImageObject } from '../../store/functions';
 import { addSlide, deleteSlides, addSlideObj, deleteSlideObj, undoAction, redoAction, changeFontWeight, changeFontColor, changeFontItalic, changeFontUnderline } from '../../store/editorSlice';
+import { logoutUser } from '../../store/authThunks';
 
 function Toolbar() {
   const dispatch = useAppDispatch()
@@ -76,6 +77,10 @@ function Toolbar() {
       dispatch(changeFontUnderline({slideId: targetSlide.id, objectId: targetObject.id}))
     }
   }
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <div className={styles.toolbar}>
@@ -188,6 +193,11 @@ function Toolbar() {
             onClick={() => console.log('Просмотр презентации')}
           ></ButtonSmall>
         </div>
+        <ButtonSmall
+          image={'src/assets/exit.png'}
+          text={'Выход'}
+          onClick={handleLogout}
+        ></ButtonSmall>
       </div>
     </div>
   );

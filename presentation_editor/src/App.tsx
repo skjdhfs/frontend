@@ -3,9 +3,11 @@ import { Toolbar } from './view/Toolbar/Toolbar';
 import { Sidebar } from './view/Sidebar/Sidebar';
 import { SlideView } from './view/SlideView/SlideView';
 import { NoSlidesPlaceholder } from './view/NoSlidesPlaceholder/NoSlidesPlaceholder';
+import { LoginPage } from './view/LoginPage/LoginPage';
 import { useAppSelector, useAppDispatch } from './store/hooks/reduxHooks';
 import { undoAction, redoAction } from './store/editorSlice';
 import { useEffect } from 'react';
+import { checkAuthStatus } from './store/authThunks';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -50,6 +52,16 @@ function App() {
         isThumbnail={false}
       ></SlideView>
     );
+  }
+
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, [dispatch]);
+
+  if (!isLoggedIn) {
+    return <LoginPage />;
   }
 
   return (

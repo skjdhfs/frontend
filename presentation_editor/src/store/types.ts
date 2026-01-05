@@ -67,6 +67,10 @@ type Selected = {
   selectedObjId: string | null;
 };
 
+type LoginData = {
+  email: string;
+  password: string;
+}
 export type {
   Editor,
   Presentation,
@@ -79,4 +83,5 @@ export type {
   Position,
   Size,
   Background,
+  LoginData
 };
