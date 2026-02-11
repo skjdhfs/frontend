@@ -4,14 +4,14 @@
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 .loginBox {
   background: white;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgb(0 0 0 / 5%);
   width: 100%;
   max-width: 400px;
 }
